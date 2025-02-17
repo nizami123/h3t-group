@@ -1,0 +1,197 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+include_once(APPPATH . 'controllers/Auth.php');
+class DashboardCab extends Auth
+{
+  private $currentDay;
+	private $startDateFormatted;
+	private $endDateFormatted;  
+  public function __construct()
+  {
+    parent::__construct();
+    $this->load->model('BarangKeluar_model');
+    $this->load->model('DashboarCab_model');
+    $this->currentDay = 27;
+    $today = new DateTime();
+    if ($today->format('d') > 27) {
+        $startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 28);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 27);
+    } else {
+        $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 27);
+    }
+    $this->startDateFormatted = $startDate->format('Y-m-d');
+    $this->endDateFormatted = $endDate->format('Y-m-d');
+  }
+
+	public function tes(){
+    $today = new DateTime();
+    if ($today->format('d') > 27) {
+        $startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 28);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 27);
+    } else {
+        $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 27);
+    }
+    $this->startDateFormatted = $startDate->format('Y-m-d');
+    $this->endDateFormatted = $endDate->format('Y-m-d');
+    echo "Start Date: " . $this->startDateFormatted . "\n";
+    echo "End Date: " . $this->endDateFormatted . "\n";
+	}
+  
+  public function dashcab($cab){
+    $data['setcabang'] = $this->BarangKeluar_model->getCabang();
+    $data['barangcabang'] = $this->DashboarCab_model->barangCabang($cab);
+    $data['content'] = $this->load->view('dashboard/dashcabang', $data, true);
+    $data['modal'] = '';
+    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/flatpickr/flatpickr.min.css').'">
+    <style>
+      .select2-selection__rendered {
+        line-height: 35px !important;
+      }
+      .select2-container .select2-selection--single {
+        height: 38px !important;
+        padding: 2px !important;
+      }
+      .select2-dropdown--below {
+      margin-top:-2%; !important;
+      }
+      .select2-selection__arrow {
+        height: 37px !important;
+      }
+      .select2-container{
+      margin-bottom :-6%;
+      }
+      </style>
+    ';
+    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
+      <script>var cabset = "' . $this->uri->segment(2) . '";</script>
+      <script src="' . base_url() . 'assets/js/counter/jquery.waypoints.min.js"></script>
+      <script src="' . base_url() . 'assets/js/counter/jquery.counterup.min.js"></script>
+      <script src="' . base_url() . 'assets/js/counter/counter-custom.js"></script>
+      <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+      <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
+      <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+      <script src="' . base_url() . 'assets/js/animation/wow/wow.min.js"></script>
+      <script src="' . base_url('assets/js/additional-js/dashcabang.js?v='.time()) . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
+      <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+      <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
+      <script>new WOW().init();</script>';
+    $this->load->view('layout/base', $data);		
+  }
+  public function labakotor($cab) {
+		if (isset($_POST['lbval'])) {
+			if ($this->input->is_ajax_request()) {
+				$start = $this->input->post('start');
+				$end = $this->input->post('end');
+				$cab = $this->input->post('id_toko');
+				$results = $this->DashboarCab_model->filtercountlaba($cab,$start,$end);
+				header('Content-Type: application/json');
+				echo json_encode($results);
+        return;
+			}else {
+                header('Content-Type: application/json');
+                echo json_encode(array('error' => 'Invalid request'));
+                return;
+            }
+		}else{
+			$results = $this->DashboarCab_model->countlaba($cab);
+			header('Content-Type: application/json');
+			echo json_encode($results);
+		}
+	}
+  public function topsales($cab) {
+		$results = $this->DashboarCab_model->countTopSales($cab);
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+  public function tproduk($cab) {
+		$results = $this->DashboarCab_model->countasset($cab);
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+  public function tpenjualan($cab) {
+		$results = $this->DashboarCab_model->countpenjualan($cab);
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+  public function tdiskon($cab) {
+		$results = $this->DashboarCab_model->countdiskon($cab);
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+  public function tcb($cab) {
+		if (isset($_POST['cbval'])) {
+			if ($this->input->is_ajax_request()) {
+				$start = $this->input->post('start');
+				$end = $this->input->post('end');
+				$results = $this->DashboarCab_model->filtercountcb($cab,$start,$end);
+				header('Content-Type: application/json');
+				echo json_encode($results);
+                return;
+			}else {
+                header('Content-Type: application/json');
+                echo json_encode(array('error' => 'Invalid request'));
+                return;
+            }
+		}else{
+			$results = $this->DashboarCab_model->countcb($cab);
+			header('Content-Type: application/json');
+			echo json_encode($results);
+		}
+	}
+  public function detaillabak($cab,$start,$end){
+		$this->load->library('datatables');
+		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,hrg_hpp,harga_jual,
+		diskon,harga_cashback,
+		COALESCE((harga_bayar - hrg_hpp),0) as laba_unit,
+		COALESCE(harga_diskon, 0) AS nilai,harga_bayar as bayar,
+		status,tipe_penjualan,nama_toko');
+		$this->datatables->from('vpenjualan');
+		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('id_toko', $cab);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $start);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $end);
+		return print_r($this->datatables->generate());
+	}
+  public function detailcashback($cab,$start,$end){
+		$this->load->library('datatables');
+		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
+		$this->datatables->from('vtotalcashback');
+    $this->datatables->where('id_toko', $cab);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $start);
+    $this->datatables->where('DATE(tgl_transaksi) <=', $end);
+		return print_r($this->datatables->generate());
+	}
+  public function detaildiskon($cab){
+		$this->load->library('datatables');
+		$this->datatables->select('sn_brg,nama_brg,nama_toko,total_diskon');
+		$this->datatables->from('vtotaldiskon');
+    $this->datatables->where('id_toko', $cab);
+		return print_r($this->datatables->generate());
+	}	
+
+}
+
+
+/* End of file DashboardCab.php */
+/* Location: ./application/controllers/DashboardCab.php */
