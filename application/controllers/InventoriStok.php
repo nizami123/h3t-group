@@ -137,7 +137,7 @@ class InventoriStok extends Auth
     if ($_SERVER['SERVER_NAME'] == 'localhost') {
         $imagePath = './assets/dhdokumen/snbarcode/';
     } else if ($_SERVER['SERVER_NAME'] == 'live.akira.id') {
-        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/snbarcode/';
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/h3tgroup/assets/dhdokumen/snbarcode/';
     } else {
         $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
     }

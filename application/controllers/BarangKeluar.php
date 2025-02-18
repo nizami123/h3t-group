@@ -122,7 +122,7 @@ class BarangKeluar extends Auth
       if ($_SERVER['SERVER_NAME'] == 'localhost') {
         $imagePath = './assets/dhdokumen/suratkeluarbarcode/';
       } else if($_SERVER['SERVER_NAME'] == 'live.akira.id'){
-        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/suratkeluarbarcode/';
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/h3tgroup/assets/dhdokumen/suratkeluarbarcode/';
       } else {
         $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratkeluarbarcode/';
       }
