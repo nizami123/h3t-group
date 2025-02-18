@@ -299,12 +299,12 @@
                         <!-- <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li> -->
                         <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional') { ?> 
                         <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Gudang</a></li>
-                        <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Cabang</a></li>
+                        <!-- <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Cabang</a></li> -->
                         <?php } ?>
                         <?php if ($jab=='OWNER' || $jab=='KEPALA CABANG') { ?>
-                        <li class="iskb"><a class="iskb" href="<?=base_url()?>terima-barang">Terima Barang Cabang</a></li>
+                        <!-- <li class="iskb"><a class="iskb" href="<?=base_url()?>terima-barang">Terima Barang Cabang</a></li>
                         <li class="ipb"><a class="ipb" href="<?=base_url()?>pindah-barang">Pindah Barang Cabang</a></li>
-                        <li class="iso"><a class="iso" href="<?=base_url()?>stock-opname">Stok Opname Cabang</a></li>
+                        <li class="iso"><a class="iso" href="<?=base_url()?>stock-opname">Stok Opname Cabang</a></li> -->
                         <?php } ?>
                     </ul>
                   </li>
@@ -320,9 +320,9 @@
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
-                          <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li>
+                          <!-- <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li> -->
                           <?php if ($jab=='OWNER') { ?>
-                          <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
+                          <!-- <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li> -->
                           <?php } ?>
                           <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional' || $jab=='KEPALA CABANG') { ?>
                           <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>

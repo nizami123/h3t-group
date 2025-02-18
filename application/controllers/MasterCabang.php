@@ -15,11 +15,12 @@ class MasterCabang extends Auth
   function generateid(){
     $data['lastID'] = $this->Mcabang_model->getLastID();
     if (!empty($data['lastID'])) {
-      $numericPart = isset($data['lastID'][0]['id_toko']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['id_toko']) : '';
+      preg_match('/(\d+)$/', $data['lastID'][0]['id_toko'], $matches);
+      $numericPart = isset($matches[1]) ? $matches[1] : '0000';
       $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-      $data['newID'] = 'H3T-' . $incrementedNumericPart;
+      $data['newID'] = 'H3TC-' . $incrementedNumericPart;
     }else {
-      $data['newID'] = 'H3T-0001';
+      $data['newID'] = 'H3TC-0001';
     }
     return $data;
   }

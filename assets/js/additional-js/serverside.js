@@ -366,12 +366,12 @@ function reload() {
             { "data": "nama_lengkap"},
             { "data": "jabatan"},
             { "data": "role_user" },
-            { 
-                "data": "gaji",
-                "render": function (data, type, row) {
-                    return formatter.format(data);
-                }
-            },
+            // { 
+            //     "data": "gaji",
+            //     "render": function (data, type, row) {
+            //         return formatter.format(data);
+            //     }
+            // },
             { 
                 "data": "file_cv",
                 "render": function (data, type, row) {

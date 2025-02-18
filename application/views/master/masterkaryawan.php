@@ -163,13 +163,13 @@
                         </div>
                       </div>
                       <!-- Masukkan Gaji Karyawan -->
-                      <div class="col-md-12 position-relative">
+                      <!-- <div class="col-md-12 position-relative">
                         <label class="form-label" for="GajiKaryawan">Gaji Karyawan</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">Rp</span>
                             <input class="form-control is-invalid" id="gaji" name="gaji" type="text" onkeyup="formatRupiah(this)" required>
                         </div>
-                      </div>
+                      </div> -->
                       <!-- Button Tambah Karyawan Baru -->
                       <div class="col-12 position-relative mt-4">
                       <button class="btn btn-primary" type="submit" id="addkar">Tambah Karyawan</button>
@@ -196,7 +196,7 @@
                             <th style="min-width: 150px;">NAMA KARYAWAN</th>
                             <th style="min-width: 180px;">JABATAN KARYAWAN</th>
                             <th style="min-width: 150px;">ROLE KARYAWAN</th>
-                            <th style="min-width: 100px;">GAJI POKOK</th>
+                            <!-- <th style="min-width: 100px;">GAJI POKOK</th> -->
                             <th>DOC.KARYAWAN</th>
                             <th>CP.KARYAWAN</th>
                             <th style="min-width: 150px;">EMAIL KARYAWAN</th>

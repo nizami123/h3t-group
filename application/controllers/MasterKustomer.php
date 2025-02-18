@@ -14,11 +14,12 @@ class MasterKustomer extends Auth
   function generateid(){
     $data['lastID'] = $this->Mkustomer_model->getLastID();
     if (!empty($data['lastID'])) {
-      $numericPart = isset($data['lastID'][0]['id_plg']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['id_plg']) : '';
+      preg_match('/(\d+)$/', $data['lastID'][0]['id_plg'], $matches);
+      $numericPart = isset($matches[1]) ? $matches[1] : '0000';
       $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-      $data['newID'] = 'H3TCS-' . $incrementedNumericPart;
+      $data['newID'] = 'H3TCUS-' . $incrementedNumericPart;
     }else {
-      $data['newID'] = 'H3TCS-0001';
+      $data['newID'] = 'H3TCUS-0001';
     }
     return $data;
   }

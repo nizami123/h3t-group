@@ -13,7 +13,8 @@ class MasterSupplier extends Auth
   function generateid(){
     $data['lastID'] = $this->Msupplier_model->getLastID();
     if (!empty($data['lastID'])) {
-      $numericPart = isset($data['lastID'][0]['id_supplier']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['id_supplier']) : '';
+      preg_match('/(\d+)$/', $data['lastID'][0]['id_supplier'], $matches);
+      $numericPart = isset($matches[1]) ? $matches[1] : '0000';
       $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
       $data['newID'] = 'H3TSUPP-' . $incrementedNumericPart;
     }else {

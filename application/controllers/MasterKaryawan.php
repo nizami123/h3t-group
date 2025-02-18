@@ -12,9 +12,11 @@ class MasterKaryawan extends Auth
 
   public function generateid() {
     $lastID = $this->Mkaryawan_model->getLastID();
+    
     if (!empty($lastID)) {
-        $numericPart = preg_replace('/[^0-9]/', '', $lastID); // Extract numeric part
-        $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1); // Increment numeric part
+        preg_match('/(\d+)$/', $lastID, $matches);
+        $numericPart = isset($matches[1]) ? $matches[1] : '0000';
+        $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
         $newID = 'H3TEMP-' . $incrementedNumericPart;
     } else {
         $newID = 'H3TEMP-0001';
@@ -131,7 +133,7 @@ class MasterKaryawan extends Auth
     $wa = $this->input->post('wa');
     $jabatan = $this->input->post('jabatan');
     $role = $this->input->post('role');
-    $gaji = str_replace('.', '', $this->input->post('gaji'));
+    // $gaji = str_replace('.', '', $this->input->post('gaji'));
     $cv = "";
         
     $file_path = realpath(APPPATH . '../assets/dhdokumen/karyawan');
@@ -151,10 +153,10 @@ class MasterKaryawan extends Auth
             $error = $this->upload->display_errors();
             echo "Upload failed: $error";
         }
-        $this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji);
+        $this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,0);
         redirect('master-karyawan');
     } else {
-      $this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji);
+      $this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,0);
       redirect('master-karyawan');
     }
   }
@@ -177,7 +179,7 @@ class MasterKaryawan extends Auth
         'file_cv'  => $this->input->post('efile'),
         'jabatan'  => $this->input->post('ejabatan'),
         'role_user'  => $this->input->post('erole'),
-        'gaji'  => $this->input->post('egaji'),
+        // 'gaji'  => $this->input->post('egaji'),
         'status'      => $this->input->post('estatus'),
       ];
       $data2 = [
@@ -257,7 +259,7 @@ class MasterKaryawan extends Auth
   }  
   public function jsonkar(){
     $this->load->library('datatables');
-    $this->datatables->select('id_user, nama_lengkap, jabatan, role_user, gaji, file_cv, no_wa, email, password, status');
+    $this->datatables->select('id_user, nama_lengkap, jabatan, role_user, file_cv, no_wa, email, password, status');
     $this->datatables->from('tb_user');
     return print_r($this->datatables->generate());
   }
