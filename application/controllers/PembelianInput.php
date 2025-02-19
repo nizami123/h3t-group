@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
-class InventoriStok extends Auth
+class PembelianInput extends Auth
 {
     
   public function __construct()
@@ -36,7 +36,6 @@ class InventoriStok extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_masuk,tgl_masuk,nama_supplier,sn_brg,no_imei,hrg_hpp,hrg_jual,hrg_cashback,no_fm,nama_brg,spek,kondisi,status');
     $this->datatables->from('vbarangmasuk');
-    $this->datatables->where('status <> 5');
     return print_r($this->datatables->generate());    
   }
   public function gensnacc(){
@@ -48,11 +47,11 @@ class InventoriStok extends Auth
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
   }
 
-  public function bm() {
+  public function index() {
     $cab = $this->session->userdata('id_toko');
     $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
-    $data['content'] = $this->load->view('inventaris/barangmasuk', '', true);
+    $data['content'] = $this->load->view('transaksi/pembelian-input', '', true);
     $data['modal'] = '';
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/datatables.css') . '">
@@ -81,7 +80,7 @@ class InventoriStok extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/ibarangm.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pembelian_input.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -164,7 +163,7 @@ class InventoriStok extends Auth
         'hrg_jual'      => $this->input->post('hjbaru'),
         'spek'      => $this->input->post('spekbaru'),
         'kondisi'      => $this->input->post('kondisi'),
-        'status'      => '1',
+        'status'      => '5',
       ];
       $inserted = $this->InventoriStok_model->create($data);
       if ($inserted) {

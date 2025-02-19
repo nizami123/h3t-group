@@ -22,6 +22,7 @@ class BarangKeluar_model extends CI_Model {
              ->join('vbarangkeluar AS vk', 'vm.id_masuk = vk.id_masuk', 'left')
              ->where('vk.id_masuk IS NULL')
              ->where('vm.kondisi','Baru')
+             ->where('vm.status <> 5')
              ->where_not_in('vm.jenis', ['Accessories','Aksesoris','Acc']);
     if ($searchTerm) {
         $this->db->group_start();

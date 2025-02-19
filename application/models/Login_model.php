@@ -7,7 +7,6 @@ class Login_model extends CI_Model {
 
   public function cek_login($where) {		
     $this->db->where($where);
-    $this->db->where_in('role_user', ['KASIR', 'OWNER', 'FINANCE']);
     $this->db->where_in('status', [1]);
     return $this->db->get($this->_table);
   }

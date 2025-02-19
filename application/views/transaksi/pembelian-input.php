@@ -4,7 +4,7 @@
             <div class="page-title">
               <div class="row">
                 <div class="col-6">
-                  <h4>Formulir Barang Gudang</h4>
+                  <h4>List Pembelian</h4>
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
@@ -15,8 +15,8 @@
                     </li>
                     <li class="breadcrumb-item"> Home</li>
                     <li class="breadcrumb-item"> Applications</li>
-                    <li class="breadcrumb-item"> Data Barang</li>
-                    <li class="breadcrumb-item active"> Gudang</li>
+                    <li class="breadcrumb-item"> Transaksi</li>
+                    <li class="breadcrumb-item active"> Pembelian</li>
                   </ol>
                 </div>
               </div>
@@ -26,7 +26,7 @@
           <div class="container-fluid">
             <!-- Motifikasi -->
             <!-- Card Form Data Masuk Bekas Baru -->
-            <div class="row" style="display : none">
+            <div class="row">
                 <!-- Form Barang -->
                 <div class="col-xl-12">
                   <div class="card height-equal">
@@ -236,7 +236,7 @@
                 <div class="col-md-12">
                     <div class="card">
                       <div class="card-header pb-0 card-no-border">
-                        <h4>History Barang Gudang</h4>
+                        <h4>History Pembelian</h4>
                       </div>
                       <div class="card-body">
                         <div class="dt-ext table-responsive">

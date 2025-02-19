@@ -66,7 +66,7 @@ class Login extends CI_Controller
             return;
         }
     } else {
-        echo json_encode(array('success' => false, 'message' => 'Anda belum terdaftar di sistem DH Holding'));
+        echo json_encode(array('success' => false, 'message' => 'Anda belum terdaftar di sistem H3T Group'));
         return;
     }
   }

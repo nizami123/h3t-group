@@ -136,6 +136,17 @@ function tablejl() {
                 exportOptions: {
                     columns: ':visible:not(:last-child):not(:nth-last-child(1))'
                 }
+            },
+            {
+                text: 'Create', // Text for the button
+                className: 'btn btn-success', // Add a class for styling
+                title: 'Tambah Penerimaan',
+                exportOptions: {
+                    columns: ':visible:not(:last-child):not(:nth-last-child(1))'
+                },
+                action: function (e, dt, button, config) {
+                    window.location.href = base_url + 'pembelianinput'; // Ganti dengan URL tujuan
+                }
             }
         ]
             

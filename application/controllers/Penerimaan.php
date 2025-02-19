@@ -140,6 +140,7 @@ class Penerimaan extends Auth
     $this->datatables->select('id_masuk,sn_brg,nama_brg ,merk ,jenis ,no_imei ,kondisi, status');
     $this->datatables->from('vbarangmasuk');
     $this->datatables->where('no_fm', $no_faktur);
+    $this->datatables->where('status_pen', 0);
     return print_r($this->datatables->generate());
   }
   public function filtersupp($cab=null,$cabr=null, $tipe=null){
@@ -170,9 +171,10 @@ class Penerimaan extends Auth
         if (!empty($checkedData)) {
             foreach ($checkedData as $data) {
                 $idm = $data['idm'];
-                $status = $data['status'];
                 $data = [
-                  'status_pen' => $status, 
+                  'status_pen' => 1, 
+                  'status' => 1, 
+                  'tgl_penerimaan' => date('Y-m-d H:i:s'), 
                   'id_user' => $this->session->userdata('id_user')
                 ];
         
@@ -188,4 +190,11 @@ class Penerimaan extends Auth
     }
   }
 
+  public function detail_penerimaan($no_fm) {
+    $this->load->library('datatables');
+    $this->datatables->select('*');
+    $this->datatables->from('vpenerimaan_list');
+    $this->datatables->where('no_fm',$no_fm);
+    return print_r($this->datatables->generate());
+  }   
 }

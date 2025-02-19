@@ -5,6 +5,7 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     // currency: 'IDR',
     minimumFractionDigits: 0
 });
+var tableDO;
 var monthNames = [
     "Januari", "Februari", "Maret", "April", "Mei", "Juni",
     "Juli", "Agustus", "September", "Oktober", "November", "Desember"
@@ -14,6 +15,7 @@ $(document).ready(function () {
     getselect();
     detailbrg();
     tablejl();
+    detailpenerimaan();
 });
 function table_etalase() {
     getselect();
@@ -54,7 +56,8 @@ function table_etalase() {
             { "data": "merk" },
             { "data": "jenis" },
             { "data": "no_imei" },
-            { "data": "kondisi" }  
+            { "data": "kondisi" }
+            
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -128,6 +131,7 @@ function table_etalase() {
             
     });
 
+
     $('#generate').on('click', function() {
         var noFaktur = $('#no_faktur').val(); // Ambil nilai No Faktur
         console.log('Mengirim No Faktur:', noFaktur); 
@@ -175,6 +179,87 @@ function table_etalase() {
     return Tetalase;
 }
 
+
+function tabledo(id) {
+    if ($.fn.DataTable.isDataTable('#table-do')) {
+        tableDO.destroy();
+    }
+    tableDO = $("#table-do").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'asc'] // Urutkan kolom pertama (indeks 0) secara ascending (asc)
+        ],
+        "ajax": {
+            "url": base_url + 'penerimaan/detail_penerimaan/'+id,
+            "type": "POST"
+        },
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            { "data": "merk" },
+            { "data": "jenis" },   
+            { "data": "kondisi" },       
+            { 
+                "data": "status_pen",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "1") {
+                            return `<span class="badge rounded-pill badge-success">DITERIMA</span>`;
+                        } else if(data ==="0"){
+                            return `<span class="badge rounded-pill badge-danger">DITOLAK</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'col-sm-12 col-md-2'B>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+            "buttons": [
+                {
+                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tableDO.ajax.reload();
+                    }
+                },
+                {
+                    extend: 'excelHtml5', // Specify the Excel button
+                    text: 'Export', // Text for the button
+                    className: 'btn btn-success', // Add a class for styling
+                    title: 'Detail Stock Opname',
+                }
+            ]
+            
+    });
+    return tableDO;
+}
+
+function detailpenerimaan() {
+    $('#DetailPenerimaan').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var id = button.data('id');
+        tabledo(id);
+    });
+}
+
 function tablejl() {
     if ($.fn.DataTable.isDataTable('#table-penerimaan')) {
         tableJL.destroy();
@@ -212,7 +297,23 @@ function tablejl() {
             { "data": "no_fm" },           
             { "data": "nama_supplier" },
             { "data": "alamat" },
-            { "data": "nama_lengkap" },   
+            { "data": "nama_lengkap" }, 
+            { "data": "no_fm",
+                "orderable": false,
+                "render": function (data, type, full, meta) {
+                    if (type === "display") {
+                        return `
+                                <ul class="action">
+                                    <div class="btn-group">
+                                        <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#DetailPenerimaan"><i class="fa fa-eye"></i></button>
+                                        <!-- <button class="btn btn-secondary" type="button" id="export" data-kode="${data}"><i class="fa fa-cloud-download"></i></button> -->
+                                    </div>
+                                </ul>
+                            `;
+                    }
+                    return data;
+                }
+            }      
            
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
