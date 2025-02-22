@@ -46,17 +46,24 @@
                                     <input class="form-control" id="e_nama_brg" name="e_nama_brg" type="text" placeholder="Silahkan Masukkan Nama Produk" required>
                                 </div>                                
                                 <!-- Brand Product -->
-                                <div class="col-md-6 position-relative"> 
+                                <div class="col-md-4 position-relative"> 
                                     <label class="form-label" for="brandproduk">Merek</label>
                                     <select class="form-select" id="e_merk" name="e_merk" required="">
                                         <option selected="" disabled="" value="0">Pilih Merek</option>
                                     </select>
                                 </div>
                                 <!-- Jenis Product -->
-                                <div class="col-md-6 position-relative"> 
+                                <div class="col-md-4 position-relative"> 
                                     <label class="form-label" for="jenisproduk">Jenis</label>
                                     <select class="form-select" id="e_jenis" name="e_jenis" required="">
                                         <option selected="" disabled="" value="0">Pilih Jenis</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 position-relative"> 
+                                    <label class="form-label" for="warnaproduk">Warna</label>
+                                    <select class="form-select" id="e_warna" name="e_warna" required="">
+                                        <option selected="" disabled="" value="0">Pilih warna</option>
                                     </select>
                                 </div>
                                 <!-- Submit Barang -->

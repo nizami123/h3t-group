@@ -187,6 +187,45 @@ function initSweetAlert() {
         });
     });
 
+    $("#add_warna").on("click", function(){
+        var warna = $("#warna").val();
+        var kode = "JNS";
+
+        if (!warna) {
+            swal("Error", "Form warna masih kosong", "error").then(() => {
+                $("#warna").focus();
+            });
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "master-kategori/addwarna",
+            data: {
+                kode: kode,
+                warna: warna
+            },
+            dataType: "json", 
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("Berhasil! Kategori Baru telah ditambahkan!", {
+                        icon: "success",
+                    });
+                    $("#warna").val('');
+                } else {
+                    swal("Gagal menambahkan kategori baru", {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function (error) {
+                swal("Gagal ", {
+                    icon: "error",
+                });
+            }
+        });
+    });
+
     $("#add_storage").on("click", function(){
         var storage = $("#storage").val();
         var kode = "STR";

@@ -11,7 +11,7 @@ class MasterBarang extends Auth
     $this->load->model('Mkategori_model');
   }
 
-  function gen() {
+  function gene() {
     $uniqueId = uniqid('', true); // Include more entropy
     $randomNumericPart = rand(1000, 9999); // Generate a random 4-digit number using rand()
     
@@ -20,7 +20,7 @@ class MasterBarang extends Auth
     return $data;
   }
 
-  public function generateid(){
+  public function generateidbaru(){
     $uniqueId = uniqid('', true); // Include more entropy
     $randomNumericPart = rand(1000, 9999); // Generate a random 4-digit number using rand()
     
@@ -29,6 +29,19 @@ class MasterBarang extends Auth
     $this->output
          ->set_content_type('application/json')
          ->set_output(json_encode($data));    
+  }
+
+  function gen(){
+    $data['lastID'] = $this->Mbarang_model->getLastID();
+    if (!empty($data['lastID'])) {
+      preg_match('/(\d+)$/', $data['lastID'][0]['id_brg'], $matches);
+      $numericPart = isset($matches[1]) ? $matches[1] : '0000';
+      $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+      $data['newID'] = 'H3TP-' . $incrementedNumericPart;
+    }else {
+      $data['newID'] = 'H3TP-0001';
+    }
+    return $data;
   }
 
   public function loadsupp(){
@@ -45,6 +58,13 @@ class MasterBarang extends Auth
     echo json_encode($results);
   }
 
+  public function loadwarna(){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mbarang_model->getWarna($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+
   public function loadjenis(){
     $searchTerm = $this->input->get('q');
     $results = $this->Mbarang_model->getJenis($searchTerm);
@@ -54,7 +74,7 @@ class MasterBarang extends Auth
 
   public function loadbrg(){
     $this->load->library('datatables');
-    $this->datatables->select('id_brg,merk,jenis,nama_brg,status');
+    $this->datatables->select('id_brg,merk,jenis,warna,nama_brg,status');
     $this->datatables->from('tb_barang');
     return print_r($this->datatables->generate());
   }
@@ -110,6 +130,7 @@ class MasterBarang extends Auth
         'id_brg'      => $this->input->post('id_brg'),
         'merk'      => $this->input->post('merk'),
         'jenis'      => $this->input->post('jenis'),
+        'warna'      => $this->input->post('warna'),
         'nama_brg'      => $this->input->post('nama_brg'),
         'status'      => '1',
       ];
@@ -156,6 +177,23 @@ class MasterBarang extends Auth
     }
   }
 
+  function addwarna(){
+    if ($this->input->is_ajax_request()) {
+      $kode = "WRN";
+      $nk = $this->input->post('newwarna');
+
+      $inserted = $this->Mkategori_model->create($kode, $nk);
+
+      if ($inserted) {
+          echo json_encode(['status' => 'success']);
+      } else {
+          echo json_encode(['status' => 'exists']);
+      }
+    } else {
+        redirect('master-barang');
+    }
+  }
+
   public function deletepost($id) {
     $result = $this->Mbarang_model->delete($id);
     echo json_encode($result);
@@ -172,6 +210,7 @@ class MasterBarang extends Auth
       $data = [
         'merk'      => $this->input->post('e_merk'),
         'jenis'      => $this->input->post('e_jenis'),
+        'warna'      => $this->input->post('e_warna'),
         'nama_brg'      => $this->input->post('e_nama_brg'),
         'status'      => '1',
       ];

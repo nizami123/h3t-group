@@ -88,6 +88,7 @@ $route['master-diskon/hapus/(:any)'] = 'MasterDiskon/deletepost/$1';
 $route['master-kategori']='MasterKategori';
 $route['master-kategori/simpan-data']='MasterKategori/createpost';
 $route['master-kategori/addjenis']='MasterKategori/addjenis';
+$route['master-kategori/addwarna']='MasterKategori/addwarna';
 $route['master-kategori/addstorage']='MasterKategori/addstorage';
 $route['master-kategori/addvariant']='MasterKategori/addvariant';
 $route['master-kategori/jsonkat/(:any)'] = 'MasterKategori/jsonkat/$1';

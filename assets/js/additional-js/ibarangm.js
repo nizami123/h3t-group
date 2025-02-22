@@ -350,7 +350,7 @@ function getselect(){
                     }
                     groups[groupName].push({
                         id: item.id_brg,
-                        text: item.id_brg+' | '+item.nama_brg
+                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna 
                     });
                 });
     
@@ -414,7 +414,7 @@ function getselect(){
                     }
                     groups[groupName].push({
                         id: item.id_brg,
-                        text: item.id_brg+' | '+item.nama_brg
+                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna 
                     });
                 });
     
@@ -478,7 +478,7 @@ function getselect(){
                     }
                     groups[groupName].push({
                         id: item.id_brg,
-                        text: item.id_brg+' | '+item.nama_brg
+                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna 
                     });
                 });
     

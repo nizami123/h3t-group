@@ -190,7 +190,7 @@ class PembelianInput extends Auth
         'hrg_jual'      => $this->input->post('hjbekas'),
         'spek'      => $this->input->post('spekbekas'),
         'kondisi'      => $this->input->post('kondisik'),
-        'status'      => '1',
+        'status'      => '5',
       ];
       $inserted = $this->InventoriStok_model->create($data);
       if ($inserted) {
@@ -214,7 +214,7 @@ class PembelianInput extends Auth
         'hrg_hpp'      => $this->input->post('hppacc'),
         'hrg_jual'      => $this->input->post('hjacc'),
         'kondisi'      => $this->input->post('kondacc'),
-        'status'      => '1',
+        'status'      => '5',
       ];
       $inserted = $this->InventoriStok_model->create($data);
       if ($inserted) {

@@ -21,7 +21,7 @@ class InventoriStok_model extends CI_Model {
   }
 
   public function getBrg($searchTerm = null) {
-    $this->db->select(['id_brg', 'merk','jenis','nama_brg']);
+    $this->db->select(['id_brg', 'merk','jenis','nama_brg','warna']);
     $this->db->from('tb_barang');
     $this->db->where_in('status', ['1']);
     $this->db->where_not_in('jenis', ['Accessories','Aksesoris','Acc']);
@@ -32,6 +32,7 @@ class InventoriStok_model extends CI_Model {
         $this->db->like('id_brg', $searchTerm);
         $this->db->or_like('merk', $searchTerm);
         $this->db->or_like('jenis', $searchTerm);
+        $this->db->or_like('warna', $searchTerm);
         $this->db->or_like('nama_brg', $searchTerm);
         $this->db->group_end();
     }
@@ -41,7 +42,7 @@ class InventoriStok_model extends CI_Model {
     return $query->result_array();    
   }
   public function getAcc($searchTerm = null) {
-    $this->db->select(['id_brg', 'merk','jenis','nama_brg']);
+    $this->db->select(['id_brg', 'merk','jenis','nama_brg','warna']);
     $this->db->from('tb_barang');
     $this->db->group_start();
     $this->db->or_where('jenis', 'Accessories');
@@ -56,6 +57,7 @@ class InventoriStok_model extends CI_Model {
         $this->db->like('id_brg', $searchTerm);
         $this->db->or_like('merk', $searchTerm);
         $this->db->or_like('jenis', $searchTerm);
+        $this->db->or_like('warna', $searchTerm);
         $this->db->or_like('nama_brg', $searchTerm);
         $this->db->group_end();
     }

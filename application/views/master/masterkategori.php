@@ -59,6 +59,20 @@
                                             <button class="btn btn-success change-modal" type="button" data-type="JNS" data-bs-toggle="modal" data-bs-target="#SubKategoriItem"><i class="fa fa-list-alt"></i></button>
                                         </div>
                                     </div>
+                                    <!-- Kategori 2 -->
+                                    <div class="col-8 position-relative"> 
+                                        <label class="form-label" for="FormKategori2">Kategori 3</label>
+                                        <input class="form-control" id="warna" name="warna" type="text" placeholder="Warna">
+                                    </div>
+                                    <!-- Butom Edit -->
+                                    <div class="col-4 position-relative">
+                                        <label class="form-label" for="FormKategori2">Tombol Aksi</label>
+                                        <br>
+                                        <div class="btn-group">
+                                            <button class="btn btn-primary" type="button" id="add_warna"><i class="fa fa-plus"></i></button>
+                                            <button class="btn btn-success change-modal" type="button" data-type="WRN" data-bs-toggle="modal" data-bs-target="#SubKategoriItem"><i class="fa fa-list-alt"></i></button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

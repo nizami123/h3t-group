@@ -42,14 +42,15 @@
                                   </div>
 
                                   <!-- Brand Product -->
-                                  <div class="col-md-4 position-relative"> 
+                                  <div class="col-md-3 position-relative"> 
                                       <label class="form-label" for="brandproduk">Merek</label>
                                       <select class="form-select" id="brandproduk" name="merk" required="">
                                           <option selected="" disabled="" value="0">Pilih Merek</option>
                                       </select>
                                   </div>
+                                  
                                   <!-- Button Tambah -->
-                                  <div class="col-md-2 position-relative">
+                                  <div class="col-md-1 position-relative">
                                       <label class="form-label text-center" for="shortcuttambahdata">Add New</label>
                                       <div class="button d-grid">
                                           <a class="btn badge-light-primary f-w-500" type="button" data-type="MRK" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" onclick="changeInputName('SubKategoriItem', 'newmerk')"><i class="fa fa-plus"></i></a>
@@ -57,17 +58,32 @@
                                   </div>
 
                                   <!-- Jenis Product -->
-                                  <div class="col-md-4 position-relative"> 
+                                  <div class="col-md-3 position-relative"> 
                                       <label class="form-label" for="jenisproduk">Jenis</label>
                                       <select class="form-select" id="jenisproduk" name="jenis" required="">
                                           <option selected="" disabled="" value="0">Pilih Jenis</option>
                                       </select>
                                   </div>
                                   <!-- Button Tambah -->
-                                  <div class="col-md-2 position-relative">
+                                  <div class="col-md-1 position-relative">
                                       <label class="form-label" for="shortcuttambahdata">Add New</label>
                                       <div class="button d-grid">
                                           <a class="btn badge-light-primary f-w-500" type="button" data-type="JNS" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" onclick="changeInputName('SubKategoriItem', 'newjenis')"><i class="fa fa-plus"></i></a>
+                                      </div>
+                                  </div>
+
+                                   <!-- Jenis Product -->
+                                   <div class="col-md-3 position-relative"> 
+                                      <label class="form-label" for="warnaproduk">warna</label>
+                                      <select class="form-select" id="warnaproduk" name="warna" required="">
+                                          <option selected="" disabled="" value="0">Pilih Warna</option>
+                                      </select>
+                                  </div>
+                                  <!-- Button Tambah -->
+                                  <div class="col-md-1 position-relative">
+                                      <label class="form-label" for="shortcuttambahdata">Add New</label>
+                                      <div class="button d-grid">
+                                          <a class="btn badge-light-primary f-w-500" type="button" data-type="WRN" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" onclick="changeInputName('SubKategoriItem', 'newwarna')"><i class="fa fa-plus"></i></a>
                                       </div>
                                   </div>
                                   
@@ -97,6 +113,7 @@
                                   <th>MEREK</th>
                                   <th>JENIS</th>
                                   <th>NAMA PRODUK</th>
+                                  <th>WARNA</th>
                                   <th>AKSI</th>
                                 </tr>
                               </thead>

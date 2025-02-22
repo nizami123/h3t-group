@@ -22,6 +22,7 @@ function tablemrk() {
             { "data": "merk" },
             { "data": "jenis" },
             { "data": "nama_brg" },
+            { "data": "warna" },
             {
                 "data": "id_brg",
                 "orderable": false, // Disable sorting for this column
@@ -144,6 +145,30 @@ $(document).ready(function () {
             cache: false,
         },
     });   
+    $('#warnaproduk').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'MasterBarang/loadwarna',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // Add the search term to your AJAX request
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.nama_kategori,
+                            text: item.nama_kategori,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });   
     $("#idproduk").on("click", function() {
         generate();
     });
@@ -152,6 +177,7 @@ $(document).ready(function () {
         setTimeout(function () {
             $("input[name='newmerk']").val('');
             $("input[name='newjenis']").val('');
+            $("input[name='newwarna']").val('');
         }, 100);
     });
     add();
@@ -181,6 +207,7 @@ function getid(){
                     $("#e_id_brg").val(item.id_brg);
                     $("#e_merk").empty().append('<option value="' + item.merk + '">' + item.merk + '</option>').trigger('change.select2');
                     $("#e_jenis").empty().append('<option value="' + item.jenis + '">' + item.jenis + '</option>').trigger('change.select2');
+                    $("#e_warna").empty().append('<option value="' + item.warna + '">' + item.warna + '</option>').trigger('change.select2');
                     $("#e_nama_brg").val(item.nama_brg);
                 });
             }
@@ -240,6 +267,31 @@ function getselect(){
             cache: false,
         },
     });    
+    $('#e_warna').select2({
+        dropdownParent: $("#EditBarang"),
+        language: 'id',
+        ajax: {
+            url: base_url + 'MasterBarang/loadwarna',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // Add the search term to your AJAX request
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.nama_kategori,
+                            text: item.nama_kategori,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });    
 }
 
 function edit(){
@@ -247,8 +299,9 @@ function edit(){
         var id = $("#e_id_brg").val();
         var merk = $("#e_merk").val(); 
         var jenis = $("#e_jenis").val();
+        var warna = $("#e_warna").val();
         var nama = $("#e_nama_brg").val();
-        if (!jenis || !merk || !nama) {
+        if (!jenis || !merk || !nama || !warna) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         }
@@ -259,6 +312,7 @@ function edit(){
                 e_id_brg: id,
                 e_merk: merk,
                 e_jenis: jenis,
+                e_warna: warna,
                 e_nama_brg: nama,
             },
             dataType: "json", 
@@ -269,6 +323,7 @@ function edit(){
                     }).then((value) => {
                         $("#e_id_brg").val('');
                         $("#e_merk").val('0').trigger('change.select2');
+                        $("#e_warna").val('0').trigger('change.select2');
                         $("#e_jenis").val('0').trigger('change.select2');
                         $("#e_nama_brg").val('');
                         $('#EditBarang').modal('hide');
@@ -337,11 +392,11 @@ function addkat(){
                         swal("Berhasil! Kategori Baru telah ditambahkan!", {
                             icon: "success",
                         });
-                        $("input[name='newmerk']").val('');
+                        $("input[name='newjenis']").val('');
                         $('#TambahSubKategoriItem').modal('hide');
                     } else if (response.status === 'exists') {
                         swal("Warning", "Nama Kategori sudah ada", "warning").then(() => {
-                            $("input[name='newmerk']").focus();
+                            $("input[name='newjenis']").focus();
                         });
                         return;
                     }
@@ -391,6 +446,45 @@ function addkat(){
                     });
                 }
             });
+        } else if (subKategoriName == 'newwarna') {
+            var merk = $("input[name='newwarna']").val();
+            var kode = "WRN";
+    
+            if (!merk) {
+                swal("Error", "Form Warna masih kosong", "error").then(() => {
+                    $("input[name='newwarna']").focus();
+                });
+                return;
+            }
+    
+            $.ajax({
+                type: "POST",
+                url: "MasterBarang/addwarna",
+                data: {
+                    kode: kode,
+                    newwarna: merk
+                },
+                dataType: "json", 
+                success: function (response) {
+                    if (response.status === 'success') {
+                        swal("Berhasil! Kategori Baru telah ditambahkan!", {
+                            icon: "success",
+                        });
+                        $("input[name='newwarna']").val('');
+                        $('#TambahSubKategoriItem').modal('hide');
+                    } else if (response.status === 'exists') {
+                        swal("Warning", "Nama Kategori sudah ada", "warning").then(() => {
+                            $("input[name='newwarna']").focus();
+                        });
+                        return;
+                    }
+                },
+                error: function (error) {
+                    swal("Gagal ", {
+                        icon: "error",
+                    });
+                }
+            });
         }
     });    
 }
@@ -399,8 +493,9 @@ function add(){
     $("#tambah").on("click", function () {
         var merk = $("#brandproduk").val();
         var jenis = $("#jenisproduk").val();
+        var warna = $("#warnaproduk").val();
         var nama = $("#NamaProduk").val();
-        if (!jenis || !merk || !nama) {
+        if (!jenis || !merk || !nama || !warna) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
@@ -411,6 +506,7 @@ function add(){
                 id_brg: $("#idproduk").val(),
                 merk: $("#brandproduk").val(),
                 jenis: $("#jenisproduk").val(),
+                warna: $("#warnaproduk").val(),
                 nama_brg: $("#NamaProduk").val(),
             },
             dataType: "json", 
@@ -422,6 +518,7 @@ function add(){
                     generate();
                     $("#brandproduk").val('0').trigger('change.select2');
                     $("#jenisproduk").val('0').trigger('change.select2');
+                    $("#warnaproduk").val('0').trigger('change.select2');
                     $("#NamaProduk").val('');
                     reload();
                 } else {

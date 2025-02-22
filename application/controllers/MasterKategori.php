@@ -66,6 +66,19 @@ class MasterKategori extends Auth
     }
   }
 
+  function addwarna(){
+    if ($this->input->is_ajax_request()) {
+      $kode = "WRN";
+      $nk = $this->input->post('warna');
+
+      $this->Mkategori_model->create($kode, $nk);
+
+      echo json_encode(['status' => 'success']);
+    } else {
+        redirect('master-kategori');
+    }
+  }
+
   function addstorage(){
     if ($this->input->is_ajax_request()) {
       $kode = "STR";

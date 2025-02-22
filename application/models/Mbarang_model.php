@@ -44,6 +44,20 @@ class Mbarang_model extends CI_Model {
     return $query->result_array();
   }
 
+  public function getWarna($searchTerm = null) {
+    $this->db->select(['id_kategori','kode','nama_kategori']);
+    $this->db->from('tb_kategori');
+    $this->db->where('kode', 'WRN');
+    if ($searchTerm) {
+      $this->db->group_start();
+      $this->db->like('nama_kategori', $searchTerm);
+      $this->db->group_end();
+    }
+    $this->db->order_by('nama_kategori', 'asc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
   public function getJenis($searchTerm = null) {
     $this->db->select(['id_kategori','kode','nama_kategori']);
     $this->db->from('tb_kategori');
