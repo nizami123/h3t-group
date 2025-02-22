@@ -145,7 +145,7 @@ function tablejl() {
                     columns: ':visible:not(:last-child):not(:nth-last-child(1))'
                 },
                 action: function (e, dt, button, config) {
-                    window.location.href = base_url + 'pembelianinput'; // Ganti dengan URL tujuan
+                    window.location.href = base_url + 'pembelianInput'; // Ganti dengan URL tujuan
                 }
             }
         ]
