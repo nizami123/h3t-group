@@ -17,7 +17,7 @@ function tablebm() {
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": base_url + 'pembelianinput/loadbm/',
+            "url": base_url + 'pembelianInput/loadbm/',
             "type": "POST"
         },
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
@@ -194,7 +194,7 @@ $(document).on('click', '#delete-btn', function (e) {
             // User clicked 'Delete', proceed with the deletion
             $.ajax({
                 type: 'POST',
-                url: base_url + 'pembelianinput/hapus/' + id_m,
+                url: base_url + 'pembelianInput/hapus/' + id_m,
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
@@ -532,7 +532,7 @@ function addmb() {
         } 
         $.ajax({
             type: "POST",
-            url: "pembelianinput/simpan-barang-baru",
+            url: "pembelianInput/simpan-barang-baru",
             data: {
                 tglbaru: tgl,
                 suppbaru: sup,
@@ -592,7 +592,7 @@ function addmk() {
         } 
         $.ajax({
             type: "POST",
-            url: "pembelianinput/simpan-barang-bekas",
+            url: "pembelianInput/simpan-barang-bekas",
             data: {
                 tglbekas: tgl,
                 suppbekas: sup,
@@ -663,7 +663,7 @@ function insacc(id) {
         var genhj = parseFloat(hj.replace(/\D/g, '')); 
         $.ajax({
             type: "POST",
-            url: "pembelianinput/simpan-acc",
+            url: "pembelianInput/simpan-acc",
             data: {
                 tglacc: tgl,
                 suppacc: sup,
