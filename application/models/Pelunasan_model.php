@@ -49,6 +49,20 @@ class Pelunasan_model extends CI_Model {
     $query = $this->db->get_where('tb_pelanggan', array('id_plg' => $id));
     return $query->result_array();
   }
+
+  public function getFakturByNo($no_faktur) {
+    $this->db->select('nama_supplier, tagihan');
+    $this->db->from('vfaktur');
+    $this->db->where('no_fm', $no_faktur);
+    $query = $this->db->get();
+    return $query->row(); // Mengembalikan satu baris data
+  }
+
+  public function getLunas($id) {
+    $this->db->where('id_pelunasan', $id);
+    $query = $this->db->get('tb_pelunasan'); // Ganti 'tb_pelunasan' dengan nama tabel yang sesuai
+    return $query->row(); // Ambil satu baris data
+}
 }
 
 /* End of file Mkustomer_model.php */

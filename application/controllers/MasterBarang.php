@@ -11,26 +11,6 @@ class MasterBarang extends Auth
     $this->load->model('Mkategori_model');
   }
 
-  function gene() {
-    $uniqueId = uniqid('', true); // Include more entropy
-    $randomNumericPart = rand(1000, 9999); // Generate a random 4-digit number using rand()
-    
-    $data['newID'] = 'H3TP-' . str_pad($randomNumericPart, 4, '0', STR_PAD_LEFT);
-
-    return $data;
-  }
-
-  public function generateidbaru(){
-    $uniqueId = uniqid('', true); // Include more entropy
-    $randomNumericPart = rand(1000, 9999); // Generate a random 4-digit number using rand()
-    
-    $data['newID'] = 'H3TP-' . str_pad($randomNumericPart, 4, '0', STR_PAD_LEFT);
-    
-    $this->output
-         ->set_content_type('application/json')
-         ->set_output(json_encode($data));    
-  }
-
   function gen(){
     $data['lastID'] = $this->Mbarang_model->getLastID();
     if (!empty($data['lastID'])) {

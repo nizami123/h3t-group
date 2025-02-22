@@ -36,12 +36,12 @@
                                     <!-- Nama Kustomer -->
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="no_pelunasan">No Pelunasan</label>
-                                        <input class="form-control" id="no_pelunasan" name="no_pelunasan" value="HT3PEL-001" type="text" placeholder="DIISI OTOMATIS" readonly="">
+                                        <input class="form-control" id="no_pelunasan" name="no_pelunasan" type="text" value="<?=$pelunasan->id_pelunasan?>" readonly="">
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="no_faktur">No Faktur</label>
-                                        <input class="form-control" id="no_faktur" name="no_faktur" type="text" placeholder="Masukkan No Faktur" required="">
+                                        <input class="form-control" id="no_faktur" name="no_faktur" type="text" value="<?=$pelunasan->no_faktur?>" placeholder="Masukkan No Faktur" readonly="">
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
                                     <!-- Alamat Tanggal -->
@@ -55,33 +55,34 @@
                                     </div>
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="FormEmailKustomer">Nama Supplier</label>
-                                        <input class="form-control" id="namasupplier" name="namasupplier" type="text" placeholder="DIISI OTOMATIS" readonly="">
+                                        <input class="form-control" id="namasupplier" name="namasupplier" value="<?=$pelunasan->nama_supplier?>" type="text" placeholder="DIISI OTOMATIS" readonly="">
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="FormEmailKustomer">Metode</label>
-                                        <select name="metode" class="form-control" id="metode">Metode
-                                            <option value="" selected>-- Pilih Metode --</option>
-                                            <option value="Transfer">Transfer</option>
-                                            <option value="Tunai">Tunai</option>
-                                            <option value="CC">CC</option>
-                                            <option value="Voucher">Voucher</option>
+                                        <select name="metode" class="form-control" id="metode" >
+                                            <option value="" <?= empty($pelunasan->metode) ? 'selected' : '' ?>>-- Pilih Metode --</option>
+                                            <option value="Transfer" <?= ($pelunasan->metode == 'Transfer') ? 'selected' : '' ?>>Transfer</option>
+                                            <option value="Tunai" <?= ($pelunasan->metode == 'Tunai') ? 'selected' : '' ?>>Tunai</option>
+                                            <option value="CC" <?= ($pelunasan->metode == 'CC') ? 'selected' : '' ?>>CC</option>
+                                            <option value="Voucher" <?= ($pelunasan->metode == 'Voucher') ? 'selected' : '' ?>>Voucher</option>
                                         </select>
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
+
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="FormEmailKustomer">No Rekening</label>
-                                        <input class="form-control" id="norek" name="norek" type="text" required="">
+                                        <input class="form-control" id="norek" name="norek" value="<?=$pelunasan->no_rekening?>" type="text" required="">
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="FormEmailKustomer">Nilai Tagihan</label>
-                                        <input class="form-control" id="tagihan" name="tagihan" type="text" onkeyup="formatRupiah(this)" placeholder="DIISI OTOMATIS" readonly="">
+                                        <input class="form-control" id="tagihan" name="tagihan" value="<?=$pelunasan->total_tagihan?>" type="text" onkeyup="formatRupiah(this)" placeholder="DIISI OTOMATIS" readonly="">
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="FormEmailKustomer">Bayar</label>
-                                        <input class="form-control" id="bayar" name="bayar" type="text" onkeyup="formatRupiah(this)" required="">
+                                        <input class="form-control" id="bayar" name="bayar" value="<?=$pelunasan->jumlah?>" type="text" onkeyup="formatRupiah(this)" required="">
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
                                     <!-- Button Tambah Kustomer Baru -->

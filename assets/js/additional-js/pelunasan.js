@@ -15,6 +15,7 @@ $(document).ready(function () {
     getselect();
     detailbrg();
     tablejl();
+    editPelunasan();
     detailpelunasan();
     setInterval(updateDateTime, 1000);
 });
@@ -135,8 +136,244 @@ function table_etalase() {
 
     $('#generate').on('click', function() {
         var noFaktur = $('#no_faktur').val(); // Ambil nilai No Faktur
-        console.log('Mengirim No Faktur:', noFaktur); 
-        Tetalase.draw();
+    
+        if (noFaktur) {
+            $.ajax({
+                url: base_url + 'pelunasan/get_faktur', // File PHP untuk mengambil data
+                type: 'POST',
+                data: { no_faktur: noFaktur },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        $('#namasupplier').val(response.nama_supplier); // Isi kolom nama_supp
+                        $('#tagihan').val(response.tagihan); // Isi kolom nilai_tagihan
+                    } else {
+                        swal("error", "Faktur Tidak Ditemukan", "error")
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        } else {
+            alert('Silakan masukkan No Faktur');
+        }
+    });    
+
+    $(document).on("click", ".btn-refresh", function () {
+        let id = $(this).data("id");
+    
+        swal({
+            title: "Konfirmasi",
+            text: "Masukkan keterangan sebelum Unpost data:",
+            content: {
+                element: "input",
+                attributes: {
+                    placeholder: "Masukkan keterangan...",
+                    type: "text",
+                },
+            },
+            icon: "warning",
+            buttons: ["Batal", "Unpost Data!"],
+            dangerMode: true,
+        }).then((keterangan) => {
+            if (keterangan) {
+                $.ajax({
+                    url: base_url + "pelunasan/unpostData",
+                    type: "POST",
+                    data: { id: id, keterangan: keterangan },
+                    success: function (response) {
+                        swal("Berhasil!", "Data berhasil diunpost.", "success");
+                        tableJL.draw();
+                    },
+                    error: function () {
+                        swal("Gagal!", "Terjadi kesalahan, silakan coba lagi.", "error");
+                    }
+                });
+            } else if (keterangan === "") {
+                swal("Gagal!", "Keterangan tidak boleh kosong.", "error");
+            }
+        });
+    });
+    
+    
+    $(document).on("click", ".btn-edit", function () {
+        let id = $(this).data("id");
+        let bayar = $(this).data("bayar");
+    
+        // Ganti URL sesuai kebutuhan
+        window.location.href = base_url + "pelunasan/edit_pelunasan/" + id ;
+    });
+    
+    $("#editBayarForm").on("submit", function (e) {
+        e.preventDefault();
+    
+        let id = $("#editBayarId").val();
+        let bayar = $("#editBayarAmount").val();
+    
+        $.ajax({
+            url: base_url + "pelunasan/updateBayar", // Ganti dengan URL Controller Anda
+            type: "POST",
+            data: { id: id, bayar: bayar },
+            success: function (response) {
+                $("#EditBayarModal").modal("hide");
+                tableJL.draw();
+            }
+        });
+    });
+
+    $(document).on("click", ".btn-delete", function () {
+        let id = $(this).data("id");
+        swal({
+            title: "Apakah Anda yakin?",
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: "warning",
+            buttons: {
+                cancel: "Batal",
+                confirm: {
+                    text: "Ya, hapus!",
+                    value: true,
+                    className: "btn-danger"
+                }
+            },
+            dangerMode: true
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: base_url+ "pelunasan/deleteData", // Ganti dengan URL Controller Anda
+                    type: "POST",
+                    data: { id: id },
+                    success: function (response) {
+                        swal({
+                            title: "Berhasil!",
+                            text: "Data telah dihapus.",
+                            icon: "success",
+                            timer: 2000,
+                            buttons: false
+                        }).then(() => {
+                            tableJL.draw()
+                        });
+                    },
+                    error: function () {
+                        swal({
+                            title: "Gagal!",
+                            text: "Terjadi kesalahan saat menghapus data.",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+        });        
+    });
+    
+    
+
+    $('#simpan').on('click', function () {
+        var noPelunasan = $('#no_pelunasan').val().trim();
+    var noFaktur = $('#no_faktur').val().trim();
+    var tanggal = $('#tanggal').val().trim();
+    var namaSupplier = $('#namasupplier').val().trim();
+    var metode = $('#metode').val().trim();
+    var norek = $('#norek').val().trim();
+    var tagihan = parseInt($('#tagihan').val().replace(/[^0-9]/g, '')) || 0;
+    var bayar = parseInt($('#bayar').val().replace(/[^0-9]/g, '')) || 0;
+
+    // Validasi: Cek apakah ada kolom yang kosong
+    if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek || tagihan === 0 || bayar === 0) {
+        swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
+        return;
+    }
+
+    // Validasi: Bayar tidak boleh lebih besar dari Tagihan
+    if (bayar > tagihan) {
+        swal("Error!", "Jumlah Bayar tidak boleh lebih dari Nilai Tagihan!", "error");
+        return;
+    }
+
+    var formData = {
+        no_pelunasan: noPelunasan,
+        no_faktur: noFaktur,
+        tanggal: tanggal,
+        nama_supplier: namaSupplier,
+        metode: metode,
+        norek: norek,
+        tagihan: tagihan,
+        bayar: bayar
+    };
+
+        $.ajax({
+            url: base_url + 'pelunasan/simpan',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    swal("success", "Data Sudah Disimpan", "success").then(() => {
+                        window.location.href = base_url + 'pelunasan';
+                    });
+                } else {
+                    swal("error", "Ada Kesalahan Sistem", "error")
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                swal("error", "Terjadi Kesalahan", "error")
+            }
+        });
+    });
+
+    $('#post').on('click', function () {
+        var noPelunasan = $('#no_pelunasan').val().trim();
+        var noFaktur = $('#no_faktur').val().trim();
+        var tanggal = $('#tanggal').val().trim();
+        var namaSupplier = $('#namasupplier').val().trim();
+        var metode = $('#metode').val().trim();
+        var norek = $('#norek').val().trim();
+        var tagihan = parseInt($('#tagihan').val().replace(/[^0-9]/g, '')) || 0;
+        var bayar = parseInt($('#bayar').val().replace(/[^0-9]/g, '')) || 0;
+    
+        // Validasi: Cek apakah ada kolom yang kosong
+        if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek || tagihan === 0 || bayar === 0) {
+            swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
+            return;
+        }
+    
+        // Validasi: Bayar tidak boleh lebih besar dari Tagihan
+        if (bayar > tagihan) {
+            swal("Error!", "Jumlah Bayar tidak boleh lebih dari Nilai Tagihan!", "error");
+            return;
+        }
+    
+        var formData = {
+            no_pelunasan: noPelunasan,
+            no_faktur: noFaktur,
+            tanggal: tanggal,
+            nama_supplier: namaSupplier,
+            metode: metode,
+            norek: norek,
+            tagihan: tagihan,
+            bayar: bayar
+        };
+
+        $.ajax({
+            url: base_url + 'pelunasan/posting',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    swal("success", "Data Sudah Diposting", "success").then(() => {
+                        window.location.href = base_url + 'pelunasan';
+                    });
+                } else {
+                    swal("error", "Ada Kesalahan Sistem", "error")
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                swal("error", "Terjadi Kesalahan", "error")
+            }
+        });
     });
 
     $('#table-etalase').on('change', '.checkbox-class', function() {
@@ -180,6 +417,19 @@ function table_etalase() {
     return Tetalase;
 }
 
+function editPelunasan(){
+    $('#EditBayarModal').on('show.bs.modal', function (e) {
+        let button = $(e.relatedTarget); 
+        let id = button.data('id'); 
+        let bayar = button.data('bayar');
+
+        console.log(id);
+        console.log(bayar);
+    
+        $("#editBayarId").val(id);
+        $("#editBayarAmount").val(bayar);
+    });
+}
 
 function tabledo(id) {
     if ($.fn.DataTable.isDataTable('#table-do')) {
@@ -300,31 +550,51 @@ function tablejl() {
                 "data": "ispost",
                 "render": function(data, type, row) {
                     let checked = data == 1 ? 'checked' : '';
-                    let disabled = data == 2 ? 'disabled' : '';
-                    return `<input type="checkbox" class="post-checkbox" data-id="${row.no_faktur}" ${checked} ${disabled}>`;
+                    return `<input type="checkbox" class="post-checkbox" data-id="${row.no_faktur}" ${checked} disabled>`;
                 }
             },
             { "data": "nama_supplier" },
             { "data": "metode" },
             { "data": "no_rekening" },
             { "data": "jumlah" }, 
-            { "data": "username" }, 
-            { "data": "no_fm",
+            { "data": "nama_lengkap" }, 
+            {
+                "data": "id_pelunasan",
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        return `
-                                <ul class="action">
-                                    <div class="btn-group">
-                                        <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#Detailpelunasan"><i class="fa fa-eye"></i></button>
-                                        <!-- <button class="btn btn-secondary" type="button" id="export" data-kode="${data}"><i class="fa fa-cloud-download"></i></button> -->
-                                    </div>
-                                </ul>
+                        let buttons = '';
+            
+                        if (full.ispost == 1) {
+                            // Jika ispost == 1, hanya tombol refresh
+                            buttons = `
+                                <button class="btn btn-warning btn-refresh" data-id="${data}">
+                                    <i class="fa fa-refresh"></i>
+                                </button>
                             `;
+                        } else {
+                            // Jika ispost == 0, tombol edit dan delete
+                            buttons = `
+                               <button class="btn btn-primary btn-edit" data-id="${data}">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-delete" data-id="${data}">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            `;
+                        }
+            
+                        return `
+                            <ul class="action">
+                                <div class="btn-group">
+                                    ${buttons}
+                                </div>
+                            </ul>
+                        `;
                     }
                     return data;
                 }
-            }      
+            }            
            
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
