@@ -111,6 +111,7 @@ $route['barang-masuk/simpan-barang-baru']='InventoriStok/addmb';
 $route['barang-masuk/simpan-barang-bekas']='InventoriStok/addmk';
 $route['barang-masuk/simpan-acc']='InventoriStok/addacc';
 $route['barang-masuk/hapus/(:num)'] = 'InventoriStok/deletepost/$1';
+$route['pembelian-input']='PembelianInput';
 $route['pembelian-input/loadbm']='PembelianInput/loadbm';
 $route['pembelian-input/simpan-barang-baru']='PembelianInput/addmb';
 $route['pembelian-input/simpan-barang-bekas']='PembelianInput/addmk';
