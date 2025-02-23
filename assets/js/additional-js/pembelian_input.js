@@ -17,7 +17,7 @@ function tablebm() {
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": base_url + 'pembelianInput/loadbm/',
+            "url": base_url + 'pembelian-input/loadbm/',
             "type": "POST"
         },
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
@@ -194,7 +194,7 @@ $(document).on('click', '#delete-btn', function (e) {
             // User clicked 'Delete', proceed with the deletion
             $.ajax({
                 type: 'POST',
-                url: base_url + 'pembelianInput/hapus/' + id_m,
+                url: base_url + 'pembelian-input/hapus/' + id_m,
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
@@ -214,7 +214,7 @@ $(document).on('click', '#delete-btn', function (e) {
 
 // function generateid() {
 //     $.ajax({
-//         url: base_url+'pembelianInput/gensnacc', 
+//         url: base_url+'pembelian-input/gensnacc', 
 //         type: 'GET',
 //         dataType: 'json',
 //         success: function(response) {
@@ -236,7 +236,7 @@ $(document).on('click', '#delete-btn', function (e) {
 function generateid() {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: base_url + 'pembelianInput/gensnacc',
+            url: base_url + 'pembelian-input/gensnacc',
             type: 'GET',
             dataType: 'json',
             success: function(response) {
@@ -309,7 +309,7 @@ function getselect(){
     $('#suppbaru').select2({
         language: 'id',
         ajax: {
-            url: base_url + 'pembelianInput/loadsupp',
+            url: base_url + 'pembelian-input/loadsupp',
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -333,7 +333,7 @@ function getselect(){
     $('#prodbaru').select2({
         language: 'id',
         ajax: {
-            url: base_url + 'pembelianInput/loadbrg',
+            url: base_url + 'pembelian-input/loadbrg',
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -373,7 +373,7 @@ function getselect(){
     $('#suppbekas').select2({
         language: 'id',
         ajax: {
-            url: base_url + 'pembelianInput/loadsupp',
+            url: base_url + 'pembelian-input/loadsupp',
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -397,7 +397,7 @@ function getselect(){
     $('#prodbekas').select2({
         language: 'id',
         ajax: {
-            url: base_url + 'pembelianInput/loadbrg',
+            url: base_url + 'pembelian-input/loadbrg',
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -437,7 +437,7 @@ function getselect(){
     $('#suppacc').select2({
         language: 'id',
         ajax: {
-            url: base_url + 'pembelianInput/loadsupp',
+            url: base_url + 'pembelian-input/loadsupp',
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -461,7 +461,7 @@ function getselect(){
     $('#prodacc').select2({
         language: 'id',
         ajax: {
-            url: base_url + 'pembelianInput/loadacc',
+            url: base_url + 'pembelian-input/loadacc',
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -532,7 +532,7 @@ function addmb() {
         } 
         $.ajax({
             type: "POST",
-            url: "pembelianInput/simpan-barang-baru",
+            url: "pembelian-input/simpan-barang-baru",
             data: {
                 tglbaru: tgl,
                 suppbaru: sup,
@@ -592,7 +592,7 @@ function addmk() {
         } 
         $.ajax({
             type: "POST",
-            url: "pembelianInput/simpan-barang-bekas",
+            url: "pembelian-input/simpan-barang-bekas",
             data: {
                 tglbekas: tgl,
                 suppbekas: sup,
@@ -663,7 +663,7 @@ function insacc(id) {
         var genhj = parseFloat(hj.replace(/\D/g, '')); 
         $.ajax({
             type: "POST",
-            url: "pembelianInput/simpan-acc",
+            url: "pembelian-input/simpan-acc",
             data: {
                 tglacc: tgl,
                 suppacc: sup,
