@@ -532,7 +532,7 @@ function addmb() {
         } 
         $.ajax({
             type: "POST",
-            url: "PembelianInput/simpan-barang-baru",
+            url: "pembelian-input/simpan-barang-baru",
             data: {
                 tglbaru: tgl,
                 suppbaru: sup,
@@ -592,7 +592,7 @@ function addmk() {
         } 
         $.ajax({
             type: "POST",
-            url: "PembelianInput/simpan-barang-bekas",
+            url: "pembelian-input/simpan-barang-bekas",
             data: {
                 tglbekas: tgl,
                 suppbekas: sup,
@@ -663,7 +663,7 @@ function insacc(id) {
         var genhj = parseFloat(hj.replace(/\D/g, '')); 
         $.ajax({
             type: "POST",
-            url: "PembelianInput/simpan-acc",
+            url: "pembelian-input/simpan-acc",
             data: {
                 tglacc: tgl,
                 suppacc: sup,
