@@ -36,7 +36,7 @@
                                     <!-- Nama Kustomer -->
                                     <div class="col-md-4 position-relative">
                                         <label class="form-label" for="no_pelunasan">No Pelunasan</label>
-                                        <input class="form-control" id="no_pelunasan" name="no_pelunasan" value="HT3PEL-001" type="text" placeholder="DIISI OTOMATIS" readonly="">
+                                        <input class="form-control" id="no_pelunasan" name="no_pelunasan" value="<?=$id?>" type="text" placeholder="DIISI OTOMATIS" readonly="">
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>
                                     <div class="col-md-4 position-relative">

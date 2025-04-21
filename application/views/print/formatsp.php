@@ -51,9 +51,6 @@
         
         <table class="table customTable" style="border: 1px solid black; border-collapse: collapse; width:100%;">
             <tbody>
-                <?php 
-                    $formatter = new IntlDateFormatter('id_ID', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
-                ?>
                 <?php foreach ($get_id as $gsk) { ?>                
                     <tr>
                         <td width="200">Nomor Surat</td>
@@ -64,7 +61,7 @@
                     </tr>
                     <tr>
                         <td>Tanggal Surat Pemindahan</td>
-                        <td>: <?= $formatter->format(new DateTime($gsk['tgl_pindah'])) ?></td>
+                        <td>: <?= $gsk['tgl_pindah'] ?></td>
                     </tr>
                     <tr>
                         <td>Dari Cabang</td>

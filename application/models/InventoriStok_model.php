@@ -20,6 +20,22 @@ class InventoriStok_model extends CI_Model {
     return $query->result_array();
   }
 
+  public function getCus($searchTerm = null) {
+    $this->db->select(['id_plg', 'nama_plg']);
+    $this->db->from('tb_pelanggan');
+
+    if ($searchTerm) {
+        $this->db->group_start();
+        $this->db->like('nama_plg', $searchTerm);
+        $this->db->or_like('id_plg', $searchTerm);
+        $this->db->group_end();
+    }
+
+    $this->db->order_by('id_plg', 'asc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
   public function getBrg($searchTerm = null) {
     $this->db->select(['id_brg', 'merk','jenis','nama_brg','warna']);
     $this->db->from('tb_barang');
@@ -41,6 +57,28 @@ class InventoriStok_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();    
   }
+
+  public function getJual($searchTerm = null) {
+    $this->db->select(['sn_brg', 'merk','jenis','nama_brg','warna','hrg_jual']);
+    $this->db->from('vbarangmasuk');
+    $this->db->where_in('status_pen', ['1']);
+
+    // Add the search conditions if a search term is provided
+    if ($searchTerm) {
+        $this->db->group_start();
+        $this->db->like('sn_brg', $searchTerm);
+        $this->db->or_like('merk', $searchTerm);
+        $this->db->or_like('jenis', $searchTerm);
+        $this->db->or_like('warna', $searchTerm);
+        $this->db->or_like('nama_brg', $searchTerm);
+        $this->db->group_end();
+    }
+
+    $this->db->order_by('nama_brg', 'asc');
+    $query = $this->db->get();
+    return $query->result_array();    
+  }
+
   public function getAcc($searchTerm = null) {
     $this->db->select(['id_brg', 'merk','jenis','nama_brg','warna']);
     $this->db->from('tb_barang');

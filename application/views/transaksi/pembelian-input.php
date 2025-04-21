@@ -77,8 +77,8 @@
                                   </div>
 
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="IMEIProduk">IMEI Produk</label>
-                                    <input class="form-control" id="imeibaru" type="number" name="imeibaru" placeholder="Masukkan Nomor IMEI" aria-label="IMEIProduk" required="">
+                                    <label class="form-label" for="IMEIProduk">CN/MTM/P/N</label>
+                                    <input class="form-control" id="imeibaru" type="text" name="imeibaru" placeholder="Masukkan Nomor IMEI" aria-label="IMEIProduk" required="">
                                   </div>   
 
                                   <div class="col-4 position-relative"> 
@@ -139,12 +139,10 @@
                                     <input class="form-control" id="snbekas" name="snbekas" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="snbekas" required="">
                                   </div>
 
-                                  <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="imeibekas">IMEI Produk</label>
-                                    <input class="form-control" id="imeibekas" type="number" name="imeibekas" placeholder="Masukkan Nomor IMEI" aria-label="imeibekas" required="">
-                                  </div>   
+                                    <input class="form-control" id="imeibekas" type="hidden" name="imeibekas" placeholder="Masukkan Nomor IMEI" aria-label="imeibekas" required="">
+                                  
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-8 position-relative"> 
                                     <label class="form-label" for="hppbekas">Harga HPP</label>
                                     <input class="form-control" id="hppbekas" type="text" name="hppbekas" placeholder="Masukkan Harga HPP" aria-label="hppbekas" onkeyup="formatRupiah(this)" required="">
                                   </div>                                  

@@ -62,7 +62,7 @@
                     </tr>
                     <tr>
                         <td>Tanggal Surat</td>
-                        <td>: <?= $formatter->format(new DateTime($gsk['tgl_keluar'])) ?></td>
+                        <td><?= $gsk['tgl_keluar'] ?></td>
                     </tr>
                     <tr>
                         <td>Cabang</td>

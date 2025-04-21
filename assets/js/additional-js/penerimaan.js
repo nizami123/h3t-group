@@ -271,7 +271,7 @@ function tablejl() {
         },
         "serverSide": true,
         "order": [
-            [1, 'desc'] 
+            [0, 'desc'] 
         ],
         "ajax": {
             "url": base_url + 'penerimaan/penerimaan_list/',
@@ -289,7 +289,7 @@ function tablejl() {
                         var year = date.getFullYear();
                         var hours = ('0' + date.getHours()).slice(-2);
                         var minutes = ('0' + date.getMinutes()).slice(-2);
-                        return `${day} ${month} ${year} <br><b>${hours}:${minutes}</b>`;
+                        return `${day} ${month} ${year}`;
                     }
                     return data;
                 }

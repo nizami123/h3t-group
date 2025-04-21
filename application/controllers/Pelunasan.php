@@ -83,7 +83,7 @@ class Pelunasan extends Auth
     }else {
       $data['newID'] = 'H3TPEL-0001';
     }
-    return $data;
+    return $data['newID'];
   }
 
   public function get_faktur() {
@@ -260,12 +260,10 @@ class Pelunasan extends Auth
 
 
   public function input_pelunasan() {
-    $data = $this->generateid();
+    $data['id'] = $this->generateid();
     $cab = $this->session->userdata('id_toko');
     $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
-    $data['content'] = $this->load->view('transaksi/pelunasan-input', '', true);
-    $data['modal'] = '';
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/datatables.css') . '">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
@@ -319,7 +317,9 @@ class Pelunasan extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
     ';
-    $this->load->view('layout/base', $data);
+    $this->load->view('layout/header', $data);
+    $this->load->view('transaksi/pelunasan-input', $data);
+    $this->load->view('layout/footer', $data);
   }
 
   public function edit_pelunasan($id) {
