@@ -52,7 +52,7 @@
                       <div class="col-6">
                         <a href="#" class="cap" data-bs-toggle="modal" data-bs-target="#DetailAssetProduk" data-total_asset="">
                           <div class="card small-widget"> 
-                            <div class="card-body primary"> <span class="f-light">Total Asset Tersedia DH</span>
+                            <div class="card-body primary"> <span class="f-light">Total Asset Tersedia H3T</span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spintp">
                                   <span class="visually-hidden">Memuat...</span>
@@ -253,7 +253,7 @@
                                   <p class="text-muted">Realtime Updated</p>
                               </div>
                             </div>
-                            <div class="school-body"><img src="<?=base_url()?>assets/images/karyawan/totalkaryawan.png" alt="dh-karyawan">
+                            <div class="school-body"><img src="<?=base_url()?>assets/images/inventoriassets/supplier.png" alt="dh-karyawan">
                               <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
                             </div>
                           </div>
@@ -357,7 +357,7 @@
                                       <p class="text-muted"><?=$sc['id_toko']?></p>
                                   </div>
                               </div>
-                              <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store-dh.png" alt="store-produk-dh">
+                              <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store.png" alt="store-produk-dh">
                                 <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
                               </div>
                             </div>

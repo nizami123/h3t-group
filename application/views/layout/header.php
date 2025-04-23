@@ -333,10 +333,10 @@
                   <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title sales" href="#">
                           <svg class="stroke-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-widget"></use>
                           </svg>
                           <svg class="fill-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-widget"></use>
                           </svg><span>Transaksi</span>
                       </a>
                       <ul class="sidebar-submenu">
