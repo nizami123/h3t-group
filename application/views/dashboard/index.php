@@ -313,7 +313,7 @@
                       </div>
                     </a>
                   </div>
-                  <!-- Card Total Barang -->
+                  <!-- Card Total Barang h3T -->
                   <div class="col-md-4 col-sm-6">
                     <a href="#" id="cardtpp">
                       <div class="card widget-hover overflow-hidden">
