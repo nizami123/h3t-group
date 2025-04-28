@@ -7,7 +7,7 @@ class Msupplier_model extends CI_Model {
   public function getLastID() {
     $this->db->select('id_supplier');
     $this->db->from('tb_supplier');
-    $this->db->order_by('id_supplier', 'desc');
+    $this->db->order_by('id_supplier', 'asc');
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();

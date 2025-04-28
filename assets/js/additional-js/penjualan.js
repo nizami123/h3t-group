@@ -86,13 +86,19 @@ function tablejl() {
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        return `
-                               <ul class="action">
+                        if (full.status == 1 || full.status == 2) {
+                            return `
+                                <ul class="action">
                                     <li class="edit">
-                                        <button class="btn download-button" type="button" id="downloadnota" data-id="${data}"><i class="icofont icofont-print"></i></button>
+                                        <button class="btn download-button" type="button" id="downloadnota" data-id="${data}">
+                                            <i class="icofont icofont-print"></i>
+                                        </button>
                                     </li>
                                 </ul>
                             `;
+                        } else {
+                            return ''; // kalau status bukan 1/2, kosong, gak ada tombol
+                        }
                     }
                     return data;
                 }

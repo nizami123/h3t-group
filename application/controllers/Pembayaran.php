@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
-class Pelunasan extends Auth
+class Pembayaran extends Auth
 {
     
   public function __construct()
@@ -15,7 +15,7 @@ class Pelunasan extends Auth
 
   public function index(){
     $cab = $this->session->userdata('id_toko');
-    $data['content'] = $this->load->view('transaksi/pelunasan', '', true);
+    $data['content'] = $this->load->view('transaksi/pembayaran', '', true);
     $data['modal'] = '';
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/datatables.css') . '">
@@ -49,7 +49,7 @@ class Pelunasan extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/pelunasan.js?v='.time().'') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pembayaran.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -90,9 +90,9 @@ class Pelunasan extends Auth
     $no_faktur = $this->input->post('no_faktur'); // Ambil data dari AJAX
 
     if ($no_faktur) {
-        $data = $this->Pelunasan_model->getFakturByNo($no_faktur);
+        $data = $this->Pelunasan_model->getFakturByNoPenjualan($no_faktur);
         if ($data) {
-            echo json_encode(['success' => true, 'nama_supplier' => $data->nama_supplier, 'tagihan' => $data->tagihan]);
+            echo json_encode(['success' => true, 'nama_plg' => $data->nama_plg, 'tagihan' => $data->tagihan]);
         } else {
             echo json_encode(['success' => false]);
         }
@@ -132,16 +132,16 @@ class Pelunasan extends Auth
           'total_tagihan' => $tagihan,
           'jumlah' => $bayar,
           'ispost' => '0',
-          'jenis_transaksi' => 'Pembelian',
+          'jenis_transaksi' => 'Penjualan',
           'id_user' => $this->session->userdata('id_user'),
           'created_on' => date('Y-m-d H:i:s')
       ];
 
       $existing = $this->db
-        ->where('id_pelunasan', $data['id_pelunasan'])
-        ->where('jenis_transaksi', 'Pembelian') // Ganti 'nama_jenis' dengan nilai yang sesuai
-        ->get('tb_pelunasan')
-        ->row();
+      ->where('id_pelunasan', $data['id_pelunasan'])
+      ->where('jenis_transaksi', 'Penjualan') // Ganti 'nama_jenis' dengan nilai yang sesuai
+      ->get('tb_pelunasan')
+      ->row();
 
       if ($existing) {
           // Jika no_pelunasan sudah ada, lakukan update
@@ -149,10 +149,10 @@ class Pelunasan extends Auth
           $update = $this->db->update('tb_pelunasan', $data);
           
           if ($update) {
-              $status_pem = ($bayar == $tagihan) ? 2 : 1;
-              $this->db->set('status_pem', $status_pem)
-                      ->where('no_fm', $no_faktur)
-                      ->update('tb_brg_masuk');
+              // $status_pem = ($bayar == $tagihan) ? 2 : 1;
+              // $this->db->set('status', $status_pem)
+              //         ->where('kode_penjualan', $no_faktur)
+              //         ->update('tb_penjualan_cus');
 
               echo json_encode(['success' => true, 'message' => 'Data berhasil diperbarui']);
           } else {
@@ -161,10 +161,10 @@ class Pelunasan extends Auth
       } else {
           // Jika no_pelunasan belum ada, lakukan insert
           if ($this->db->insert('tb_pelunasan', $data)) {
-              $status_pem = ($bayar == $tagihan) ? 2 : 1;
-              $this->db->set('status_pem', $status_pem)
-                      ->where('no_fm', $no_faktur)
-                      ->update('tb_brg_masuk');
+            // $status_pem = ($bayar == $tagihan) ? 2 : 1;
+            // $this->db->set('status', $status_pem)
+            //         ->where('kode_penjualan', $no_faktur)
+            //         ->update('tb_penjualan_cus');
 
               echo json_encode(['success' => true, 'message' => 'Data berhasil disimpan']);
           } else {
@@ -217,10 +217,10 @@ class Pelunasan extends Auth
             $update = $this->db->update('tb_pelunasan', $data);
             
             if ($update) {
-                $status_pem = ($bayar == $tagihan) ? 2 : 1;
-                $this->db->set('status_pem', $status_pem)
-                        ->where('no_fm', $no_faktur)
-                        ->update('tb_brg_masuk');
+              $status_pem = ($bayar == $tagihan) ? 2 : 1;
+              $this->db->set('status', $status_pem)
+                      ->where('kode_penjualan', $no_faktur)
+                      ->update('tb_penjualan_cus');
 
                 echo json_encode(['success' => true, 'message' => 'Data berhasil diperbarui']);
             } else {
@@ -229,10 +229,10 @@ class Pelunasan extends Auth
         } else {
             // Jika no_pelunasan belum ada, lakukan insert
             if ($this->db->insert('tb_pelunasan', $data)) {
-                $status_pem = ($bayar == $tagihan) ? 2 : 1;
-                $this->db->set('status_pem', $status_pem)
-                        ->where('no_fm', $no_faktur)
-                        ->update('tb_brg_masuk');
+              $status_pem = ($bayar == $tagihan) ? 2 : 1;
+              $this->db->set('status', $status_pem)
+                      ->where('kode_penjualan', $no_faktur)
+                      ->update('tb_penjualan_cus');
 
                 echo json_encode(['success' => true, 'message' => 'Data berhasil disimpan']);
             } else {
@@ -301,7 +301,7 @@ class Pelunasan extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/pelunasan.js?v='.time().'') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pembayaran.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -323,11 +323,11 @@ class Pelunasan extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
     ';
     $this->load->view('layout/header', $data);
-    $this->load->view('transaksi/pelunasan-input', $data);
+    $this->load->view('transaksi/pembayaran-input', $data);
     $this->load->view('layout/footer', $data);
   }
 
-  public function edit_pelunasan($id) {
+  public function edit_pembayaran($id) {
     $data['pelunasan'] = $this->Pelunasan_model->getLunas($id);
     $cab = $this->session->userdata('id_toko');
     $data['barangcabang'] = $this->DashboarCab_model->barangCabang($cab);
@@ -364,7 +364,7 @@ class Pelunasan extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/pelunasan.js?v='.time().'') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/pembayaran.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -386,7 +386,7 @@ class Pelunasan extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
     ';
     $this->load->view('layout/header', $data);
-    $this->load->view('transaksi/pelunasan-edit', $data);
+    $this->load->view('transaksi/pembayaran-edit', $data);
     $this->load->view('layout/footer', $data);
   }
 
@@ -475,7 +475,7 @@ class Pelunasan extends Auth
     $this->load->library('datatables');
     $this->datatables->select('*');
     $this->datatables->from('vpelunasan');
-    $this->datatables->where('jenis_transaksi','Pembelian');
+    $this->datatables->where('jenis_transaksi','Penjualan');
     return print_r($this->datatables->generate());
   }
   public function terima_data() {

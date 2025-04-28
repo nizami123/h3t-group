@@ -7,7 +7,7 @@ class Mkustomer_model extends CI_Model {
   public function getLastID() {
     $this->db->select('id_plg');
     $this->db->from('tb_pelanggan');
-    $this->db->order_by('id_plg', 'desc');
+    $this->db->order_by('id_plg', 'asc');
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();

@@ -7,7 +7,7 @@ class Pelunasan_model extends CI_Model {
   public function getLastID() {
     $this->db->select('id_pelunasan');
     $this->db->from('tb_pelunasan');
-    $this->db->order_by('id_pelunasan', 'desc');
+    $this->db->order_by('id_pelunasan', 'asc');
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();
@@ -58,12 +58,17 @@ class Pelunasan_model extends CI_Model {
     return $query->row(); // Mengembalikan satu baris data
   }
 
+  public function getFakturByNoPenjualan($no_faktur) {
+    $this->db->select('nama_plg, tagihan');
+    $this->db->from('vfaktur_penjualan');
+    $this->db->where('kode_penjualan', $no_faktur);
+    $query = $this->db->get();
+    return $query->row(); // Mengembalikan satu baris data
+  }
+
   public function getLunas($id) {
     $this->db->where('id_pelunasan', $id);
     $query = $this->db->get('tb_pelunasan'); // Ganti 'tb_pelunasan' dengan nama tabel yang sesuai
     return $query->row(); // Ambil satu baris data
 }
 }
-
-/* End of file Mkustomer_model.php */
-/* Location: ./application/models/Mkustomer_model.php */

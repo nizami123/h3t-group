@@ -345,6 +345,7 @@
                           <li class="sprd"><a class="sprd" href="<?=base_url()?>pengecekan/">Pengecekan</a></li>
                           <li class="seta"><a class="seta" href="<?=base_url()?>penjualan/">Penjualan</a></li>
                           <li class="shst"><a class="shst" href="<?=base_url()?>pelunasan/">Pelunasan</a></li>
+                          <li class="shst"><a class="shst" href="<?=base_url()?>pembayaran/">Pembayaran</a></li>
                       </ul>
                   </li>
                   <!-- End Menu Toko -->

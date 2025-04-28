@@ -68,16 +68,20 @@
 <div class="header">
     <table>
         <tr>
-            <td style="width: 60%;">
-                <strong>PT. SAMUDERA SURI</strong><br>
-                JL. SIMO TAMBAAN NO. 120-122<br>
-                SURABAYA - JAWA TIMUR<br>
-                NO TELEPON : 031-99150068
+            <td style="width: 8%;">
+                <img src="<?=base_url()?>assets/images/logo/logo-icon.png" alt="Logo" style="max-width: 100px;">
+            </td>
+            <td style="width: 52%;">
+                <strong>H3T OFFICE</strong><br>
+                SIDOTOPO WETAN BARU 2/33<br>
+                Email : h3h3h3@gmail.com<br>
+                NO TELEPON : 03137390409, 081333466614 <br>
+                http://www.h3tcomputer.com
             </td>
             <td style="width: 40%; text-align: right;">
                 <table>
                     <tr>
-                        <td><strong>No. Faktur</strong></td>
+                        <td><strong>No. Nota</strong></td>
                         <td>: <?= $header->kode_penjualan ?></td>
                     </tr>
                     <tr>
@@ -103,10 +107,11 @@
         <tr>
         <th style="width:5%;">No</th>
             <th>Nama Barang</th>
-            <th style="width:10%;">Qty</th>
-            <th style="width:15%;">Harga</th>
-            <th style="width:15%;">Diskon</th>
-            <th style="width:15%;">Subtotal</th>
+            <th style="width:5%;">Garansi</th>
+            <th style="width:5%;">Qty</th>
+            <th style="width:12%;">Harga</th>
+            <th style="width:12%;">Diskon</th>
+            <th style="width:12%;">Subtotal</th>
         </tr>
     </thead>
     <tbody>
@@ -123,6 +128,7 @@
     <tr>
         <td style="text-align: center;"><?= $no++ ?></td>
         <td><?= $item['nama_brg'] ?></td>
+        <td></td>
         <td style="text-align: center;"><?= $item['jml'] ?></td>
         <td style="text-align: right;"><?= number_format($harga_asli, 0, ',', '.') ?></td>
         <td style="text-align: right;"><?= number_format($diskon_rp, 0, ',', '.') ?></td>
@@ -131,7 +137,7 @@
     <?php if (!empty($item['keterangan'])): ?>
     <tr>
         <td></td>
-        <td colspan="5" style="font-style: italic; font-size: 11px; color: #555;">
+        <td colspan="6" style="font-style: italic; font-size: 11px; color: #555;">
             <?= nl2br($item['keterangan']) ?>
         </td>
     </tr>
@@ -141,26 +147,60 @@
 
 </table>
 
-<table class="total-section" style="margin-top:10px;">
+<table style="margin-top: 10px; width: 100%;">
     <tr>
-        <td style="text-align:right;"><strong>Subtotal:</strong></td>
-        <td style="text-align:right; width: 30%;">
-            <?= number_format($header->subtotal, 0, ',', '.') ?>
+        <td style="width: 60%; vertical-align: top;">
+            <strong>Keterangan:</strong><br>
+            <span>
+                1. Masa garansi terhitung sejak tanggal pembelian <br>
+                2. Garansi tidak berlaku jika barang mengalami cacat fisik, terbakar dan kerusakan yang disebabkan oleh salah pemakaian <br>
+                3. Kami tidak bertanggungjawab atas software yang terinstall di hardware <br>
+                4. Barang yang sudah dibeli tidak dapat dikembalikan/ditukar kecuali ada perjanjian terlebih dahulu
+            </span>
         </td>
-    </tr>
-    <tr>
-        <td style="text-align:right;"><strong>Diskon:</strong></td>
-        <td style="text-align:right;">
-            - <?= number_format($header->diskon, 0, ',', '.') ?>
+        <td style="width: 40%;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align:right;"><strong>Subtotal:</strong></td>
+                    <td style="text-align:right; width: 30%;">
+                        <?= number_format($header->subtotal, 0, ',', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;"><strong>Diskon:</strong></td>
+                    <td style="text-align:right;">
+                        - <?= number_format($header->diskon, 0, ',', '.') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;"><strong>Total:</strong></td>
+                    <td style="text-align:right;"><strong>
+                        <?= number_format($header->total, 0, ',', '.') ?>
+                    </strong></td>
+                </tr>
+            </table>
+
+            <!-- Tanda Tangan -->
+            <table style="margin-top: 50px; width: 100%; text-align: center;">
+                <tr>
+                    <td style="width: 50%;">
+                        Pembeli,
+                        <br><br><br><br> <!-- Ruang untuk tanda tangan -->
+                        (...................................)
+                    </td>
+                    <td style="width: 50%;">
+                        Hormat Kami,
+                        <br><br><br><br> <!-- Ruang untuk tanda tangan -->
+                        (...................................)
+                    </td>
+                </tr>
+            </table>
+            <!-- End Tanda Tangan -->
+
         </td>
-    </tr>
-    <tr>
-        <td style="text-align:right;"><strong>Total:</strong></td>
-        <td style="text-align:right;"><strong>
-            <?= number_format($header->total, 0, ',', '.') ?>
-        </strong></td>
     </tr>
 </table>
+
 
 <script>
     window.print();

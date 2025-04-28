@@ -167,7 +167,7 @@ class Mkaryawan_model extends CI_Model {
     $this->db->select('id_user');
     $this->db->from('tb_user');
     $this->db->where('status', '1');
-    $this->db->order_by('id_user', 'desc');
+    $this->db->order_by('id_user', 'asc');
     $this->db->limit(1);
     $query = $this->db->get();
     $result = $query->row(); // Get single row
