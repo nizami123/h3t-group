@@ -6,7 +6,7 @@ class Mbarang_model extends CI_Model {
   public function getLastID() {
     $this->db->select('id_brg');
     $this->db->from('tb_barang');
-    $this->db->order_by('id_brg', 'asc');
+    $this->db->order_by('id_brg', 'desc');
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();

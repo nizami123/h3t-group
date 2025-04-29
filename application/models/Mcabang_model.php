@@ -12,7 +12,7 @@ class Mcabang_model extends CI_Model {
   public function getLastID() {
     $this->db->select('id_toko');
     $this->db->from('tb_toko');
-    $this->db->order_by('id_toko', 'asc');
+    $this->db->order_by('id_toko', 'desc');
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();
