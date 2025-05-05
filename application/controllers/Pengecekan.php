@@ -41,6 +41,13 @@ class Pengecekan extends Auth
     ';
     $this->load->view('layout/base', $data);
   }
+  public function tablecekdata(){
+    $this->load->library('datatables');
+    $this->datatables->select('*');
+    $this->datatables->from('vpembelian');
+    $this->datatables->where_in('status_pem',[1,2]);
+    return print_r($this->datatables->generate());
+  }
 
 }
 

@@ -31,7 +31,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
-                            <h4>Laporan Pengecekan </h4>
+                            <h4>List Pengecekan </h4>
                                 <div class="d-flex align-items-center">
                             </div>
                         </div>
@@ -40,6 +40,7 @@
                                 <table class="display" id="table-pengecekan">
                                 <thead>
                                     <tr>
+                                        <th style="min-width: 10%; width: 10%;"><span class="f-light f-w-600">AKSI</span></th>
                                         <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">NO FAKTUR</span></th>
                                         <th style="min-width: 20%; width: 20%;"><span class="f-light f-w-600">TANGGAL</span></th>
                                         <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">NAMA SUPPLIER</span></th>
