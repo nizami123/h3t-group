@@ -52,8 +52,8 @@ class Penjualan extends Auth
   }
 
   public function formatnota($id) {
-    $data['header'] = $this->db->query('select * from v_penjualancus where kode_penjualan = '.$id)->row();
-    $data['items'] = $this->db->query('select * from v_detailpenjualancus where kode_penjualan = '.$id)->result_array();
+    $data['header'] = $this->db->query("select * from v_penjualancus where kode_penjualan = '".$id."'")->row();
+    $data['items'] = $this->db->query("select * from v_detailpenjualancus where kode_penjualan = '".$id."'")->result_array();
     
     $this->load->view('print/nota', $data);
   }
