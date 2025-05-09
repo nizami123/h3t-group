@@ -33,12 +33,13 @@ function tablecd() {
             {
                 "data": "no_fm",
                 "orderable": false,
+				"className": "dt-expand",
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
                         return `
                                 <ul class="action">
                                     <div class="btn-group">
-                                        <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#CariBarang">Unit <i class="fa fa-plus"></i></button>
+                                        <button class="btn btn-success" data-id="${data}" >Unit <i class="fa fa-plus"></i></button>
                                     </div>
                                 </ul>
                             `;
@@ -89,30 +90,7 @@ function tablecd() {
                     }
                     return data;
                 }
-            },       
-            // {
-            //     "data": "kode_penjualan",
-            //     "orderable": false,
-            //     "render": function (data, type, full, meta) {
-            //         if (type === "display") {
-            //             return `
-            //                     <ul class="action">
-            //                         <div class="btn-group">
-            //                             <button class="btn btn-primary" 
-            //                             data-id="${data}" data-total="${full.total}" data-idksr="${full.id_ksr}"
-            //                             data-sales="${full.nama_ksr}" data-hj="${full.total_harga_jual}" data-dis="${full.total_diskon}" 
-            //                             data-cb="${full.total_cb}" data-lb="${full.total_laba}" data-cst="${full.nama_plg}" data-tb="${full.cara_bayar}" 
-            //                             data-btf="${full.bank_tf}" data-nr="${full.no_rek}" data-tn="${full.tunai}" data-status="${full.status}"
-            //                             data-bnk="${full.bank}" data-krd="${full.kredit}" data-toko="${full.nama_toko}" data-tgltr="${full.tgl_transaksi}"
-            //                             data-jasa="${full.jasa}" data-jasanom="${full.jml_donasi}"
-            //                             data-bs-toggle="modal" data-bs-target="#DetailLapPenjualan" title="detail penjualan"><i class="fa fa-exclamation-circle"></i></button>
-            //                         </div>
-            //                     </ul>
-            //                 `;
-            //         }
-            //         return data;
-            //     }
-            // }      
+            },      
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-4'B>>" +
@@ -146,5 +124,57 @@ function tablecd() {
         ]
             
     });
+    $('#table-pengecekan tbody').on('click', 'td.dt-expand', function (e) {
+        let tr = e.target.closest('tr');
+        let row = tableCD.row(tr);
+
+        if (row.child.isShown()) {
+            row.child.hide();
+        } else {
+            row.child('<div class="loading-detail">Loading detail...</div>').show();
+            loadRowDetails(row, row.data());
+        }
+    });
     return tableCD;
+}
+function loadRowDetails(row, data) {
+	$.ajax({
+		url: base_url + 'pengecekan/tabledetailcekdata/' + data.no_fm,
+		type: 'GET',
+		dataType: 'json',
+		success: function (response) {
+			if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+				let html = `
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Nama Barang</th>
+									<th>Jumlah</th>
+									<th>Harga</th>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								${response.data.map(item => `
+									<tr>
+										<td>${item.nama_brg.trim()}</td>
+										<td>${item.jumlah}</td>
+										<td>${formatcur.format(item.harga)}</td>
+										<td>${formatcur.format(item.total)}</td>
+									</tr>
+								`).join('')}
+							</tbody>
+						</table>
+					</div>
+				`;
+				row.child(html).show();
+			} else {
+				row.child('<div class="alert alert-warning">No detail data found.</div>').show();
+			}
+		},
+		error: function () {
+			row.child('<div class="alert alert-danger">Failed to load details.</div>').show();
+		}
+	});
 }

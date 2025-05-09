@@ -48,6 +48,14 @@ class Pengecekan extends Auth
     $this->datatables->where_in('status_pem',[1,2]);
     return print_r($this->datatables->generate());
   }
+	public function tabledetailcekdata($nofm) {
+		// $nofm = urldecode($this->input->post('no_fm'));
+		$this->load->library('datatables');
+		$this->datatables->select('*');
+		$this->datatables->from('vdetailpembelian');
+		$this->datatables->like('no_fm', $nofm);
+		return print_r($this->datatables->generate());
+	}
 
 }
 
