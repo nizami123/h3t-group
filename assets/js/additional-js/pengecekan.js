@@ -153,6 +153,7 @@ function loadRowDetails(row, data) {
 									<th>Jumlah</th>
 									<th>Harga</th>
 									<th>Total</th>
+                                    <th>Keterangan</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -162,11 +163,15 @@ function loadRowDetails(row, data) {
 										<td>${item.jumlah}</td>
 										<td>${formatcur.format(item.harga)}</td>
 										<td>${formatcur.format(item.total)}</td>
+                                        <td><input class="form-control" style="width: 90%;" id="${item.id_masuk}" type="text"></td>
 									</tr>
 								`).join('')}
 							</tbody>
 						</table>
 					</div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <button class="btn btn-primary" id="save-button">Simpan</button>
+                    </div>
 				`;
 				row.child(html).show();
 			} else {
