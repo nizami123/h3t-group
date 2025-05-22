@@ -65,12 +65,6 @@ function tablecd() {
             },
             { "data": "nama_supplier" },
             { "data": "alamat" },
-            // { 
-            //     "data": "harga_beli",
-            //     "render": function (data, type, row) {
-            //         return formatcur.format(data);
-            //     }
-            // },
             { 
                 "data": "status_pem",
                 "render": function (data, type, full, meta) {
@@ -138,98 +132,103 @@ function tablecd() {
     return tableCD;
 }
 function loadRowDetails(row, data) {
-	$.ajax({
-		url: base_url + 'pengecekan/tabledetailcekdata/' + data.no_fm,
-		type: 'GET',
-		dataType: 'json',
-		success: function (response) {
-			if (response.data && Array.isArray(response.data) && response.data.length > 0) {
-				let html = `
-					<div class="table-responsive">
-						<table class="table table-bordered table-striped" style="width: 100%;">
-							<thead>
-								<tr>
-									<th style="width: 30%;">Nama Barang</th>
-									<th style="width: 15%;">Jumlah</th>
-									<th style="width: 15%;">Qty</th>
-                                    <th style="width: 40%;">Keterangan</th>
-								</tr>
-							</thead>
-							<tbody>
-								${response.data.map(item => `
-									<tr>
-										<td>${item.nama_brg.trim()}</td>
-										<td>${item.jumlah}</td>
-                                        <td><input class="form-control qty-input" style="width: 90%;" id="${item.id_masuk}" type="number"></td>
+    $.ajax({
+        url: base_url + 'pengecekan/tabledetailcekdata/' + data.no_fm,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+                let html = `
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nama Barang</th>
+                                    <th>SN Barang</th>
+                                    <th>Keterangan</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detail-pengecekan">
+                                ${response.data.map(item => `
+                                    <tr>
+                                        <td>${item.nama_brg.trim()}</td>
+                                        <td>${item.sn_brg}</td>
                                         <td><input class="form-control ket-input" style="width: 90%;" id="${item.id_masuk}" type="text"></td>
-									</tr>
-								`).join('')}
-							</tbody>
-						</table>
-					</div>
+                                        <td>
+                                            <div class="form-check radio radio-primary ps-0">
+                                                <ul class="radio-wrapper">
+                                                    <li> 
+                                                        <input class="form-check-input" id="acc_${item.id_masuk}" data-id="${item.id_masuk}" type="radio" name="status_${item.id_masuk}" value="1">
+                                                        <label class="form-check-label" for="acc_${item.id_masuk}"><i class="fa fa-check"></i><span>Terima</span></label>
+                                                    </li>
+                                                    <li> 
+                                                        <input class="form-check-input" id="dcl_${item.id_masuk}" data-id="${item.id_masuk}" type="radio" name="status_${item.id_masuk}" value="2">
+                                                        <label class="form-check-label" for="dcl_${item.id_masuk}"><i class="fa fa-times"></i><span>Tolak</span></label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="d-flex justify-content-center mt-3">
                         <button class="btn btn-primary save-button">Simpan</button>
                     </div>
-				`;
-				row.child(html).show();
-			} else {
-				row.child('<div class="alert alert-warning">No detail data found.</div>').show();
-			}
-		},
-		error: function () {
-			row.child('<div class="alert alert-danger">Failed to load details.</div>').show();
-		}
-	});
-    // addCekItem(row);
-    $('#table-pengecekan tbody').on('click', '.save-button', function () {
-        let qty = $(this).closest('tr').find('.qty-input').val();
-        let ket = $(this).closest('tr').find('.ket-input').val();
-        let id = $(this).closest('tr').find('.qty-input').attr('id');
-        $.ajax({
-            url: base_url + 'pengecekan/addItem',
-            type: 'POST',
-            data: {
-                id: id,
-                qty: qty,
-                ket: ket
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    alert('Data saved successfully!');
-                    tableCD.ajax.reload();
-                } else {
-                    alert('Failed to save data.');
-                }
-            },
-            error: function () {
-                alert('Error occurred while saving data.');
+                `;
+                row.child(html).show();
+
+                // Only bind event AFTER row details have been shown
+                row.child().find('.save-button').on('click', function () {
+                    var dataCek = [];
+                    row.child().find('#detail-pengecekan tr').each(function () {
+                        const $row = $(this);
+                        const checked = $row.find('input[type="radio"]:checked');
+                        const ket = $row.find('.ket-input').val();
+                        const id = checked.data('id');
+                        if (checked.length > 0) {
+                            dataCek.push({
+                                id: id,
+                                status: checked.val(),
+                                ket: ket
+                            });
+                        }
+                    });
+                    $.ajax({
+                        url: base_url + 'pengecekan/addItem',
+                        type: 'POST',
+                        data: { dataCek: dataCek },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                swal("Berhasil", {
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 1000
+                                });
+                                tableCD.ajax.reload();
+                            } else {
+                                swal("Gagal", {
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 1000
+                                });
+                            }
+                        },
+                        error: function () {
+                            alert('Error occurred while saving data.');
+                        }
+                    });
+                });
+
+            } else {
+                row.child('<div class="alert alert-warning">No detail data found.</div>').show();
             }
-        });
+        },
+        error: function () {
+            row.child('<div class="alert alert-danger">Failed to load details.</div>').show();
+        }
     });
 }
-// function addCekItem($this) {
-//     let id = $this.attr('data-id');
-//     let qty = $this.closest('tr').find('.qty-input').val();
-//     let ket = $this.closest('tr').find('.ket-input').val();
-//     $.ajax({
-//         url: base_url + 'pengecekan/addCekItem',
-//         type: 'POST',
-//         data: {
-//             id: id,
-//             qty: qty,
-//             ket: ket
-//         },
-//         success: function (response) {
-//             if (response.status === 'success') {
-//                 alert('Data saved successfully!');
-//                 tableCD.ajax.reload();
-//             } else {
-//                 alert('Failed to save data.');
-//             }
-//         },
-//         error: function () {
-//             alert('Error occurred while saving data.');
-//         }
-//     });
-// }
