@@ -41,11 +41,10 @@
                                 <thead>
                                     <tr>
                                         <th style="min-width: 10%; width: 10%;"><span class="f-light f-w-600">AKSI</span></th>
-                                        <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">NO FAKTUR</span></th>
+                                        <th style="min-width: 30%; width: 20%;"><span class="f-light f-w-600">NO FAKTUR</span></th>
                                         <th style="min-width: 20%; width: 20%;"><span class="f-light f-w-600">TANGGAL</span></th>
                                         <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">NAMA SUPPLIER</span></th>
                                         <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">ALAMAT</span></th>
-                                        <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">NOMINAL</span></th>
                                         <th style="min-width: 40%; width: 40%;"><span class="f-light f-w-600">STATUS</span></th>
                                     </tr>
                                 </thead>

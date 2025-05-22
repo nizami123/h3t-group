@@ -7,6 +7,7 @@ class Pengecekan extends Auth
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('Pengecekan_model');
   }
 
   public function index(){
@@ -43,7 +44,7 @@ class Pengecekan extends Auth
   }
   public function tablecekdata(){
     $this->load->library('datatables');
-    $this->datatables->select('*');
+    $this->datatables->select('no_fm, tanggal, nama_supplier, alamat, status_pem');
     $this->datatables->from('vpembelian');
     $this->datatables->where_in('status_pem',[1,2]);
     return print_r($this->datatables->generate());
@@ -54,8 +55,34 @@ class Pengecekan extends Auth
 		$this->datatables->select('*');
 		$this->datatables->from('vdetailpembelian');
 		$this->datatables->like('no_fm', $nofm);
+    $this->datatables->where_in('kondisi', ['Bekas']);
 		return print_r($this->datatables->generate());
 	}
+  public function addItem()
+  {
+    if ($this->input->is_ajax_request()) {
+      $data = [
+        'id_masuk' => $this->input->post('id'),
+        'qty_cek' => $this->input->post('qty'),
+        'keterangan_cek' => $this->input->post('ket'),
+      ];
+      $result = $this->Pengecekan_model->addItem($data);
+      if ($result) {
+        $response = [
+          'status' => 'success',
+          'message' => 'Data berhasil disimpan.',
+        ];
+      } else {
+        $response = [
+          'status' => 'failed',
+          'message' => 'Data gagal disimpan.',
+        ];
+      }
+      echo json_encode($response);
+    } else {
+      show_404();
+    }
+  }
 
 }
 
