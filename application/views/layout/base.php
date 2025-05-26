@@ -308,6 +308,15 @@
                         <?php } ?>
                     </ul>
                   </li>
+                  <li class="sidebar-list servis">
+                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav servis" href="<?=base_url()?>servis/">
+                      <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-icons"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-icons"></use>
+                      </svg><span>Servis</span></a>
+                  </li>
                   <!-- Penjualan -->
                   <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title sales" href="#">
@@ -350,10 +359,10 @@
                     <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title sales" href="#">
                           <svg class="stroke-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-widget"></use>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-price"></use>
                           </svg>
                           <svg class="fill-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-widget"></use>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-price"></use>
                           </svg><span>Penjualan</span>
                       </a>
                       <ul class="sidebar-submenu">
@@ -563,6 +572,8 @@
                 $(".submenu-title.fnc").addClass('active'); 
                 $(".submenu-title.fnc").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".submenu-title.fnc + .submenu-content").slideDown('normal');
+            }else if (segment1 == "servis"){
+                $(".servis").addClass("active");
             }
             $(document).on('select2:open', () => {
                 document.querySelector('.select2-search__field').focus();

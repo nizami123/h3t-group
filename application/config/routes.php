@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['finansial']='welcome/finansial';
 $route['produk']='welcome/produk';
+$route['servis']='Servis';
 $route['master-karyawan']='MasterKaryawan';
 $route['master-karyawan/simpan-data']='MasterKaryawan/createpost';
 $route['master-karyawan/jsonkar']='MasterKaryawan/jsonkar';
