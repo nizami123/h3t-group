@@ -227,8 +227,9 @@ class Pelunasan extends Auth
                 echo json_encode(['success' => false, 'message' => 'Gagal memperbarui data']);
             }
         } else {
+            $insert = $this->db->insert('tb_pelunasan', $data);
             // Jika no_pelunasan belum ada, lakukan insert
-            if ($this->db->insert('tb_pelunasan', $data)) {
+            if ($insert) {
                 $status_pem = ($bayar == $tagihan) ? 2 : 1;
                 $this->db->set('status_pem', $status_pem)
                         ->where('no_fm', $no_faktur)

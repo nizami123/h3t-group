@@ -141,6 +141,7 @@ class Penerimaan extends Auth
     $this->datatables->from('vbarangmasuk');
     $this->datatables->where('no_fm', $no_faktur);
     $this->datatables->where('status_pen', 0);
+    $this->datatables->where_in('status_pem', [1, 2]);
     return print_r($this->datatables->generate());
   }
   public function filtersupp($cab=null,$cabr=null, $tipe=null){

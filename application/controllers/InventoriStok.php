@@ -37,6 +37,8 @@ class InventoriStok extends Auth
     $this->datatables->select('id_masuk,tgl_masuk,nama_supplier,sn_brg,no_imei,hrg_hpp,hrg_jual,hrg_cashback,no_fm,nama_brg,spek,kondisi,status');
     $this->datatables->from('vbarangmasuk');
     $this->datatables->where('status <> 5');
+    $this->datatables->where('status_pen', 1);
+    $this->datatables->where_in('status_pem', [1, 2]);
     return print_r($this->datatables->generate());    
   }
   public function gensnacc(){
