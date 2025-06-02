@@ -331,8 +331,41 @@ function modalsView() {
                 `);
                 break;
             case 'detail':
-                $title.text('Detail Servis');
-                // $body.load(`${base_url}servis/detailservis/${id}`);
+                $title.text('Detail List Servis');
+				$body.html(`
+                    <form class="row g-3" id="form-detail-item" method="post">
+                        <div class="col-md-6">
+                            <label for="sn_brg" class="form-label">SN Barang</label>
+                            <input type="text" class="form-control" readonly id="sn_brg" name="sn_brg" value="${rowData.sn_brg}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nama_barang" class="form-label">Nama Barang</label>
+                            <input type="text" class="form-control" readonly id="nama_barang" name="nama_barang" value="${rowData.nama_brg}" readonly>
+                        </div>
+                        <div class="order-history table-responsive wishlist">
+                            <table class="table table-bordered" id="table-detail-item" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>SN Item</th>
+                                        <th>Item</th>
+                                        <th>Merk</th>
+                                        <th>Jenis</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-detail-item">
+                                    <tr class="empty-row" style="display: table-row;">
+                                        <td colspan="5" style="text-align:center; color: #888;">Tidak ada item</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="keterangan" class="form-label">Keterangan</label>
+                            <textarea class="form-control" readonly id="keterangan" name="keterangan" rows="3"></textarea>
+                        </div>
+                    </form>
+                `);
                 $footer.html(`
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 `);
