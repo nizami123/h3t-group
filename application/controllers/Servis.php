@@ -81,24 +81,33 @@ class Servis extends Auth
   }
   public function addDetailServis(){
     if ($this->input->is_ajax_request()) {
-      // Ambil input dari form (misal dari POST)
-      $id_masuk_utama = $this->input->post('id_masuk_utama');
-      $list_tumbal = $this->input->post('list_tumbal'); // Contoh: "1002,1003,1004"
+       $postData = $this->input->post();
+       
+      $sn_brg = $this->input->post('sn_brg');
+      $items = $this->input->post('items'); // JSON
       $keterangan = $this->input->post('keterangan');
-      $id_user = $this->session->userdata('id_user'); // misalnya ambil dari session login
+      $id_user = $this->session->userdata('id_user');
+     
 
       // Pastikan tidak null
-      if (!$id_masuk_utama || !$list_tumbal) {
-          echo 'Data tidak lengkap';
+      $decodedItems = json_decode($items, true);
+      if (!is_array($decodedItems)) {
+          echo json_encode(['status' => 'error', 'message' => 'Invalid items format']);
           return;
       }
 
+      $list_tumbal = implode(',', array_column($decodedItems, 'id'));
+
+      if (!$sn_brg || !$list_tumbal) {
+          echo json_encode(['status' => 'error', 'message' => 'Missing required data']);
+          return;
+      }
       // Jalankan stored procedure
       $sql = "CALL proses_service_baru(?, ?, ?, ?)";
-      $this->db->query($sql, array($id_masuk_utama, $list_tumbal, $keterangan, $id_user));
+      $this->db->query($sql, array($sn_brg, $list_tumbal, $keterangan, $id_user));
 
       // Cek apakah prosedur berhasil (jika pakai RETURN bisa dikembangkan)
-      echo 'Proses service berhasil';
+       echo json_encode(['status' => 'success', 'message' => 'Service process completed']);
     }else{
       show_404();
     }

@@ -337,8 +337,7 @@ function modalsView() {
                     const items = [];
                     $('#list-item tr[data-id]').each(function () {
                         items.push({
-                            id: $(this).data('id'),
-                            keterangan: $('#keterangan').val(),
+                            id: $(this).data('id')
                         });
                     });
                     var formData = new FormData($('#form-data')[0]);
@@ -352,13 +351,18 @@ function modalsView() {
                     // for (let pair of formData.entries()) {
                     //     console.log(pair[0]+ ':', pair[1]);
                     // }
-                    
+                    for (var pair of formData.entries()) {
+                        console.log(pair[0]+ ': ' + pair[1]);
+                    }
+
 
                     $.ajax({
                         url: base_url + 'servis/addDetailServis',
                         type: 'POST',
                         data: formData,
                         dataType: 'json',
+                        processData: false, // <-- wajib agar FormData tidak diproses jadi query string
+                        contentType: false, 
                         success: function (response) {
                             if (response.status === 'success') {
                                 swal("Berhasil", {
@@ -410,7 +414,6 @@ function modalsView() {
                                         <th>Item</th>
                                         <th>Merk</th>
                                         <th>Jenis</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="list-detail-item">
