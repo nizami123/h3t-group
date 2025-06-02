@@ -308,6 +308,15 @@
                         <?php } ?>
                     </ul>
                   </li>
+                  <li class="sidebar-list servis">
+                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav servis" href="<?=base_url()?>servis/">
+                      <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-icons"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-icons"></use>
+                      </svg><span>Servis</span></a>
+                  </li>
                   <!-- Penjualan -->
                   <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title sales" href="#">
@@ -316,7 +325,7 @@
                           </svg>
                           <svg class="fill-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
-                          </svg><span>Penjualan</span>
+                          </svg><span>Transaksi</span>
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
@@ -337,18 +346,30 @@
                           </svg>
                           <svg class="fill-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-widget"></use>
-                          </svg><span>Transaksi</span>
+                          </svg><span>Pembelian</span>
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>pembelian/">Pembelian</a></li>
+                          <li class="shst"><a class="shst" href="<?=base_url()?>pelunasan/">Pelunasan</a></li>
                           <li class="sprd"><a class="sprd" href="<?=base_url()?>penerimaan/">Penerimaan</a></li>
                           <li class="sprd"><a class="sprd" href="<?=base_url()?>pengecekan/">Pengecekan</a></li>
-                          <li class="seta"><a class="seta" href="<?=base_url()?>penjualan/">Penjualan</a></li>
-                          <li class="shst"><a class="shst" href="<?=base_url()?>pelunasan/">Pelunasan</a></li>
-                          <li class="shst"><a class="shst" href="<?=base_url()?>pembayaran/">Pembayaran</a></li>
                       </ul>
                   </li>
                   <!-- End Menu Toko -->
+                    <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title sales" href="#">
+                         <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                          </svg>
+                          <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                          </svg><span>Penjualan</span>
+                      </a>
+                      <ul class="sidebar-submenu">
+                          <li class="seta"><a class="seta" href="<?=base_url()?>penjualan/">Penjualan</a></li>
+                          <li class="shst"><a class="shst" href="<?=base_url()?>pembayaran/">Pembayaran</a></li>
+                      </ul>
+                  </li>
                 </ul>
               </div>
               <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
