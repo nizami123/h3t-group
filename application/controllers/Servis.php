@@ -65,6 +65,13 @@ class Servis extends Auth
     $this->datatables->from('listservice');
     return print_r($this->datatables->generate());
   }
+  public function tabledetailservis($id){
+    $this->load->library('datatables');
+    $this->datatables->select('id_masuk,sn_item,item,merk, jenis, keterangan');
+    $this->datatables->from('vdetailservice');
+    $this->datatables->where('id_masuk', $id);
+    return print_r($this->datatables->generate());
+  }
   public function getItemServis() {
     $searchTerm = $this->input->get('searchTerm');
 

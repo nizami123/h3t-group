@@ -429,6 +429,36 @@ function modalsView() {
                         </div>
                     </form>
                 `);
+                $body.find('#list-detail-item').empty();
+                $.ajax({
+                    url: base_url + 'servis/tabledetailservis/' + rowData.id_masuk,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        const items = response.data;
+                        if (items.length > 0) {
+                            $('#list-detail-item .empty-row').hide();
+                            items.forEach(item => {
+                                $('#list-detail-item').append(`
+                                    <tr data-id="${item.id_masuk}">
+                                        <td>${item.sn_item}</td>
+                                        <td>${item.item}</td>
+                                        <td>${item.merk}</td>
+                                        <td>${item.jenis}</td>
+                                    </tr>
+                                `);
+                            });
+                            $('#keterangan').val(items[0].keterangan || '');
+                        }
+                    },
+                    error: function () {
+                        swal("Error", "Terjadi kesalahan saat memuat detail servis.", {
+                            icon: "error",
+                            buttons: false,
+                            timer: 1000
+                        });
+                    }
+                });
                 $footer.html(`
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 `);
