@@ -321,18 +321,18 @@
                   <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title sales" href="#">
                           <svg class="stroke-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-task"></use>
                           </svg>
                           <svg class="fill-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-task"></use>
                           </svg><span>Transaksi</span>
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
                           <!-- <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li> -->
-                          <?php if ($jab=='OWNER') { ?>
+                          <?php //if ($jab=='OWNER') { ?>
                           <!-- <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li> -->
-                          <?php } ?>
+                          <?php //} ?>
                           <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional' || $jab=='KEPALA CABANG') { ?>
                           <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
                           <?php } ?>
