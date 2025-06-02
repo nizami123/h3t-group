@@ -79,6 +79,30 @@ class Servis extends Auth
 
     echo json_encode($query->result());
   }
+  public function addDetailServis(){
+    if ($this->input->is_ajax_request()) {
+      // Ambil input dari form (misal dari POST)
+      $id_masuk_utama = $this->input->post('id_masuk_utama');
+      $list_tumbal = $this->input->post('list_tumbal'); // Contoh: "1002,1003,1004"
+      $keterangan = $this->input->post('keterangan');
+      $id_user = $this->session->userdata('id_user'); // misalnya ambil dari session login
+
+      // Pastikan tidak null
+      if (!$id_masuk_utama || !$list_tumbal) {
+          echo 'Data tidak lengkap';
+          return;
+      }
+
+      // Jalankan stored procedure
+      $sql = "CALL proses_service_baru(?, ?, ?, ?)";
+      $this->db->query($sql, array($id_masuk_utama, $list_tumbal, $keterangan, $id_user));
+
+      // Cek apakah prosedur berhasil (jika pakai RETURN bisa dikembangkan)
+      echo 'Proses service berhasil';
+    }else{
+      show_404();
+    }
+  }
 
 
 }

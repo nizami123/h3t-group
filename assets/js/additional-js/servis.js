@@ -329,6 +329,66 @@ function modalsView() {
                             <span id="tx_submitBtn">Simpan</span>
                         </button>
                 `);
+                $footer.find('#submitBtn').on('click', function (e) {
+                    e.preventDefault();
+                    const $this = $(this);
+                    const $spinner = $this.find('#spinner_submitBtn');
+                    const $text = $this.find('#tx_submitBtn');
+                    const items = [];
+                    $('#list-item tr[data-id]').each(function () {
+                        items.push({
+                            id: $(this).data('id'),
+                            keterangan: $('#keterangan').val(),
+                        });
+                    });
+                    var formData = new FormData($('#form-data')[0]);
+                    formData.append('items', JSON.stringify(items));
+                    formData.append('keterangan', $('#keterangan').val());
+
+                    $spinner.removeClass('d-none');
+                    $text.addClass('d-none');
+
+                    // To display FormData contents in console:
+                    // for (let pair of formData.entries()) {
+                    //     console.log(pair[0]+ ':', pair[1]);
+                    // }
+                    
+
+                    $.ajax({
+                        url: base_url + 'servis/addDetailServis',
+                        type: 'POST',
+                        data: formData,
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                swal("Berhasil", {
+                                    icon: "success",
+                                    buttons: false,
+                                    timer: 1000
+                                });
+                                tableSRV.ajax.reload();
+                                $modal.modal('hide');
+                            } else {
+                                swal("Gagal", response.message, {
+                                    icon: "error",
+                                    buttons: false,
+                                    timer: 1000
+                                });
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menyimpan data.", {
+                                icon: "error",
+                                buttons: false,
+                                timer: 1000
+                            });
+                        },
+                        complete: function () {
+                            $spinner.addClass('d-none');
+                            $text.removeClass('d-none');
+                        }
+                    });
+                });
                 break;
             case 'detail':
                 $title.text('Detail List Servis');
