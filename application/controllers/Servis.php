@@ -119,6 +119,16 @@ class Servis extends Auth
       show_404();
     }
   }
+  public function approveData(){
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('id');
+      $this->db->where('id_masuk', $id);
+      $this->db->update('tb_pengecekan', ['status_cek' => '1']);
+      echo json_encode(['status' => 'success', 'message' => 'Service approved successfully']);
+    }else{
+      show_404();
+    }
+  }
 
 
 }

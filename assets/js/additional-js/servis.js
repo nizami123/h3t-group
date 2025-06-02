@@ -91,6 +91,49 @@ function tablesrv() {
         ]
             
     });
+    $('#table-servis tbody').on('click', 'button.selesai-button', function () {
+        var id_masuk = $(this).data('id');
+        swal({
+            title: "Konfirmasi",
+            text: "Apakah Anda yakin ingin untuk approve?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: base_url + 'servis/approveData',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: id_masuk },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            swal("Berhasil", {
+                                icon: "success",
+                                buttons: false,
+                                timer: 1000
+                            });
+                            tableSRV.ajax.reload();
+                        } else {
+                            swal("Gagal", response.message, {
+                                icon: "error",
+                                buttons: false,
+                                timer: 1000
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal("Error", "Terjadi kesalahan saat menyelesaikan servis.", {
+                            icon: "error",
+                            buttons: false,
+                            timer: 1000
+                        });
+                    }
+                });
+            }
+        });
+    }
+    );
     // $('#table-pengecekan tbody').on('click', 'td.dt-expand', function (e) {
     //     let tr = e.target.closest('tr');
     //     let row = tableCD.row(tr);
