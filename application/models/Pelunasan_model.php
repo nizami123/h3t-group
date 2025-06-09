@@ -7,7 +7,7 @@ class Pelunasan_model extends CI_Model {
   public function getLastID() {
     $this->db->select('id_pelunasan');
     $this->db->from('tb_pelunasan');
-    $this->db->order_by('id_pelunasan', 'asc');
+    $this->db->order_by('id_pelunasan', 'desc');
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();

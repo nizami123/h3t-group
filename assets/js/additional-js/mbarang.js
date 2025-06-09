@@ -206,6 +206,22 @@ function getid(){
                 $.each(data.get_id, function(index, item) {
                     $("#e_id_brg").val(item.id_brg);
                     $("#e_merk").empty().append('<option value="' + item.merk + '">' + item.merk + '</option>').trigger('change.select2');
+                    $("#e_tipe").empty().append(`
+                        <option value="0">Pilih Tipe</option>
+                        <option value="Unit">Unit</option>
+                        <option value="Accesoris">Accesoris</option>
+                        <option value="Software">Software</option>
+                    `);
+
+                    // Jika item.tipe sudah ada dalam opsi di atas, set nilainya saja
+                    $("#e_tipe").val(item.tipe).trigger('change.select2');
+
+                    // Jika tidak ada dalam opsi, tambahkan dulu
+                    if ($("#e_tipe option[value='" + item.tipe + "']").length === 0) {
+                        $("#e_tipe").append('<option value="' + item.tipe + '">' + item.tipe + '</option>');
+                    }
+                    $("#e_tipe").val(item.tipe).trigger('change.select2');
+
                     $("#e_jenis").empty().append('<option value="' + item.jenis + '">' + item.jenis + '</option>').trigger('change.select2');
                     $("#e_warna").empty().append('<option value="' + item.warna + '">' + item.warna + '</option>').trigger('change.select2');
                     $("#e_nama_brg").val(item.nama_brg);
@@ -494,8 +510,9 @@ function add(){
         var merk = $("#brandproduk").val();
         var jenis = $("#jenisproduk").val();
         var warna = $("#warnaproduk").val();
+        var tipe = $("#tipeproduk").val();
         var nama = $("#NamaProduk").val();
-        if (!jenis || !merk || !nama || !warna) {
+        if (!jenis || !merk || !nama || !warna || !tipe) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
@@ -506,6 +523,7 @@ function add(){
                 id_brg: $("#idproduk").val(),
                 merk: $("#brandproduk").val(),
                 jenis: $("#jenisproduk").val(),
+                tipe: $("#tipeproduk").val(),
                 warna: $("#warnaproduk").val(),
                 nama_brg: $("#NamaProduk").val(),
             },
@@ -518,6 +536,7 @@ function add(){
                     generate();
                     $("#brandproduk").val('0').trigger('change.select2');
                     $("#jenisproduk").val('0').trigger('change.select2');
+                    $("#tipeproduk").val('0').trigger('change.select2');
                     $("#warnaproduk").val('0').trigger('change.select2');
                     $("#NamaProduk").val('');
                     reload();

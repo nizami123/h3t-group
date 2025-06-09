@@ -149,7 +149,8 @@ class Pelunasan extends Auth
           $update = $this->db->update('tb_pelunasan', $data);
           
           if ($update) {
-              $status_pem = ($bayar == $tagihan) ? 2 : 1;
+              $status_pem = ($bayar == 0) ? 3 : (($bayar == $tagihan) ? 2 : 1);
+
               $this->db->set('status_pem', $status_pem)
                       ->where('no_fm', $no_faktur)
                       ->update('tb_brg_masuk');
@@ -161,7 +162,8 @@ class Pelunasan extends Auth
       } else {
           // Jika no_pelunasan belum ada, lakukan insert
           if ($this->db->insert('tb_pelunasan', $data)) {
-              $status_pem = ($bayar == $tagihan) ? 2 : 1;
+              $status_pem = ($bayar == 0) ? 3 : (($bayar == $tagihan) ? 2 : 1);
+
               $this->db->set('status_pem', $status_pem)
                       ->where('no_fm', $no_faktur)
                       ->update('tb_brg_masuk');
@@ -204,12 +206,13 @@ class Pelunasan extends Auth
           'total_tagihan' => $tagihan,
           'jumlah' => $bayar,
           'ispost' => '1',
+          'jenis_transaksi' => 'Pembelian',
           'id_user' => $this->session->userdata('id_user'),
           'created_on' => date('Y-m-d H:i:s')
       ];
 
     // Cek apakah no_pelunasan sudah ada di database
-        $existing = $this->db->get_where('tb_pelunasan', ['id_pelunasan' => $data['id_pelunasan']])->row();
+        $existing = $this->db->get_where('tb_pelunasan', ['id_pelunasan' => $data['id_pelunasan'],])->row();
 
         if ($existing) {
             // Jika no_pelunasan sudah ada, lakukan update
@@ -217,7 +220,8 @@ class Pelunasan extends Auth
             $update = $this->db->update('tb_pelunasan', $data);
             
             if ($update) {
-                $status_pem = ($bayar == $tagihan) ? 2 : 1;
+                $status_pem = ($bayar == 0) ? 3 : (($bayar == $tagihan) ? 2 : 1);
+
                 $this->db->set('status_pem', $status_pem)
                         ->where('no_fm', $no_faktur)
                         ->update('tb_brg_masuk');
@@ -230,7 +234,8 @@ class Pelunasan extends Auth
             $insert = $this->db->insert('tb_pelunasan', $data);
             // Jika no_pelunasan belum ada, lakukan insert
             if ($insert) {
-                $status_pem = ($bayar == $tagihan) ? 2 : 1;
+                $status_pem = ($bayar == 0) ? 3 : (($bayar == $tagihan) ? 2 : 1);
+
                 $this->db->set('status_pem', $status_pem)
                         ->where('no_fm', $no_faktur)
                         ->update('tb_brg_masuk');

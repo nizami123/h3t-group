@@ -41,10 +41,19 @@
                                     <input class="form-control" id="e_id_brg" name="e_id_brg"  type="text" aria-label="idproduk" required readonly>
                                 </div>
                                 <!-- Nama Produk -->
-                                <div class="col-md-10 position-relative">
+                                <div class="col-md-6 position-relative">
                                     <label class="form-label" for="NamaProduk">Nama Produk</label>
                                     <input class="form-control" id="e_nama_brg" name="e_nama_brg" type="text" placeholder="Silahkan Masukkan Nama Produk" required>
-                                </div>                                
+                                </div>    
+                                <div class="col-md-4 position-relative"> 
+                                    <label class="form-label" for="brandproduk">Type</label>
+                                    <select class="form-select" id="e_tipe" name="e_tipe" required="">
+                                        <option selected="" value="0">Pilih Tipe</option>
+                                        <option value="Unit">Unit</option>
+                                        <option value="Accesoris">Accesoris</option>
+                                        <option value="Software">Software</option>
+                                    </select>
+                                </div>                            
                                 <!-- Brand Product -->
                                 <div class="col-md-4 position-relative"> 
                                     <label class="form-label" for="brandproduk">Merek</label>

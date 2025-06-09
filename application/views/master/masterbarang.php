@@ -36,9 +36,18 @@
                                   </div>
                                   
                                   <!-- Nama Produk -->
-                                  <div class="col-md-10 position-relative">
+                                  <div class="col-md-7 position-relative">
                                       <label class="form-label" for="NamaProduk">Nama Produk</label>
                                       <input class="form-control" id="NamaProduk" name="nama_brg" type="text" placeholder="Silahkan Masukkan Nama Produk" required>
+                                  </div>
+                                  <div class="col-md-3 position-relative"> 
+                                      <label class="form-label" for="tipeproduk">Type</label>
+                                      <select class="form-select" id="tipeproduk" name="tipe" required="">
+                                          <option selected="" disabled="" value="0">Pilih Tipe</option>
+                                          <option value="Unit">Unit</option>
+                                          <option value="Accesoris">Accesoris</option>
+                                          <option value="Software">Software</option>
+                                      </select>
                                   </div>
 
                                   <!-- Brand Product -->
@@ -56,7 +65,6 @@
                                           <a class="btn badge-light-primary f-w-500" type="button" data-type="MRK" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" onclick="changeInputName('SubKategoriItem', 'newmerk')"><i class="fa fa-plus"></i></a>
                                       </div>
                                   </div>
-
                                   <!-- Jenis Product -->
                                   <div class="col-md-3 position-relative"> 
                                       <label class="form-label" for="jenisproduk">Jenis</label>

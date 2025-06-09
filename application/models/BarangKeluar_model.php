@@ -20,7 +20,7 @@ class BarangKeluar_model extends CI_Model {
     $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual'])
              ->from('vbarangready AS vm')
              ->where('vm.kondisi','Baru')
-             ->where('vm.jenis_barang', 'UNIT');
+             ->where('vm.tipe', 'Unit');
     if ($searchTerm) {
         $this->db->group_start();
         $this->db->like('vm.sn_brg', $searchTerm);
@@ -38,7 +38,7 @@ class BarangKeluar_model extends CI_Model {
     $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual'])
              ->from('vbarangready AS vm')
              ->where('vm.kondisi','Bekas')
-             ->where('vm.jenis_barang', 'UNIT');
+             ->where('vm.tipe', 'Unit');
     if ($searchTerm) {
         $this->db->group_start();
         $this->db->like('vm.sn_brg', $searchTerm);
@@ -55,7 +55,7 @@ class BarangKeluar_model extends CI_Model {
   public function getBrgacc($searchTerm = null) {
     $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual','count(vm.merk) as total_acc'])
              ->from('vbarangready AS vm')
-             ->where('vm.jenis_barang', 'ACC');
+             ->where('vm.tipe', 'Accesoris');
     if ($searchTerm) {
         $this->db->group_start();
         $this->db->like('vm.nama_brg', $searchTerm);

@@ -76,7 +76,7 @@ function tablecd() {
                         } else if(data==="2"){
                             return `<span class="badge rounded-pill badge-success">LUNAS</span>`;
                         } else if(data==="3"){
-                            return `<span class="badge rounded-pill badge-warning">BATAL</span>`;
+                            return `<span class="badge rounded-pill badge-warning">INDENT</span>`;
                         } else if(data==="9"){
                             return `<span class="badge rounded-pill badge-warning">GESTUN</span>`;
                         }

@@ -111,10 +111,10 @@ class MasterBarang extends Auth
         'merk'      => $this->input->post('merk'),
         'jenis'      => $this->input->post('jenis'),
         'warna'      => $this->input->post('warna'),
+        'tipe'      => $this->input->post('tipe'),
         'nama_brg'      => $this->input->post('nama_brg'),
         'status'      => '1',
       ];
-      
       $this->Mbarang_model->create($data);
       echo json_encode(['status' => 'success']);
     } else {
@@ -191,6 +191,7 @@ class MasterBarang extends Auth
         'merk'      => $this->input->post('e_merk'),
         'jenis'      => $this->input->post('e_jenis'),
         'warna'      => $this->input->post('e_warna'),
+        'tipe'      => $this->input->post('e_tipe'),
         'nama_brg'      => $this->input->post('e_nama_brg'),
         'status'      => '1',
       ];
