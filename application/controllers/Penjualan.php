@@ -78,7 +78,7 @@ class Penjualan extends Auth
   }
   public function detailsales($id) {
     $this->load->library('datatables');
-    $this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon as diskon,harga_bayar as harga_ril,harga_cashback');
+    $this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon as diskon,harga_bayar as harga_ril,harga_cashback,jasa,jml_donasi');
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',[1,2]);
     $this->datatables->where('id_ksr',$id);

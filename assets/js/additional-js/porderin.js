@@ -132,6 +132,13 @@ function tabledt(id) {
                     return formatcur.format(data);
                 }
             },
+            { 
+                "data": "jml_donasi",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { "data": "jasa" },
             { "data": "tipe_penjualan" },          
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +

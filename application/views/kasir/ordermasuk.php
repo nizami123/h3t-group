@@ -127,6 +127,8 @@
                                                     <th><span class="f-light f-w-600">SN PRODUK</span></th>
                                                     <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
                                                     <th><span class="f-light f-w-600">NOMINAL</span></th>
+                                                    <th><span class="f-light f-w-600">JASA</span></th>
+                                                    <th><span class="f-light f-w-600">KETERANGAN</span></th>
                                                     <th><span class="f-light f-w-600">PENJUALAN</span></th>
                                                 </tr>
                                             </thead>

@@ -94,7 +94,7 @@ class PenOrderIn extends Auth
     $currentDate = date('Y-m-d');
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan,sn_brg,nama_brg,
-    DATE_FORMAT(tgl_transaksi, "%Y-%m-%d") AS format_tgl,harga_bayar,status,tipe_penjualan,id_toko,nama_admin,nama_ksr');
+    DATE_FORMAT(tgl_transaksi, "%Y-%m-%d") AS format_tgl,harga_bayar,status,tipe_penjualan,id_toko,nama_admin,nama_ksr,jasa,jml_donasi');
     $this->datatables->from('vpenjualan');
     $this->datatables->where('id_toko',$idt);
     $this->datatables->where('DATE(tgl_transaksi)', $currentDate);
