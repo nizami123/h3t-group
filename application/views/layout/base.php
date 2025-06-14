@@ -329,13 +329,9 @@
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
-                          <!-- <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li> -->
-                          <?php //if ($jab=='OWNER') { ?>
-                          <!-- <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li> -->
-                          <?php //} ?>
-                          <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional' || $jab=='KEPALA CABANG') { ?>
+                          <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li>
+                          <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
                           <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
-                          <?php } ?>
                       </ul>
                   </li>
                   <!-- Pelunasan -->
