@@ -65,9 +65,14 @@
                                     </select>
                                   </div>                                                             
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-2 position-relative"> 
                                     <label class="form-label" for="hjProduk">Harga Jual</label>
                                     <input class="form-control" id="hjbaru" type="text" name="hjbaru" placeholder="Masukkan Harga Jual" aria-label="hjProduk" onkeyup="formatRupiah(this)" required="">
+                                  </div>
+                                   <!-- Tanggal Catatan -->
+                                  <div class="col-2 position-relative"> 
+                                    <label class="form-label" for="tempo">Jatuh Tempo</label>
+                                    <input class="form-control digits" id="tempo" name="tempo" type="date">
                                   </div>
                                   <div class="col-2 position-relative"> 
                                     <label class="form-label" for="jumlah">Jumlah</label>

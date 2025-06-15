@@ -66,7 +66,7 @@
                                             <option value="Tunai" <?= ($pelunasan->metode == 'Tunai') ? 'selected' : '' ?>>Tunai</option>
                                             <option value="CC" <?= ($pelunasan->metode == 'CC') ? 'selected' : '' ?>>CC</option>
                                             <option value="Voucher" <?= ($pelunasan->metode == 'Voucher') ? 'selected' : '' ?>>Voucher</option>
-                                            <option value="Indent" <?= ($pelunasan->metode == 'Indent') ? 'selected' : '' ?>>Indent</option>
+                                            <option value="Tempo" <?= ($pelunasan->metode == 'Tempo') ? 'selected' : '' ?>>Tempo</option>
                                         </select>
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>

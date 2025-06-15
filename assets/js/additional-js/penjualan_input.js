@@ -493,6 +493,7 @@ function addmb() {
         var fk = $("#fakturbarang").val();
         var brg = $("#prodbaru").val();
         var hj = $("#hjbaru").val();
+        var tempo = $("#tempo").val();
         var diskon = $("#diskon").val();
         var jumlah = $("#jumlah").val();
         var ket = $("#keterangan").val();
@@ -511,6 +512,7 @@ function addmb() {
                 nofakbaru: fk,
                 prodbaru: brg,
                 hjbaru: genhj,
+                tempo: tempo,
                 diskon: diskonbr,
                 jumlah: jumlah,
                 ket: ket,

@@ -66,6 +66,7 @@
                                             <option value="Tunai">Tunai</option>
                                             <option value="CC">CC</option>
                                             <option value="Voucher">Voucher</option>
+                                            <option value="Tempo">Tempo</option>
                                         </select>
                                         <div class="valid-tooltip">Looks good!</div>
                                     </div>

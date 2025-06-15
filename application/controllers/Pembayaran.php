@@ -204,6 +204,7 @@ class Pembayaran extends Auth
           'total_tagihan' => $tagihan,
           'jumlah' => $bayar,
           'ispost' => '1',
+          'jenis_transaksi' => 'Penjualan',
           'id_user' => $this->session->userdata('id_user'),
           'created_on' => date('Y-m-d H:i:s')
       ];

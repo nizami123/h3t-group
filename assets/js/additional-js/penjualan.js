@@ -57,6 +57,7 @@ function tablejl() {
             },
             { "data": "nama_plg" },
             { "data": "alamat" },
+            { "data": "tempo" },
             { 
                 "data": "total",
                 "render": function (data, type, row) {

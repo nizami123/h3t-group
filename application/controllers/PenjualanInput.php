@@ -162,6 +162,7 @@ class PenjualanInput extends Auth
         'keterangan'      => $this->input->post('ket'),
         'jml'      => $this->input->post('jumlah'),
         'diskon'      => $this->input->post('diskon'),
+        'tempo'      => $this->input->post('tempo'),
         'total'     => $total,
         'status'      => '0',
       ];
@@ -172,7 +173,7 @@ class PenjualanInput extends Auth
         echo json_encode(['status' => 'exists']);
       }
     } else {
-      redirect('master-barang');
+      redirect('penjualan-input');
     }
   }
 

@@ -170,7 +170,7 @@
                                       <p class="text-muted"><?=$sc['id_toko']?></p>
                                   </div>
                               </div>
-                              <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store-dh.png" alt="store-produk-dh">
+                              <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store.png" alt="store-produk-dh">
                                 <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
                               </div>
                             </div>

@@ -279,7 +279,7 @@ function table_etalase() {
     var bayar = parseInt($('#bayar').val().replace(/[^0-9]/g, '')) || 0;
 
     // Validasi: Cek apakah ada kolom yang kosong
-    if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek || tagihan === 0 ||  (bayar === 0 && metode !== 'Indent')) {
+    if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek ) {
         swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
         return;
     }
@@ -333,7 +333,7 @@ function table_etalase() {
         var bayar = parseInt($('#bayar').val().replace(/[^0-9]/g, '')) || 0;
     
         // Validasi: Cek apakah ada kolom yang kosong
-        if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek || tagihan === 0 || bayar === 0) {
+        if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek || tagihan === 0 ) {
             swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
             return;
         }
