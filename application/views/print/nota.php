@@ -99,6 +99,7 @@
 <div class="info-pelanggan">
     <strong>Kepada Yth:</strong><br>
     <?= $header->nama_plg ?><br>
+    <?= $header->no_telp ?><br>
     <?= nl2br($header->alamat) ?>
 </div>
 
