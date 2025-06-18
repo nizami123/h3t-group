@@ -266,17 +266,25 @@ function modalsView() {
                 $title.text('Tambah Detail Servis');
                 $body.html(`
                     <form class="row g-3" id="form-data" method="post">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="sn_brg" class="form-label">SN Barang</label>
                             <input type="text" class="form-control" readonly id="sn_brg" name="sn_brg" value="${rowData.sn_brg}" readonly>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="nama_barang" class="form-label">Nama Barang</label>
                             <input type="text" class="form-control" readonly id="nama_barang" name="nama_barang" value="${rowData.nama_brg}" readonly>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label for="tgl_servis" class="form-label">Tanggal Servis</label>
+                            <input type="date" class="form-control" id="tgl_servis" name="tgl_servis">
+                        </div>
+                        <div class="col-md-8">
                             <label for="sel_srv" class="form-label">Item Servis</label>
                             <select class="form-select" id="sel_srv" name="sel_srv"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="sel_mekanik" class="form-label">Pilih Teknisi</label>
+                            <select class="form-select" id="sel_mekanik" name="sel_mekanik"></select>
                         </div>
                         <div class="order-history table-responsive wishlist">
                             <table class="table table-bordered" id="table-item" width="100%">
@@ -299,6 +307,10 @@ function modalsView() {
                         <div class="col-md-12">
                             <label for="keterangan" class="form-label">Keterangan</label>
                             <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="nominal" class="form-label">Nominal Servis Total</label>
+                            <input type="text" class="form-control" id="nominal" name="nominal">
                         </div>
                     </form>
                 `);

@@ -82,6 +82,22 @@ class Servis extends Auth
         $this->db->like('sn_brg', $searchTerm);
         $this->db->or_like('nama_brg', $searchTerm);
     }
+    $this->db->where('tipe', 'Accesoris'); // Only items with status 1
+    $query = $this->db->get();
+
+    echo json_encode($query->result());
+  }
+  public function getTeknisiServis() {
+    $searchTerm = $this->input->get('searchTerm');
+
+    // Build query: search by SN or item name
+    $this->db->select('id_user, nama_lengkap, role_user, jabatan');
+    $this->db->from('tb_user');
+    if (!empty($searchTerm)) {
+        $this->db->like('nama_lengkap', $searchTerm);
+    }
+    $this->db->where('role_user', 'TEKNISI');
+    $this->db->where('jabatan', 'TEKNISI');
     $query = $this->db->get();
 
     echo json_encode($query->result());
