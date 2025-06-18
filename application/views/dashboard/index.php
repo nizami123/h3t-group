@@ -260,7 +260,59 @@
                         </div>
                       </div>
                     </a>
-                  </div>                  
+                  </div>       
+                  <!-- Total Service -->
+<div class="col-md-6 col-sm-6">
+    <a href="#" class="cts" data-bs-toggle="modal" data-bs-target="#DetailService" data-total_supp="33">
+      <div class="card widget-hover overflow-hidden">
+        <div class="card-header card-no-border pb-2">
+          <h5>Total Service</h5>
+        </div>
+        <div class="card-body pt-0 count-student">
+          <div class="school-wrapper"> 
+            <div class="school-header">
+              <div class="spinner-border text-primary d-none" role="status" id="spints">
+                <span class="visually-hidden"></span>
+              </div>
+              <h4 class="text-warning" id="countts">-</h4>
+              <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
+                  <p class="text-muted">Realtime Updated</p>
+              </div>
+            </div>
+            <div class="school-body"><img src="<?=base_url()?>assets/images/inventoriassets/service-logo.png" alt="akira.id">
+              <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+</div> 
+<!-- Piutang Customer -->
+ <div class="col-md-6 col-sm-6">
+    <a href="#" class="cts" data-bs-toggle="modal" data-bs-target="#DetailPiutangCS" data-total_supp="33">
+      <div class="card widget-hover overflow-hidden">
+        <div class="card-header card-no-border pb-2">
+          <h5>Total Piutang Customer</h5>
+        </div>
+        <div class="card-body pt-0 count-student">
+          <div class="school-wrapper"> 
+            <div class="school-header">
+              <div class="spinner-border text-primary d-none" role="status" id="spints">
+                <span class="visually-hidden"></span>
+              </div>
+              <h4 class="text-warning" id="countts">-</h4>
+              <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
+                  <p class="text-muted">Realtime Updated</p>
+              </div>
+            </div>
+            <div class="school-body"><img src="<?=base_url()?>assets/images/inventoriassets/piutang-cs.png" alt="akira.id">
+              <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+</div>           
                   <!-- Card Barang Masuk -->
                   <div class="col-md-4 col-sm-6">
                     <a href="#" id="cardpmg">
