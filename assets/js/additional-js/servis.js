@@ -276,7 +276,7 @@ function modalsView() {
                         </div>
                         <div class="col-md-4">
                             <label for="tgl_servis" class="form-label">Tanggal Servis</label>
-                            <input type="date" class="form-control" id="tgl_servis" name="tgl_servis">
+                            <input type="date" class="form-control" id="tgl_servis" name="tgl_servis" required>
                         </div>
                         <div class="col-md-8">
                             <label for="sel_srv" class="form-label">Item Servis</label>
@@ -284,7 +284,7 @@ function modalsView() {
                         </div>
                         <div class="col-md-4">
                             <label for="sel_mekanik" class="form-label">Pilih Teknisi</label>
-                            <select class="form-select" id="sel_mekanik" name="sel_mekanik"></select>
+                            <select class="form-select" id="sel_mekanik" name="sel_mekanik" required></select>
                         </div>
                         <div class="order-history table-responsive wishlist">
                             <table class="table table-bordered" id="table-item" width="100%">
@@ -310,10 +310,37 @@ function modalsView() {
                         </div>
                         <div class="col-md-12">
                             <label for="nominal" class="form-label">Nominal Servis Total</label>
-                            <input type="text" class="form-control" id="nominal" name="nominal">
+                            <input type="text" class="form-control" id="nominal" name="nominal" onkeyup="formatRupiah(this)" required>
                         </div>
                     </form>
                 `);
+				$body.find('#sel_mekanik').select2({
+                    language: 'id',
+                    dropdownParent: $modal,
+                    width: '100%',
+                    placeholder: 'Pilih Item Servis',
+                    ajax: {
+                        url: base_url + 'servis/getTeknisiServis',
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                searchTerm: params.term // search term
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: $.map(data, function (item) {
+                                    return {
+                                        id: item.id_user,
+                                        text: item.nama_lengkap,
+                                    };
+                                }),
+                            };
+                        },
+                        cache: false
+                    }
+                });
                 $body.find('#sel_srv').select2({
                     language: 'id',
                     dropdownParent: $modal,

@@ -110,6 +110,9 @@ class Servis extends Auth
       $items = $this->input->post('items'); // JSON
       $keterangan = $this->input->post('keterangan');
       $id_user = $this->session->userdata('id_user');
+			$tgl_servis = $this->input->post('tgl_servis');
+			$teknisi = $this->input->post('sel_mekanik');
+			$nominal = $this->input->post('nominal');
      
 
       // Pastikan tidak null
