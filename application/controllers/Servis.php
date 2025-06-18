@@ -112,7 +112,8 @@ class Servis extends Auth
       $id_user = $this->session->userdata('id_user');
 			$tgl_servis = $this->input->post('tgl_servis');
 			$teknisi = $this->input->post('sel_mekanik');
-			$nominal = $this->input->post('nominal');
+      $nominal = str_replace('.', '', $this->input->post('nominal'));
+
      
 
       // Pastikan tidak null
@@ -129,8 +130,8 @@ class Servis extends Auth
           return;
       }
       // Jalankan stored procedure
-      $sql = "CALL proses_service_baru(?, ?, ?, ?)";
-      $this->db->query($sql, array($sn_brg, $list_tumbal, $keterangan, $id_user));
+      $sql = "CALL proses_service_baru(?, ?, ?, ?, ?, ?, ?)";
+      $this->db->query($sql, array($sn_brg, $list_tumbal, $keterangan, $id_user, $tgl_servis, $teknisi, $nominal));
 
       // Cek apakah prosedur berhasil (jika pakai RETURN bisa dikembangkan)
        echo json_encode(['status' => 'success', 'message' => 'Service process completed']);
