@@ -34,7 +34,8 @@ class Servis extends Auth
             height: 37px !important;
         }
     </style>';
-    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
+    $data['js'] = '<script>var base_url = "' . base_url() . '";
+		const userRole = "'.$this->session->userdata('role_user').'";</script>
     <script src="' . base_url('assets/js/additional-js/servis.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
@@ -67,7 +68,7 @@ class Servis extends Auth
   }
   public function tabledetailservis($id){
     $this->load->library('datatables');
-    $this->datatables->select('id_masuk,sn_item,item,merk, jenis, keterangan');
+    $this->datatables->select('id_masuk,sn_item,item,merk, jenis, keterangan, tgl_servis,nominal_teknisi,nama_lengkap');
     $this->datatables->from('vdetailservice');
     $this->datatables->where('id_masuk', $id);
     return print_r($this->datatables->generate());

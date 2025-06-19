@@ -4,10 +4,14 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     currency: 'IDR',
     minimumFractionDigits: 0
 });
-var monthNames = [
-    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-];
+function formatDateIndo(dateString) {
+	const date = new Date(dateString);
+	const day = String(date.getDate()).padStart(2, "0");
+	const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+	const month = months[date.getMonth()];
+	const year = date.getFullYear();
+	return `${day} ${month} ${year}`;
+}
 $(document).ready(function() {
     tablesrv();
     modalsView();
@@ -40,24 +44,42 @@ function tablesrv() {
             },
             { "data": "nama_brg" },
             { "data": "merk" },
-            { "data": "id_masuk",
-                "render": function (data, type, row) {
-                    return `
-                        <ul class="action">
-                            <li class="delete">
-                                <button class="btn servis-button" type="button" data-action="add" data-bs-toggle="modal" data-bs-target="#modalsView"><i class="fa fa-gear"></i></button>
-                            </li>
-                            <li class="edit">
-                                <button class="btn selesai-button" type="button" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
-                            </li>
-                            <li class="delete">
-                                <button class="btn" type="button" data-action="detail" data-bs-toggle="modal" data-bs-target="#modalsView"><i class="fa fa-info-circle"></i></button>
-                            </li>
-                        </ul>
-                    `;
-                },
-                "orderable": false
-            },
+			{
+				"data": "id_masuk",
+				"render": function (data, type, row) {
+					let html = `
+						<ul class="action">
+							<li class="delete">
+								<button class="btn servis-button" type="button" data-action="add" data-bs-toggle="modal" data-bs-target="#modalsView">
+									<i class="fa fa-gear"></i>
+								</button>
+							</li>
+					`;
+			
+					if (userRole === 'OWNER' || userRole === 'QC') {
+						html += `
+							<li class="edit">
+								<button class="btn selesai-button" type="button" data-id="${data}">
+									<i class="icofont icofont-ui-check"></i>
+								</button>
+							</li>
+						`;
+					}
+			
+					html += `
+							<li class="delete">
+								<button class="btn" type="button" data-action="detail" data-bs-toggle="modal" data-bs-target="#modalsView">
+									<i class="fa fa-info-circle"></i>
+								</button>
+							</li>
+						</ul>
+					`;
+			
+					return html;
+				},
+				"orderable": false
+			}
+			
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-4'B>>" +
@@ -496,6 +518,9 @@ function modalsView() {
                                         <th>Item</th>
                                         <th>Merk</th>
                                         <th>Jenis</th>
+										<th>Tanggal</th>
+										<th>Total Jasa</th>
+										<th>Teknisi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="list-detail-item">
@@ -527,6 +552,9 @@ function modalsView() {
                                         <td>${item.item}</td>
                                         <td>${item.merk}</td>
                                         <td>${item.jenis}</td>
+                                        <td>${formatDateIndo(item.tgl_servis)}</td>
+                                        <td>${formatcur.format(item.nominal_teknisi)}</td>
+                                        <td>${item.nama_lengkap}</td>
                                     </tr>
                                 `);
                             });
