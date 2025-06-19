@@ -228,6 +228,33 @@ class PembelianInput extends Auth
     }
   }
 
+   public function hapus($id_m) {
+        // Validasi ID
+        if (empty($id_m) || !is_numeric($id_m)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'ID tidak valid.'
+            ]);
+            return;
+        }
+
+        // Lakukan penghapusan langsung di controller
+        $this->db->where('id_masuk', $id_m); // Ganti 'id' jika nama kolom utamamu berbeda
+        $this->db->delete('tb_brg_masuk'); // Ganti 'pembelian' sesuai nama tabel di database
+
+        if ($this->db->affected_rows() > 0) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Data berhasil dihapus.'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data gagal dihapus atau ID tidak ditemukan.'
+            ]);
+        }
+    }
+
   public function deletepost($id) {
     // Get the 'sn_brg' value from the database
     $getsn = $this->db->select('sn_brg')->from('tb_brg_masuk')->where('id_masuk', $id)->get();
