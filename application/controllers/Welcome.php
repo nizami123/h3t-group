@@ -152,6 +152,16 @@ class Welcome extends Auth {
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
+	public function tservice() {
+		$results = $this->Welcome_model->countservice();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tpiutang() {
+		$results = $this->Welcome_model->countpiutang();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
 	public function topsales() {
 		$results = $this->Welcome_model->countTopSales();
 		header('Content-Type: application/json');

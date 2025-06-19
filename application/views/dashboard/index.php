@@ -263,7 +263,7 @@
                   </div>       
                   <!-- Total Service -->
 <div class="col-md-6 col-sm-6">
-    <a href="#" class="cts" data-bs-toggle="modal" data-bs-target="#DetailService" data-total_supp="33">
+    <a href="#" class="ctse" data-bs-toggle="modal" data-bs-target="#DetailService" data-total_service="">
       <div class="card widget-hover overflow-hidden">
         <div class="card-header card-no-border pb-2">
           <h5>Total Service</h5>
@@ -271,10 +271,10 @@
         <div class="card-body pt-0 count-student">
           <div class="school-wrapper"> 
             <div class="school-header">
-              <div class="spinner-border text-primary d-none" role="status" id="spints">
+              <div class="spinner-border text-primary d-none" role="status" id="spintse">
                 <span class="visually-hidden"></span>
               </div>
-              <h4 class="text-warning" id="countts">-</h4>
+              <h4 class="text-warning" id="counttse">-</h4>
               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                   <p class="text-muted">Realtime Updated</p>
               </div>
@@ -289,7 +289,7 @@
 </div> 
 <!-- Piutang Customer -->
  <div class="col-md-6 col-sm-6">
-    <a href="#" class="cts" data-bs-toggle="modal" data-bs-target="#DetailPiutangCS" data-total_supp="33">
+    <a href="#" class="ctsp" data-bs-toggle="modal" data-bs-target="#DetailPiutangCS" data-total_piutang="">
       <div class="card widget-hover overflow-hidden">
         <div class="card-header card-no-border pb-2">
           <h5>Total Piutang Customer</h5>
@@ -297,10 +297,10 @@
         <div class="card-body pt-0 count-student">
           <div class="school-wrapper"> 
             <div class="school-header">
-              <div class="spinner-border text-primary d-none" role="status" id="spints">
+              <div class="spinner-border text-primary d-none" role="status" id="spintsp">
                 <span class="visually-hidden"></span>
               </div>
-              <h4 class="text-warning" id="countts">-</h4>
+              <h4 class="text-warning" id="counttsp">-</h4>
               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                   <p class="text-muted">Realtime Updated</p>
               </div>

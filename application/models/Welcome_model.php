@@ -183,6 +183,24 @@ class Welcome_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function countservice() {
+    $this->db->select([
+      "COUNT(id_masuk) as total_supplier"
+    ]);
+    $this->db->from('listservice');
+    $this->db->where('status = 1');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function countpiutang() {
+    $this->db->select([
+      "COUNT(kode_penjualan) as total_supplier"
+    ]);
+    $this->db->from('v_penjualancus');
+    $this->db->where('status <> 2');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function updatekar($id, $data) {
     $this->db->where('id_admin', $id);
     $this->db->update('tb_admin', $data);

@@ -78,6 +78,18 @@ function card() {
         $('#countts').addClass('d-none');
         countos(formatcur);
     });
+    $('.ctse').click(function(event) {
+        event.preventDefault();
+        $('#spintse').removeClass('d-none');
+        $('#counttse').addClass('d-none');
+        countose(formatcur);
+    });
+    $('.ctsp').click(function(event) {
+        event.preventDefault();
+        $('#spintsp').removeClass('d-none');
+        $('#counttsp').addClass('d-none');
+        countosp(formatcur);
+    });
     $('.cardLink').click(function(event) {
         event.preventDefault();
         var id = $(this).data('id');
@@ -120,6 +132,8 @@ function allcount(formatcur) {
     countct(formatcur);
     countus(formatcur);
     countos(formatcur);
+    countose(formatcur);
+    countosp(formatcur);
     getCountPM();
     getCountPK();
     getCountTotal();
@@ -260,6 +274,40 @@ function countos(formatcur) {
                 return false;
             });
             $('#spints').addClass('d-none');
+        }
+    });
+}
+function countose(formatcur) {
+    $.ajax({
+        url: base_url + 'Welcome/tservice/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#counttse').removeClass('d-none');
+            $.each(data, function(index, item) {
+                var supp = formatcur.format(item.total_supplier).replace(/\D/g, '');
+                $('#counttse').text(supp);
+                $('.ctse').attr('data-total_service', supp);
+                return false;
+            });
+            $('#spintse').addClass('d-none');
+        }
+    });
+}
+function countosp(formatcur) {
+    $.ajax({
+        url: base_url + 'Welcome/tpiutang/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#counttsp').removeClass('d-none');
+            $.each(data, function(index, item) {
+                var supp = formatcur.format(item.total_supplier).replace(/\D/g, '');
+                $('#counttsp').text(supp);
+                $('.ctsp').attr('data-total_piutang', supp);
+                return false;
+            });
+            $('#spintsp').addClass('d-none');
         }
     });
 }
