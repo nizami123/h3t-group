@@ -82,7 +82,7 @@ class InventoriStok_model extends CI_Model {
   public function getAcc($searchTerm = null) {
     $this->db->select(['id_brg', 'merk','jenis','nama_brg','warna']);
     $this->db->from('tb_barang');
-    $this->db->where('tipe', 'Accesoris');
+    $this->db->where_in('tipe', ['Accesoris','Software']);
     $this->db->where_in('status', ['1']);
 
     // Add the search conditions if a search term is provided

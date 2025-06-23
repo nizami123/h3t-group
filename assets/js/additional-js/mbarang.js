@@ -317,6 +317,7 @@ function edit(){
         var jenis = $("#e_jenis").val();
         var warna = $("#e_warna").val();
         var nama = $("#e_nama_brg").val();
+        var tipe = $("#e_tipe").val();
         if (!jenis || !merk || !nama || !warna) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
@@ -330,6 +331,7 @@ function edit(){
                 e_jenis: jenis,
                 e_warna: warna,
                 e_nama_brg: nama,
+                e_tipe: tipe
             },
             dataType: "json", 
             success: function (response) {
@@ -342,6 +344,7 @@ function edit(){
                         $("#e_warna").val('0').trigger('change.select2');
                         $("#e_jenis").val('0').trigger('change.select2');
                         $("#e_nama_brg").val('');
+                        $("#e_tipe").val('0').trigger('change.select2');
                         $('#EditBarang').modal('hide');
                         reload();
                         generate();
