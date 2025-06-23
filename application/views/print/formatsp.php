@@ -38,8 +38,8 @@
 
 <section class="container_box">
     <div class="row">
-        <h3 class="text-center">CV. DHTECH</h3>
-        <p class="text-center">Jl Bratang Gede V . A Ngagelrejo Wonokromo Surabaya</p>
+        <h3 class="text-center">H3T GROUP</h3>
+        <p class="text-center">Sidotopo Wetan Baru II No.33, RT.002/RW.006, Sidotopo Wetan, Kec. Kenjeran, Surabaya, Jawa Timur 60128</p>
         <hr>
         <table class="table customTable" style="border: 1px solid black; border-collapse: collapse; width:100%;">
             <tbody>
