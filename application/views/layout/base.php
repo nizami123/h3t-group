@@ -317,9 +317,9 @@
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-icons"></use>
                       </svg><span>Servis</span></a>
                   </li>
-                  <!-- Penjualan -->
-                  <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
-                      <a class="sidebar-link sidebar-title sales" href="#">
+                  <!-- Transaksi -->
+                  <li class="sidebar-list trans"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title trans" href="#">
                           <svg class="stroke-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-task"></use>
                           </svg>
@@ -328,27 +328,27 @@
                           </svg><span>Transaksi</span>
                       </a>
                       <ul class="sidebar-submenu">
-                          <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
-                          <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li>
-                          <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
-                          <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
+                          <li class="tdk"><a class="tdk" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
+                          <li class="tpl"><a class="tpl" href="<?=base_url()?>produk-list/">Produk List</a></li>
+                          <li class="teta"><a class="teta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
+                          <li class="tsh"><a class="tsh" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
                       </ul>
                   </li>
-                  <!-- Pelunasan -->
-                  <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
-                      <a class="sidebar-link sidebar-title sales" href="#">
+                  <!-- Purchasing -->
+                  <li class="sidebar-list purchase"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title purchase" href="#">
                           <svg class="stroke-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-widget"></use>
                           </svg>
                           <svg class="fill-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-widget"></use>
-                          </svg><span>Pembelian</span>
+                          </svg><span>Purchasing</span>
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>pembelian/">Pembelian</a></li>
                           <li class="shst"><a class="shst" href="<?=base_url()?>pelunasan/">Pelunasan</a></li>
                           <li class="sprd"><a class="sprd" href="<?=base_url()?>penerimaan/">Penerimaan</a></li>
-                          <li class="sprd"><a class="sprd" href="<?=base_url()?>pengecekan/">Pengecekan</a></li>
+                          <li class="spck"><a class="spck" href="<?=base_url()?>pengecekan/">Pengecekan</a></li>
                       </ul>
                   </li>
                   <!-- End Menu Toko -->
@@ -363,7 +363,7 @@
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="seta"><a class="seta" href="<?=base_url()?>penjualan/">Penjualan</a></li>
-                          <li class="shst"><a class="shst" href="<?=base_url()?>pembayaran/">Pembayaran</a></li>
+                          <li class="spmb"><a class="spmb" href="<?=base_url()?>pembayaran/">Pembayaran</a></li>
                       </ul>
                   </li>
                 </ul>
@@ -525,29 +525,29 @@
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
             }else if (segment1 == "etalase-toko"){
-                $(".sales").addClass("active");
-                $(".seta").addClass("active");
-                $(".sidebar-list.sales").addClass('active');
-                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+                $(".trans").addClass("active");
+                $(".teta").addClass("active");
+                $(".sidebar-list.trans").addClass('active');
+                $(".sidebar-list.trans .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.trans ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "data-kustomer"){
-                $(".sales").addClass("active");
-                $(".scst").addClass("active");
-                $(".sidebar-list.sales").addClass('active');
-                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+                $(".trans").addClass("active");
+                $(".tdk").addClass("active");
+                $(".sidebar-list.trans").addClass('active');
+                $(".sidebar-list.trans .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.trans ul.sidebar-submenu").slideDown('normal');
             }else if(segment1 == "riwayat-penjualan"){
-                $(".sales").addClass("active");
-                $(".shst").addClass("active");
-                $(".sidebar-list.sales").addClass('active');
-                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+                $(".trans").addClass("active");
+                $(".tsh").addClass("active");
+                $(".sidebar-list.trans").addClass('active');
+                $(".sidebar-list.trans .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.trans ul.sidebar-submenu").slideDown('normal');
             }else if(segment1 == "produk-list"){
-                $(".sales").addClass("active");
-                $(".sprd").addClass("active");
-                $(".sidebar-list.sales").addClass('active');
-                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+                $(".trans").addClass("active");
+                $(".tpl").addClass("active");
+                $(".sidebar-list.trans").addClass('active');
+                $(".sidebar-list.trans .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.trans ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "order-masuk"){
                 $(".order").addClass("active");
             }else if (segment1 == "finance-supplier" && segment2 == "dp-supplier"){
@@ -570,6 +570,42 @@
                 $(".submenu-title.fnc + .submenu-content").slideDown('normal');
             }else if (segment1 == "servis"){
                 $(".servis").addClass("active");
+            }else if (segment1 == "pembelian"){
+                $(".purchase").addClass("active");
+                $(".scst").addClass("active");
+                $(".sidebar-list.purchase").addClass('active');
+                $(".sidebar-list.purchase .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.purchase ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "pelunasan"){
+                $(".purchase").addClass("active");
+                $(".shst").addClass("active");
+                $(".sidebar-list.purchase").addClass('active');
+                $(".sidebar-list.purchase .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.purchase ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "penerimaan"){
+                $(".purchase").addClass("active");
+                $(".sprd").addClass("active");
+                $(".sidebar-list.purchase").addClass('active');
+                $(".sidebar-list.purchase .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.purchase ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "pengecekan"){
+                $(".purchase").addClass("active");
+                $(".spck").addClass("active");
+                $(".sidebar-list.purchase").addClass('active');
+                $(".sidebar-list.purchase .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.purchase ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "penjualan"){
+                $(".sales").addClass("active");
+                $(".seta").addClass("active");
+                $(".sidebar-list.sales").addClass('active');
+                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "pembayaran"){
+                $(".sales").addClass("active");
+                $(".spmb").addClass("active");
+                $(".sidebar-list.sales").addClass('active');
+                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
             }
             $(document).on('select2:open', () => {
                 document.querySelector('.select2-search__field').focus();
