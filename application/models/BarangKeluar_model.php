@@ -55,7 +55,7 @@ class BarangKeluar_model extends CI_Model {
   public function getBrgacc($searchTerm = null) {
     $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual','count(vm.merk) as total_acc'])
              ->from('vbarangready AS vm')
-             ->where('vm.tipe', 'Accesoris');
+             ->where_in('vm.tipe', ['Accesoris', 'Software']);
     if ($searchTerm) {
         $this->db->group_start();
         $this->db->like('vm.nama_brg', $searchTerm);

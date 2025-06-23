@@ -260,7 +260,7 @@ class BarangKeluar extends Auth
     if (!empty($mk) && $mk !== '0') {
         $this->datatables->where('merk', $mk);
     }
-    $this->datatables->where_in('jenis',['Accessories','Aksesoris','Acc']);
+    $this->datatables->where_in('jenis',['Accessories','Aksesoris','Acc','Software']);
     $this->datatables->where_in('status',['1']);
     return print_r($this->datatables->generate());    
   }
