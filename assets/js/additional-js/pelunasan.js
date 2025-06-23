@@ -279,10 +279,10 @@ function table_etalase() {
     var bayar = parseInt($('#bayar').val().replace(/[^0-9]/g, '')) || 0;
 
     // Validasi: Cek apakah ada kolom yang kosong
-    if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek ) {
-        swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
-        return;
-    }
+    // if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek ) {
+    //     swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
+    //     return;
+    // }
 
     // Validasi: Bayar tidak boleh lebih besar dari Tagihan
     if (bayar > tagihan) {
@@ -333,10 +333,10 @@ function table_etalase() {
         var bayar = parseInt($('#bayar').val().replace(/[^0-9]/g, '')) || 0;
     
         // Validasi: Cek apakah ada kolom yang kosong
-        if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek || tagihan) {
-            swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
-            return;
-        }
+        // if (!noPelunasan || !noFaktur || !tanggal || !namaSupplier || !metode || !norek || tagihan) {
+        //     swal("Peringatan!", "Semua kolom wajib diisi!", "warning");
+        //     return;
+        // }
     
         // Validasi: Bayar tidak boleh lebih besar dari Tagihan
         if (bayar > tagihan) {
