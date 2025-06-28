@@ -14,14 +14,14 @@ class Welcome_model extends CI_Model {
     $this->currentDate = date('Y-m-d');
     $this->currentYear = date('Y', strtotime($this->currentDate));
     $this->currentMonth = date('m', strtotime($this->currentDate));
-    $this->currentDay = 27;
+    $this->currentDay = 14;
     $today = new DateTime();
-    if ($today->format('d') > 27) {
-        $startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 28);
-				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 27);
+    if ($today->format('d') > 14) {
+        $startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 15);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 14);
     } else {
-        $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
-				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 27);
+        $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 15);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 14);
     }
     $this->startDateFormatted = $startDate->format('Y-m-d');
     $this->endDateFormatted = $endDate->format('Y-m-d');
@@ -51,8 +51,8 @@ class Welcome_model extends CI_Model {
       "(SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
       SUM(harga_jual) as total_pen, SUM(harga_diskon) as total_disk, SUM(harga_cashback) total_cb, SUM(hrg_hpp) as total_hpp",
       "COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa",
-      "DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-28') AS start_date",
-			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-27') AS end_date"
+      "DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-15') AS start_date",
+			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-14') AS end_date"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
@@ -122,8 +122,8 @@ class Welcome_model extends CI_Model {
   public function countcb(){
     $this->db->select([
       "SUM(harga_cashback) as total_cashback",
-			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-28') AS start_date",
-			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-27') AS end_date"
+			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-15') AS start_date",
+			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-14') AS end_date"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
