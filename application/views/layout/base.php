@@ -197,7 +197,7 @@
                     </div>
                   </li>
                   <!-- Menu Order Masuk -->
-                  <?php if ($jab=='OWNER' || $jab=='Finance') { ?>
+                  <?php if ($jab=='OWNER' || $jab=='PIC') { ?>
                   <li class="sidebar-list order">
                       <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav order" href="<?=base_url()?>order-masuk/">
                       <svg class="stroke-icon">
