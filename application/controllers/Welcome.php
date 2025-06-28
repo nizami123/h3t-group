@@ -11,14 +11,14 @@ class Welcome extends Auth {
 		$this->load->model('Welcome_model');
 		$this->load->model('BarangKeluar_model');
 		$this->load->model('PenList_model');
-		$this->currentDay = 27;
+		$this->currentDay = 14;
 		$today = new DateTime();
-		if ($today->format('d') > 27) {
-			$startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 28);
-					$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 27);
+		if ($today->format('d') > 14) {
+			$startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 15);
+					$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 14);
 		} else {
-			$startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
-					$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 27);
+			$startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 15);
+					$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 14);
 		}
 		$this->startDateFormatted = $startDate->format('Y-m-d');
 		$this->endDateFormatted = $endDate->format('Y-m-d');
