@@ -156,7 +156,7 @@
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-home"></use>
                     </svg><span>Home</span></a>
                     <ul class="sidebar-submenu">
-                      <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional') { ?>
+                      <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='ADMIN BARANG') { ?>
                         <li class="scab"><a class="scab" href="<?=base_url()?>">Semua Cabang</a></li>
                         <?php foreach ($setcabang as $sc) { ?>
                           <li class="<?=$sc['id_toko']?>" data-cabangnama="<?=$sc['nama_toko']?>"><a class="<?=$sc['id_toko']?>" href="<?=base_url()?>cabang/<?=$sc['id_toko']?>"><?=$sc['nama_toko']?></a></li>
@@ -197,7 +197,7 @@
                     </div>
                   </li>
                   <!-- Menu Order Masuk -->
-                  <?php if ($jab=='OWNER' || $jab=='PIC') { ?>
+                  <?php if ($jab=='OWNER' || $jab=='PIC' || $jab=='ADMIN BARANG') { ?>
                   <li class="sidebar-list order">
                       <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav order" href="<?=base_url()?>order-masuk/">
                       <svg class="stroke-icon">
@@ -297,7 +297,7 @@
                     </a>
                     <ul class="sidebar-submenu">
                         <!-- <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li> -->
-                        <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional') { ?> 
+                        <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='ADMIN BARANG') { ?> 
                         <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Gudang</a></li>
                         <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Cabang</a></li>
                         <?php } ?>
