@@ -300,7 +300,7 @@
               <div class="spinner-border text-primary d-none" role="status" id="spintsp">
                 <span class="visually-hidden"></span>
               </div>
-              <h4 class="text-warning" id="counttsp">-</h4>
+              <h4 class="text-success" id="counttsp">-</h4>
               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                   <p class="text-muted">Realtime Updated</p>
               </div>
@@ -568,6 +568,45 @@
                                                       <th><span class="f-light f-w-600">CABANG</span></th>
                                                   </tr>
                                               </thead>
+                                              <tbody>
+                                              </tbody>
+                                          </table>
+                                          </div>                                            
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailPiutangCS" tabindex="-1" role="dialog" aria-labelledby="DetailPiutangCS" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                  <div class="modal-content dark-sign-up">
+                      <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                          <div class="modal-toggle-wrapper">
+                              <div class="modal-header mb-4">
+                                  <h3>Detail Piutang Customer <span id="datpiutang"></h3>
+                                  <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- Data Table -->
+                              <div class="col-lg-12"> 
+                                  <div class="card"> 
+                                      <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table class="display" id="table-piutang">
+                                              <thead>
+                                                <tr>
+                                                    <th style="width: 20%;"><span class="f-light f-w-600">NO FAKTUR</span></th>
+                                                    <th style="width: 15%;"><span class="f-light f-w-600">TANGGAL</span></th>
+                                                    <th style="width: 20%;"><span class="f-light f-w-600">NAMA CUSTOMER</span></th>
+                                                    <th style="width: 20%;"><span class="f-light f-w-600">ALAMAT</span></th>
+                                                    <th style="width: 15%;"><span class="f-light f-w-600">JATUH TEMPO</span></th>
+                                                    <th style="width: 15%;"><span class="f-light f-w-600">NOMINAL</span></th>
+                                                    <th style="width: 15%;"><span class="f-light f-w-600">STATUS</span></th>
+                                                    <th style="width: 15%;"><span class="f-light f-w-600">AKSI</span></th>
+                                                </tr>
+                                            </thead>
                                               <tbody>
                                               </tbody>
                                           </table>

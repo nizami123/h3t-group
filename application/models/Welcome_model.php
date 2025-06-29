@@ -194,10 +194,10 @@ class Welcome_model extends CI_Model {
   }
   public function countpiutang() {
     $this->db->select([
-      "COUNT(kode_penjualan) as total_supplier"
+      "sum(total) as total_supplier"
     ]);
     $this->db->from('v_penjualancus');
-    $this->db->where('status <> 2');
+    $this->db->where('status in (0,1)');
     $query = $this->db->get();
     return $query->result_array();
   }

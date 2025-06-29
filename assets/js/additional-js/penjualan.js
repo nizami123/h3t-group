@@ -33,7 +33,7 @@ function tablejl() {
         },
         "serverSide": true,
         "order": [
-            [1, 'desc'] 
+            [4, 'asc'] 
         ],
         "ajax": {
             "url": base_url + 'penjualan/laporanpenjualan/',
@@ -57,7 +57,19 @@ function tablejl() {
             },
             { "data": "nama_plg" },
             { "data": "alamat" },
-            { "data": "tempo" },
+            { 
+                "data": "tempo",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = monthNames[date.getMonth()];
+                        var year = date.getFullYear();
+                        return `${day} ${month} ${year}`;
+                    }
+                    return data;
+                }
+            },
             { 
                 "data": "total",
                 "render": function (data, type, row) {

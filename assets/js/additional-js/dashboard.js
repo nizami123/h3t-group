@@ -4,6 +4,7 @@ var tablePC;
 var tableLB;
 var tableSP;
 var tableSPC;
+var tablePiutang;
 var tableDK;
 var tableCT;
 var tableKY;
@@ -13,6 +14,10 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     currency: 'IDR',
     minimumFractionDigits: 0
 });
+var monthNames = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+];
 var formatdec = new Intl.NumberFormat('id-ID', {
     style: 'decimal',
     minimumFractionDigits: 0
@@ -32,6 +37,7 @@ $(document).ready(function () {
     // detailcust();
     detailcb();
     detailkar();
+    detailpiutang();
     updateDateTime();
 });
 
@@ -301,16 +307,20 @@ function countosp(formatcur) {
         dataType: 'json',
         success: function(data) {
             $('#counttsp').removeClass('d-none');
+
             $.each(data, function(index, item) {
-                var supp = formatcur.format(item.total_supplier).replace(/\D/g, '');
-                $('#counttsp').text(supp);
-                $('.ctsp').attr('data-total_piutang', supp);
-                return false;
+                var formatted = formatcur.format(item.total_supplier); // hasil: Rp xxx.xxx,00
+                formatted = formatted.replace(',00', ''); // hapus desimal
+                $('#counttsp').text(formatted);
+                $('.ctsp').attr('data-total_piutang', formatted);
+                return false; // hanya ambil 1 baris
             });
+
             $('#spintsp').addClass('d-none');
         }
     });
 }
+
 function topsales() {
     $.ajax({
         url: base_url + 'Welcome/topsales/',
@@ -901,6 +911,126 @@ function tablesalescab(id) {
     });
     return tableSPC;
 }
+
+function tablepiutang() {
+    if ($.fn.DataTable.isDataTable('#table-piutang')) {
+        tablePiutang.destroy();
+    }
+    tablePiutang = $("#table-piutang").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [4, 'asc'] 
+        ],
+        "ajax": {
+            "url": base_url + 'penjualan/laporanpiutang/',
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "kode_penjualan" },
+            { 
+                "data": "tanggal",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = monthNames[date.getMonth()];
+                        var year = date.getFullYear();
+                        return `${day} ${month} ${year}`;
+                    }
+                    return data;
+                }
+            },
+            { "data": "nama_plg" },
+            { "data": "alamat" },
+            { 
+                "data": "tempo",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = monthNames[date.getMonth()];
+                        var year = date.getFullYear();
+                        return `${day} ${month} ${year}`;
+                    }
+                    return data;
+                }
+            },
+            { 
+                "data": "total",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "status",
+                "render": function (data, type, full, meta) {
+                    if (type === "display") {
+                        if (data === "0") {
+                            return `<span class="badge rounded-pill badge-secondary">Menunggu</span>`;
+                        } else if(data ==="2"){
+                            return `<span class="badge rounded-pill badge-primary">Lunas</span>`;
+                        } else if(data==="1"){
+                            return `<span class="badge rounded-pill badge-success">Dp</span>`;
+                        } else if(data==="3"){
+                            return `<span class="badge rounded-pill badge-info">Batal</span>`;
+                        } 
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },       
+            {
+                "data": "kode_penjualan",
+                "orderable": false,
+                "render": function (data, type, full, meta) {
+                    if (type === "display") {
+                        if (full.status == 1 || full.status == 2) {
+                            return `
+                                <ul class="action">
+                                    <li class="edit">
+                                        <button class="btn download-button" type="button" id="downloadnota" data-id="${data}">
+                                            <i class="icofont icofont-print"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            `;
+                        } else {
+                            return ''; // kalau status bukan 1/2, kosong, gak ada tombol
+                        }
+                    }
+                    return data;
+                }
+            }
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tablePiutang.ajax.reload();
+                }
+            },
+        ]
+            
+    });
+    return tablePiutang;
+}
 function tablediskon() {
     if ($.fn.DataTable.isDataTable('#table-diskon')) {
         tableDK.destroy();
@@ -1248,6 +1378,16 @@ function detailsalescab() {
         $("#tapt").text(total);
         $("#datc").text(cabang);
         tablesalescab(id);
+    });
+}
+function detailpiutang() {
+    $('#DetailPiutangCS').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var total = button.data('total');
+        var cabang = button.data('cabang');
+        $("#tappiutang").text(total);
+        $("#datpiutang").text(cabang);
+        tablepiutang();
     });
 }
 function detaildiskon() {

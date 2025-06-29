@@ -51,6 +51,14 @@ class Penjualan extends Auth
     return print_r($this->datatables->generate());
   }
 
+ public function laporanpiutang() {
+    $this->load->library('datatables');
+    $this->datatables->select('*');
+    $this->datatables->from('v_penjualancus');
+    $this->datatables->where_in('status', [0, 1]);
+    return print_r($this->datatables->generate());
+}
+
   public function formatnota($id) {
     $data['header'] = $this->db->query("select * from v_penjualancus where kode_penjualan = '".$id."'")->row();
     $data['items'] = $this->db->query("select * from v_detailpenjualancus where kode_penjualan = '".$id."'")->result_array();
