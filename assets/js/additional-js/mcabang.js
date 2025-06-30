@@ -72,6 +72,7 @@ function reload() {
             { "data": "id_toko"},
             { "data": "nama_lengkap"},
             { "data": "nama_toko"},
+            { "data": "no_telp"},
             { "data": "provinsi" },
             { "data": "kabupaten" },
             { "data": "kecamatan" },
@@ -197,6 +198,7 @@ function getid(){
                     $("#ekec").val(item.kecamatan);
                     $("#ekode").val(item.kode_pos);
                     $("#ealamat").val(item.alamat);
+                    $("#etelp").val(item.no_telp);
                     $("#ejenis").val(item.jenis_toko).trigger('change');
                     $("#ekacab").empty().append('<option value="' + item.id_user + '">' +item.id_user+'|'+ item.nama_lengkap + '</option>').trigger('change.select2');
                     $("#estatus").val(item.status).trigger('change');
@@ -261,6 +263,7 @@ function updatedata(){
         var kec = $("#ekec").val();
         var kode = $("#ekode").val();
         var alamat = $("#ealamat").val();
+        var telp = $("#etelp").val();
         var kacab = $("#ekacab").val();
         var jenis = $("#ejenis").val();
         var status = $("#estatus").val();
@@ -280,6 +283,7 @@ function updatedata(){
                 ekec: kec,
                 ekode: kode,
                 ealamat: alamat,
+                etelp: telp,
                 ejenis: jenis,
                 estatus: status,
             },

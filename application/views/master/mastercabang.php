@@ -68,10 +68,15 @@
                     <div class="invalid-tooltip">Silahkan Pilih Kecamatan Cabang.</div>
                     </div>
                     <!-- kodepos -->
-                    <div class="col-md-6 position-relative">
-                    <label class="form-label" for="kode_pos">Kode Pos</label>
-                    <input class="form-control" id="kode_pos" name="kode_pos" type="number" placeholder="contoh: 602999" required="">
-                    <div class="invalid-tooltip">Masukkan kode pos</div>
+                    <div class="col-md-2 position-relative">
+                      <label class="form-label" for="kode_pos">Kode Pos</label>
+                      <input class="form-control" id="kode_pos" name="kode_pos" type="number" placeholder="contoh: 602999" required="">
+                      <div class="invalid-tooltip">Masukkan kode pos</div>
+                    </div>
+                    <div class="col-md-4 position-relative">
+                      <label class="form-label" for="telp">No Telp</label>
+                      <input class="form-control" id="telp" name="telp" type="text" placeholder="contoh: 08129..." required="">
+                      <div class="invalid-tooltip">Masukkan No Telepon</div>
                     </div>
                     <!-- Detai Alamat Cabang -->
                     <div class="col-md-12 position-relative">
@@ -122,6 +127,7 @@
                                 <th style="min-width: 90px;">ID CABANG</th>
                                 <th style="min-width: 150px;">KEPALA CABANG</th>
                                 <th style="min-width: 150px;">NAMA CABANG</th>
+                                <th style="min-width: 150px;">NO TELEPON</th>
                                 <th>PROVINSI</th>
                                 <th style="min-width: 100px;">KAB/KOTA</th>
                                 <th>KECAMATAN</th>
@@ -173,9 +179,13 @@
                             <input class="form-control" name="ekec" id="ekec" type="text">
                         </div>
                         <!-- Kelurahaan -->
-                        <div class="col-md-6 position-relative">
+                        <div class="col-md-2 position-relative">
                             <label class="form-label" for="kodepos">Kode Pos</label>
                             <input class="form-control" name="ekode" id="ekode" type="number">
+                        </div>
+                        <div class="col-md-4 position-relative">
+                            <label class="form-label" for="telp">No Telp</label>
+                            <input class="form-control" name="etelp" id="etelp" type="text">
                         </div>
                         <!-- Detai Alamat Cabang -->
                         <div class="col-md-12 position-relative">

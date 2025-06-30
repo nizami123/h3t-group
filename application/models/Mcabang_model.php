@@ -32,7 +32,7 @@ class Mcabang_model extends CI_Model {
     return $query->result_array();
   }
 
-  public function create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat,$jenis)
+  public function create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat,$jenis,$telp)
   {
     $data = array(
       'id_toko' => $idt,
@@ -44,6 +44,7 @@ class Mcabang_model extends CI_Model {
       'kode_pos'=> $kode,
       'alamat' => $alamat,
       'jenis_toko' => $jenis,
+      'no_telp' => $telp,
       'status' => '1'
     );  
     $this->db->insert('tb_toko',$data);

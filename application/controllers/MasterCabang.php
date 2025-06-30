@@ -87,8 +87,9 @@ class MasterCabang extends Auth
     $kode = $this->input->post('kode_pos');
     $alamat = $this->input->post('alamat');
     $jenis = $this->input->post('jenis');
+    $telp = $this->input->post('telp');
 		
-		$this->Mcabang_model->create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat,$jenis);
+		$this->Mcabang_model->create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat,$jenis,$telp);
 
     redirect('master-cabang');
   }
@@ -111,6 +112,7 @@ class MasterCabang extends Auth
         'alamat'      => $this->input->post('ealamat'),
         'jenis_toko'  => $this->input->post('ejenis'),
         'status'      => $this->input->post('estatus'),
+        'no_telp'      => $this->input->post('etelp'),
       ];
       
       $this->Mcabang_model->update($id, $data);
@@ -127,7 +129,7 @@ class MasterCabang extends Auth
 
   public function jsoncab(){
     $this->load->library('datatables');
-    $this->datatables->select('id_toko,nama_lengkap,nama_toko,provinsi,kabupaten,kecamatan,alamat,status');
+    $this->datatables->select('id_toko,nama_lengkap,nama_toko,no_telp,provinsi,kabupaten,kecamatan,alamat,status');
     $this->datatables->from('vtoko');
     return print_r($this->datatables->generate());
   }
