@@ -71,7 +71,7 @@ function tableom() {
                                         data-bs-toggle="modal" data-bs-target="#DetailInvoice" title="detail invoice"><i class="fa fa-exclamation-circle"></i></button>
                                         <button class="btn btn-success" id="approve" data-id="${data}" data-id_toko="${full.id_toko}" title="approve"><i class="icofont icofont-ui-check"></i></button>
                                         <button class="btn btn-danger" id="cancel" data-id="${data}" data-keluar="${full.id_keluar}" title="cancel"><i class="icofont icofont-ui-close"></i></button>
-                                        <button class="btn btn-warning" id="gestun" data-id="${data}" data-id_toko="${full.id_toko}" title="gestun">Gestun</button>
+                                        
                                     </div>
                                 </ul>
                             `;
