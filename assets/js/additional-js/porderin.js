@@ -161,6 +161,15 @@ function tabledt(id) {
                     tableDT.ajax.reload();
                 }
             },
+            {
+                extend: 'excelHtml5',
+                title: 'Data Penjualan',
+                text: 'Export Excel',
+                className: 'btn-success',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
         ]
             
     });
