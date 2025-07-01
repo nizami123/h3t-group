@@ -32,7 +32,7 @@ function tablejl() {
         },
         "serverSide": true,
         "order": [
-            [0, 'asc'] 
+            [1, 'desc'] 
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/laporan-jual/',
