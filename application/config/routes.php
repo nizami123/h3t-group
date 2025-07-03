@@ -198,6 +198,7 @@ $route['produk-list/export-barcode/(:any)/(:any)/(:any)/(:any)'] = 'PenList/expo
 $route['produk-list/export-barcode-select/(:any)/(:any)/(:any)'] = 'PenList/exportbarcode/$1/$2/$3';
 $route['detail-laba/(:any)/(:any)']='Welcome/detaillabak/$1/$2';
 $route['detail-asset']='Welcome/detailasset';
+$route['detail-komisi-tr']='Welcome/detailkomtr';
 $route['detail-asset-cabang/(:any)']='Welcome/detailassetcabang/$1';
 $route['detail-produk-cabang/(:any)']='Welcome/detailprodcabang/$1';
 $route['detail-sales']='Welcome/detailsales';

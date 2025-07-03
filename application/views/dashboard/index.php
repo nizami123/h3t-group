@@ -262,7 +262,7 @@
                     </a>
                   </div>       
                   <!-- Total Service -->
-<div class="col-md-6 col-sm-6">
+<div class="col-md-4 col-sm-6">
     <a href="#" class="ctse" data-bs-toggle="modal" data-bs-target="#DetailService" data-total_service="">
       <div class="card widget-hover overflow-hidden">
         <div class="card-header card-no-border pb-2">
@@ -288,7 +288,7 @@
     </a>
 </div> 
 <!-- Piutang Customer -->
- <div class="col-md-6 col-sm-6">
+ <div class="col-md-4 col-sm-6">
     <a href="#" class="ctsp" data-bs-toggle="modal" data-bs-target="#DetailPiutangCS" data-total_piutang="">
       <div class="card widget-hover overflow-hidden">
         <div class="card-header card-no-border pb-2">
@@ -306,6 +306,32 @@
               </div>
             </div>
             <div class="school-body"><img src="<?=base_url()?>assets/images/inventoriassets/piutang-cs.png" alt="akira.id">
+              <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+</div>           
+<!-- Komisi TR -->
+ <div class="col-md-4 col-sm-6">
+    <a href="#" class="ckomtr" data-bs-toggle="modal" data-bs-target="#DetailKomisiTR" data-total_komisi="">
+      <div class="card widget-hover overflow-hidden">
+        <div class="card-header card-no-border pb-2">
+          <h5>Total Komisi TR</h5>
+        </div>
+        <div class="card-body pt-0 count-student">
+          <div class="school-wrapper"> 
+            <div class="school-header">
+              <div class="spinner-border text-primary d-none" role="status" id="spinckomtr">
+                <span class="visually-hidden"></span>
+              </div>
+              <h4 class="text-success" id="countckomtr">-</h4>
+              <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
+                  <p class="text-muted">Realtime Updated</p>
+              </div>
+            </div>
+            <div class="school-body"><img src="<?=base_url()?>assets/images/comission.png" alt="akira.id">
               <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
             </div>
           </div>
@@ -605,6 +631,40 @@
                                                     <th style="width: 15%;"><span class="f-light f-w-600">NOMINAL</span></th>
                                                     <th style="width: 15%;"><span class="f-light f-w-600">STATUS</span></th>
                                                     <th style="width: 15%;"><span class="f-light f-w-600">AKSI</span></th>
+                                                </tr>
+                                            </thead>
+                                              <tbody>
+                                              </tbody>
+                                          </table>
+                                          </div>                                            
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailKomisiTR" tabindex="-1" role="dialog" aria-labelledby="DetailKomisiTR" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                  <div class="modal-content dark-sign-up">
+                      <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                          <div class="modal-toggle-wrapper">
+                              <div class="modal-header mb-4">
+                                  <h3>Detail Komisi TR <span id="datkomtr"></h3>
+                                  <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- Data Table -->
+                              <div class="col-lg-12"> 
+                                  <div class="card"> 
+                                      <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table class="display" id="table-komtr">
+                                              <thead>
+                                                <tr>
+                                                    <th style="width: 20%;"><span class="f-light f-w-600">ID SALES</span></th>
+                                                    <th style="width: 20%;"><span class="f-light f-w-600">NAMA SALES</span></th>
+                                                    <th style="width: 15%;"><span class="f-light f-w-600">KOMISI</span></th>
                                                 </tr>
                                             </thead>
                                               <tbody>

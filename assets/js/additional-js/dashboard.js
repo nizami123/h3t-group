@@ -5,6 +5,7 @@ var tableLB;
 var tableSP;
 var tableSPC;
 var tablePiutang;
+var tableKomisiTR;
 var tableDK;
 var tableCT;
 var tableKY;
@@ -38,6 +39,7 @@ $(document).ready(function () {
     detailcb();
     detailkar();
     detailpiutang();
+    detailkomisiTR();
     updateDateTime();
 });
 
@@ -96,6 +98,12 @@ function card() {
         $('#counttsp').addClass('d-none');
         countosp(formatcur);
     });
+    $('.ckomtr').click(function(event) {
+        event.preventDefault();
+        $('#spinckomtr').removeClass('d-none');
+        $('#countckomtr').addClass('d-none');
+        countkomisiTR(formatcur);
+    });
     $('.cardLink').click(function(event) {
         event.preventDefault();
         var id = $(this).data('id');
@@ -129,6 +137,7 @@ function allcount(formatcur) {
     $('#spinnpmg').removeClass('d-none');
     $('#spintu').removeClass('d-none');
     $('#spints').removeClass('d-none');
+    $('#spinckomtr').removeClass('d-none');
     $('.spinst').removeClass('d-none');
     getCountStock(formatcur);
     countlaba(formatcur);
@@ -140,6 +149,7 @@ function allcount(formatcur) {
     countos(formatcur);
     countose(formatcur);
     countosp(formatcur);
+    countkomisiTR(formatcur);
     getCountPM();
     getCountPK();
     getCountTotal();
@@ -297,6 +307,23 @@ function countose(formatcur) {
                 return false;
             });
             $('#spintse').addClass('d-none');
+        }
+    });
+}
+function countkomisiTR(formatcur) {
+    $.ajax({
+        url: base_url + 'Welcome/tkomisiTR/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#countckomtr').removeClass('d-none');
+            $.each(data, function(index, item) {
+                var koms = formatcur.format(item.total_komisi);
+                $('#countckomtr').text(koms);
+                $('.ckomtr').attr('data-total_komisi', koms);
+                return false;
+            });
+            $('#spinckomtr').addClass('d-none');
         }
     });
 }
@@ -1031,6 +1058,58 @@ function tablepiutang() {
     });
     return tablePiutang;
 }
+function tablekomisiTR() {
+    if ($.fn.DataTable.isDataTable('#table-komtr')) {
+        tableKomisiTR.destroy();
+    }
+    tableKomisiTR = $("#table-komtr").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'asc'] 
+        ],
+        "ajax": {
+            "url": base_url + 'detail-komisi-tr',
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "id_user" },
+            { "data": "nama_lengkap" },
+            { 
+                "data": "komisi_tr",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            }
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tableKomisiTR.ajax.reload();
+                }
+            },
+        ]
+            
+    });
+    return tableKomisiTR;
+}
 function tablediskon() {
     if ($.fn.DataTable.isDataTable('#table-diskon')) {
         tableDK.destroy();
@@ -1388,6 +1467,11 @@ function detailpiutang() {
         $("#tappiutang").text(total);
         $("#datpiutang").text(cabang);
         tablepiutang();
+    });
+}
+function detailkomisiTR() {
+    $('#DetailKomisiTR').on('show.bs.modal', function (e) {
+        tablekomisiTR();
     });
 }
 function detaildiskon() {

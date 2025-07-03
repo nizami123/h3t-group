@@ -78,6 +78,16 @@ class Welcome_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();
   }
+	public function countkomisiTR(){
+		$this->db->select([
+			"SUM(komisi_tr) as total_komisi"
+		]);
+		$this->db->from('vkomisi_tr');
+		$this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
   public function countasset(){
     $this->db->select([
       "SUM(hrg_hpp) AS total_hpp"

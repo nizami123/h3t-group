@@ -122,6 +122,11 @@ class Welcome extends Auth {
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
+	public function tkomisiTR(){
+		$results = $this->Welcome_model->countkomisiTR();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
 	public function tcb() {
 		if (isset($_POST['cbval'])) {
 			if ($this->input->is_ajax_request()) {
@@ -253,6 +258,14 @@ class Welcome extends Auth {
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('id_ksr',$id);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
+		return print_r($this->datatables->generate());
+	}
+	public function detailkomtr(){
+		$this->load->library('datatables');
+		$this->datatables->select('tgl_transaksi,id_user,nama_lengkap,komisi_tr');
+		$this->datatables->from('vkomisi_tr');
 		$this->datatables->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
 		$this->datatables->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
