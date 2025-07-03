@@ -993,41 +993,36 @@ function tablepiutang() {
                 }
             },
             { 
+                "data": "sisa",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            {
                 "data": "status",
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
+                        let badge = '';
+                        let keterlambatan = '';
+
                         if (data === "0") {
-                            return `<span class="badge rounded-pill badge-secondary">Menunggu</span>`;
-                        } else if(data ==="2"){
+                            badge = `<span class="badge rounded-pill badge-secondary">Belum Lunas</span>`;
+                        } else if (data === "1") {
+                            badge = `<span class="badge rounded-pill badge-success">Dp</span>`;
+                        } else if (data === "2") {
                             return `<span class="badge rounded-pill badge-primary">Lunas</span>`;
-                        } else if(data==="1"){
-                            return `<span class="badge rounded-pill badge-success">Dp</span>`;
-                        } else if(data==="3"){
+                        } else if (data === "3") {
                             return `<span class="badge rounded-pill badge-info">Batal</span>`;
-                        } 
-                        return data; // return the original value for other cases
-                    }
-                    return data;
-                }
-            },       
-            {
-                "data": "kode_penjualan",
-                "orderable": false,
-                "render": function (data, type, full, meta) {
-                    if (type === "display") {
-                        if (full.status == 1 || full.status == 2) {
-                            return `
-                                <ul class="action">
-                                    <li class="edit">
-                                        <button class="btn download-button" type="button" id="downloadnota" data-id="${data}">
-                                            <i class="icofont icofont-print"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            `;
                         } else {
-                            return ''; // kalau status bukan 1/2, kosong, gak ada tombol
+                            return data; // fallback
                         }
+
+                        // Tampilkan keterlambatan hanya jika ada dan lebih dari 0
+                        if (full.terlambat_hari && parseInt(full.terlambat_hari) > 0) {
+                            keterlambatan = `<br><small class="text-danger">Terlambat ${full.terlambat_hari} hari</small>`;
+                        }
+
+                        return badge + keterlambatan;
                     }
                     return data;
                 }

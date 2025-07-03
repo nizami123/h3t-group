@@ -629,8 +629,9 @@
                                                     <th style="width: 20%;"><span class="f-light f-w-600">ALAMAT</span></th>
                                                     <th style="width: 15%;"><span class="f-light f-w-600">JATUH TEMPO</span></th>
                                                     <th style="width: 15%;"><span class="f-light f-w-600">NOMINAL</span></th>
+                                                    <th style="width: 15%;"><span class="f-light f-w-600">SISA TAGIHAN</span></th>
                                                     <th style="width: 15%;"><span class="f-light f-w-600">STATUS</span></th>
-                                                    <th style="width: 15%;"><span class="f-light f-w-600">AKSI</span></th>
+                                                    
                                                 </tr>
                                             </thead>
                                               <tbody>
