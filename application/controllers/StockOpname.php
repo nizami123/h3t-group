@@ -250,7 +250,7 @@ class StockOpname extends Auth
       $this->datatables->from('vopname');
       $this->datatables->where('status','1');
       return print_r($this->datatables->generate());
-    } else if ($role == 'KEPALA CABANG'){
+    } else if ($role == 'KEPALA CABANG' || $role == 'PIC'){
       $this->load->library('datatables');
       $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
       $this->datatables->from('vopname');

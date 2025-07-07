@@ -54,7 +54,7 @@ class Login extends CI_Controller
             );
             $this->session->set_userdata($data_session);
             $response = array('success' => true, 'message' => 'Login berhasil.');
-            if ($data['jabatan'] == 'KEPALA CABANG') {
+            if ($data['jabatan'] == 'KEPALA CABANG' || $data['jabatan'] == 'PIC') {
                 $response['message'] = 'Login berhasil kepala cabang';
                 $response['id_toko'] = $data['id_toko'];
                 $response['nama_toko'] = $data['nama_toko'];
