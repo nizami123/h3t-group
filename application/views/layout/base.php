@@ -301,7 +301,7 @@
                         <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Gudang</a></li>
                         <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Cabang</a></li>
                         <?php } ?>
-                        <?php if ($jab=='OWNER' || $jab=='KEPALA CABANG' || $jab=='PIC') { ?>
+                        <?php if ($jab=='OWNER' || $jab=='KEPALA CABANG' || $jab=='PIC' || $jab=='ADMIN BARANG') { ?>
                         <li class="iskb"><a class="iskb" href="<?=base_url()?>terima-barang">Terima Barang Cabang</a></li>
                         <li class="ipb"><a class="ipb" href="<?=base_url()?>pindah-barang">Pindah Barang Cabang</a></li>
                         <li class="iso"><a class="iso" href="<?=base_url()?>stock-opname">Stok Opname Cabang</a></li>

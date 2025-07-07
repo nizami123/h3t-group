@@ -244,7 +244,7 @@ class StockOpname extends Auth
   public function loadopnamelist() {
     $auditor = $this->session->userdata('nama_lengkap');
     $role = $this->session->userdata('jabatan');
-    if ($role == 'OWNER' || $role == 'Finance' || $role == 'Manager Oprasional') {
+    if ($role == 'OWNER' || $role == 'Finance' || $role == 'Manager Oprasional' || $role == 'ADMIN BARANG') {
       $this->load->library('datatables');
       $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
       $this->datatables->from('vopname');
