@@ -22,6 +22,16 @@ class StockOpname extends Auth
     $data['defID'] = 'OPNM-0001';
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
   }
+  function genid(){
+    $lastID = $this->StockOpname_model->getLastKode();
+
+    $numericPart = isset($lastID[0]['kode_opname']) ? preg_replace('/[^0-9]/', '', $lastID[0]['kode_opname']) : '';
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    
+    $newID = 'OPNM-' . $incrementedNumericPart;
+
+    return $newID;
+  }
 
   public function index()
   {
@@ -199,8 +209,8 @@ class StockOpname extends Auth
   public function createpost(){
     if ($this->input->is_ajax_request()) {
       $data = [
-        'kode_opname'      => $this->input->post('idstockopname'),
-        'tgl_opname'      => $this->input->post('tanggalwaktubarang'),
+        'kode_opname'      => $this->genid(),
+        'tgl_opname'      => date('Y-m-d H:i:s'),
         'id_toko'      => $this->input->post('cabang'),
         'id_user'      => $this->input->post('auditor'),
         'status'      => '1',

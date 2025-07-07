@@ -28,7 +28,7 @@ class StockOpname_model extends CI_Model {
   }
 
   public function getAuditor($id,$searchTerm=null){
-    $this->db->select(['id_user', 'nama_lengkap','nama_toko','id_toko']);
+    $this->db->select(['id_admin as id_user', 'nama_lengkap','nama_toko','id_toko']);
     $this->db->from('vtoko_opname');
     $this->db->where('id_toko',$id);
 		$this->db->where('id_admin',$this->session->userdata('id_user'));
