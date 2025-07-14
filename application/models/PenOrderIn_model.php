@@ -6,7 +6,7 @@ class PenOrderIn_model extends CI_Model {
   public function countHJ($id = null) {
     $currentDate = date('Y-m-d');
     $this->db->select([
-      "COALESCE((SELECT REPLACE(REPLACE(FORMAT(SUM(DISTINCT v.total_keranjang),0), ',', '.'), '.', '.')
+      "COALESCE((SELECT REPLACE(REPLACE(FORMAT(SUM(v.harga_bayar),0), ',', '.'), '.', '.')
                 FROM vpenjualan AS v
                 WHERE v.id_toko = stores.id_toko
                 AND DATE(v.tgl_transaksi) = '{$currentDate}'
