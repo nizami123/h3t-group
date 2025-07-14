@@ -19,7 +19,7 @@ class PenRiwayat extends Auth
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/priwayat.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/priwayat.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -46,7 +46,7 @@ class PenRiwayat extends Auth
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan, tgl_transaksi, nama_toko, id_ksr,nama_ksr,total, total_harga_jual, 
     total_diskon,total_cb, total_laba, nama_plg, cara_bayar, bank_tf,no_rek, tunai, bank, kredit,  
-    CONCAT(kode_penjualan," ",nama_plg) as kode_nama, nama_admin,status,jasa,jml_donasi');
+    CONCAT(kode_penjualan," ",nama_plg) as kode_nama, nama_admin,status,jasa,jml_donasi,komisi');
     $this->datatables->from('vreportsale');
     $this->datatables->where_in('status',[1,2,3,9]);
     return print_r($this->datatables->generate());

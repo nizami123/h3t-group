@@ -104,7 +104,7 @@ function tablejl() {
                                         data-cb="${full.total_cb}" data-lb="${full.total_laba}" data-cst="${full.nama_plg}" data-tb="${full.cara_bayar}" 
                                         data-btf="${full.bank_tf}" data-nr="${full.no_rek}" data-tn="${full.tunai}" data-status="${full.status}"
                                         data-bnk="${full.bank}" data-krd="${full.kredit}" data-toko="${full.nama_toko}" data-tgltr="${full.tgl_transaksi}"
-                                        data-jasa="${full.jasa}" data-jasanom="${full.jml_donasi}"
+                                        data-jasa="${full.jasa}" data-jasanom="${full.jml_donasi}" data-tr="${full.komisi}"
                                         data-bs-toggle="modal" data-bs-target="#DetailLapPenjualan" title="detail penjualan"><i class="fa fa-exclamation-circle"></i></button>
                                     </div>
                                 </ul>
@@ -384,6 +384,7 @@ function detaillappen(){
         var total = button.data('total');
         var jasanom = button.data('jasanom');
         var jasa = button.data('jasa');
+        var tr = button.data('tr');
         $('#ttcs').text(cst+' ('+monthName+') ');
         $('#ttdi').text(inv);
         $('#tp').text(tipe);
@@ -419,6 +420,7 @@ function detaillappen(){
         $("#ttcb").text(formatcur.format(cb));
         $("#ttlb").text(formatcur.format(lb));
         $("#ttgt").text(formatcur.format(total));
+        $('#ttr').text(formatcur.format(tr));
         if (stat == '3' || stat == '9') {
             $("#canceltrans").addClass('d-none');
         }else{

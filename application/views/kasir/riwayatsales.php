@@ -187,6 +187,10 @@
                                 <ul class="list-group">
                                     <!-- Total -->
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Total TR</span></strong>
+                                        <strong id="ttr">-</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Total Harga Jual</span></strong>
                                         <strong id="tthj">-</strong>
                                     </li>
