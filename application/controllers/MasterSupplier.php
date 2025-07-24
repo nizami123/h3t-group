@@ -55,9 +55,8 @@ class MasterSupplier extends Auth
     </style>    
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
-    <script src="' . base_url('assets/js/additional-js/msupplier.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/msupplier.js?v=' . time() . '') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
