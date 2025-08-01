@@ -56,8 +56,7 @@ class MasterKaryawan extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/serverside.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/serverside.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
