@@ -163,7 +163,7 @@ class StockOpname extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/iopnamebaru.js?v=2.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/iopnamebaru.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -274,6 +274,7 @@ class StockOpname extends Auth
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status_brg');
     $this->datatables->from('vprdop');
     $this->datatables->where('jenis <>', 'Aksesoris');
+    $this->datatables->where_in('tipe', ['Unit']);
     $this->datatables->where('id_toko',$id_toko);
     $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());
@@ -283,6 +284,7 @@ class StockOpname extends Auth
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status');
     $this->datatables->from('vopname_dtl');
     $this->datatables->where('jenis <>', 'Aksesoris');
+    $this->datatables->where_in('tipe', ['Unit']);
     $this->datatables->where('id_toko',$id_toko);
     $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());

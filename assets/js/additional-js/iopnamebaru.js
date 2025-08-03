@@ -501,10 +501,10 @@ function debounce(func, wait) {
     };
 }
 function getProdOP() {
-    $('#carisn').on('input', debounce(function() {
-        var idt = $(this).data('idt');
-        var idop = $(this).data('idop');
-        var otgl = $(this).data('otgl');
+    $('#carisn').off('input').on('input', debounce(function() {
+        var idt = $(this).attr('data-idt');
+        var idop = $(this).attr('data-idop');
+        var otgl = $(this).attr('data-otgl');
         var searchTerm = $(this).val();
         if (searchTerm.trim() === '') {
             return; // Do nothing if the search term is empty
@@ -608,10 +608,10 @@ function getProdOP() {
     }, 500)); // Adjust the debounce wait time as needed
 }
 function inputacc() {
-    $('#carisnacc').on('input', debounce(function() {
-        var idtacc = $(this).data('idtacc');
-        var idopacc = $(this).data('idopacc');
-        var otglacc = $(this).data('otglacc');
+    $('#carisnacc').off('input').on('input', debounce(function() {
+        var idtacc = $(this).attr('data-idtacc');
+        var idopacc = $(this).attr('data-idopacc');
+        var otglacc = $(this).attr('data-otglacc');
         var searchTerm = $(this).val();
         if (searchTerm.trim() === '') {
             return; // Do nothing if the search term is empty
