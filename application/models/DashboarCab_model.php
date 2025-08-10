@@ -75,6 +75,7 @@ class DashboarCab_model extends CI_Model {
     $this->db->where_in('status',[1,2]);
     $this->db->group_by('id_ksr');
     $this->db->order_by('total_jual','desc');
+    $this->db->limit(5);
     $query = $this->db->get();
     return $query->result_array();
   }
