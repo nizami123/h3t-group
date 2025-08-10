@@ -30,6 +30,7 @@
                   <!-- Gross Profits -->
                   <div class=" col-md-7 box-col-7">
                     <div class="row"> 
+                      <?php if ($this->session->userdata('jabatan') == 'OWNER'){ ?>
                       <div class="col-sm-12">
                         <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="" data-total_hpp="" data-total_pen="" data-total_disk="" data-total_cashb="" data-bulanlb="" data-tahunlb="">
                           <div class="card o-hidden">  
@@ -48,6 +49,7 @@
                           </div>
                         </a>
                       </div>
+                      <?php } ?>
                       <!-- Asset Produk Semua Cabang -->
                       <div class="col-6">
                         <a href="#" class="cap" data-bs-toggle="modal" data-bs-target="#DetailAssetProduk" data-total_asset="">
