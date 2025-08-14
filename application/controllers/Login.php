@@ -23,7 +23,7 @@ class Login extends CI_Controller
     $data['js'] = '
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
-    <script src="' . base_url('assets/js/additional-js/auth.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/auth.js?v='.time().'') . '"></script>
     ';
     $this->load->view('absensi/login',$data);
   }
