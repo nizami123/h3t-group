@@ -5,6 +5,7 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     // currency: 'IDR',
     minimumFractionDigits: 0
 });
+const jabatan = $('#data-jab').text();
 $(document).ready(function () {
     table_etalase();
     getselect();
@@ -207,7 +208,8 @@ function table_etalase() {
         var inputPubField = $('#'+ inputPub);
         var inputMarField = $('#'+ inputMar);
         var inputCbField = $('#'+ inputCb);
-        inputField.prop('disabled', !this.checked);
+        jabatan === 'PIC' ? inputField.prop('disabled', true) : inputField.prop('disabled', !this.checked);
+        // inputField.prop('disabled', !this.checked);
         inputPubField.prop('disabled', !this.checked);
         inputMarField.prop({
             'disabled': !this.checked,

@@ -99,7 +99,7 @@
                     <img class="rounded-circle me-2" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="Profile Picture" loading="lazy" width="40" height="40">
                     <div class="text-start">
                         <span class="d-block fw-bold"><?php echo $this->session->userdata('nama_lengkap'); ?></span>
-                        <small class="text-muted"><?php echo $this->session->userdata('jabatan'); ?></small>
+                        <small class="text-muted" id="data-jab"><?php echo $this->session->userdata('jabatan'); ?></small>
                     </div>
                 </button>
                 <ul class="dropdown-menu">
