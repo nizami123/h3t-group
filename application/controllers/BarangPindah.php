@@ -45,7 +45,7 @@ class BarangPindah extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/ibarangp.js?v=1.3') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/ibarangp.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
@@ -231,6 +231,11 @@ class BarangPindah extends Auth
     imagejpeg($imageResource, $imagePath.$imageName);    
   }
   public function printsp($id) {
+    $data['get_id']= $this->BarangPindah_model->getWhere($id);
+    $data['detail']= $this->BarangPindah_model->detailprint($id);
+    $this->load->view('print/formatsp',$data);
+  }
+  public function infosp($id) {
     $data['get_id']= $this->BarangPindah_model->getWhere($id);
     $data['detail']= $this->BarangPindah_model->detailprint($id);
     $this->load->view('print/formatsp',$data);

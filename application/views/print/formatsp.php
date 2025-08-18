@@ -29,9 +29,17 @@
       body  { margin: 1cm; }
     }
         </style>
+  <!-- Make sure jQuery is loaded before this script -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-     window.onafterprint = window.close;
-         window.print();
+    var segment = "<?php echo $this->uri->segment(2); ?>";
+
+    $(document).ready(function() {
+      if (segment === 'printsp') {
+          window.onafterprint = window.close;
+          window.print();
+      }
+    });
   </script>
 </head>
 <body>

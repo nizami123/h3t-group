@@ -259,7 +259,8 @@ function tablesp() {
                                     <div class="btn-group">
                                         <button class="btn btn-warning d-none" data-id="${full.id_pindah}"><i class="icofont icofont-ui-check"></i></button>
                                         <button class="btn btn-success d-none" data-id="${data}" data-idp="${full.id_pindah}" data-bs-toggle="modal" data-bs-target="#PindahBarang"><i class="fa fa-plus"></i></button>
-                                        <button class="btn btn-primary" id="btn-printsp" data-id="${full.nosp}"><i class="fa fa-exclamation-circle"></i></button>
+                                        <button class="btn btn-primary" id="btn-printsp" data-id="${full.nosp}"><i class="fa fa-print"></i></button>
+                                        <button class="btn btn-success" id="btn-infosp" data-id="${full.nosp}"><i class="fa fa-exclamation-circle"></i></button>
                                         <button class="btn btn-secondary d-none" id="delete-btn" data-id="${full.id_pindah}"><i class="fa fa-trash-o"></i></button>
                                     </div>
                                 </ul>
@@ -796,6 +797,11 @@ function printsp() {
     $(document).on('click', '#btn-printsp', function() {
         var nosp = $(this).data('id');
         var printUrl = base_url + 'BarangPindah/printsp/' + nosp;
+        window.open(printUrl, '_blank');
+    });
+    $(document).on('click', '#btn-infosp', function() {
+        var nosp = $(this).data('id');
+        var printUrl = base_url + 'BarangPindah/infosp/' + nosp;
         window.open(printUrl, '_blank');
     });
 }
