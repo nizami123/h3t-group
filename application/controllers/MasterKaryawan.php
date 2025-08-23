@@ -191,7 +191,7 @@ class MasterKaryawan extends Auth
         'nama_admin'=>$this->input->post('enama'),
         'email_admin'=>$this->input->post('email'),
         'password'=>$this->input->post('epassword'),
-        'level'=>$this->input->post('erole'),
+        // 'level'=>$this->input->post('erole'),
       ];
 
       $file_path = realpath(APPPATH . '../assets/dhdokumen/karyawan');
