@@ -293,7 +293,7 @@ class StockOpname extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status_brg');
     $this->datatables->from('vprdop');
-    $this->datatables->where_in('tipe', ['Aksesoris','Accesoris']);
+    $this->datatables->where_in('tipe', ['Aksesoris','Accesoris','Software']);
     $this->datatables->where('id_toko',$id_toko);
     $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());
@@ -302,7 +302,7 @@ class StockOpname extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status');
     $this->datatables->from('vopname_dtl');
-    $this->datatables->where_in('tipe', ['Aksesoris','Accesoris']);
+    $this->datatables->where_in('tipe', ['Aksesoris','Accesoris','Software']);
     $this->datatables->where('id_toko',$id_toko);
     $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());

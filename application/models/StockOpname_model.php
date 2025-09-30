@@ -133,7 +133,7 @@ class StockOpname_model extends CI_Model {
   public function getAccOP($idt,$idop,$sn) {
     $this->db->select(['id_opname','id_keluar', 'sn_brg', 'merk', 'jenis', 'nama_brg','kondisi','spek','hrg_hpp','hrg_jual','id_toko'])
     ->from('vprdop')
-    ->where_in('tipe',['Aksesoris','Accesoris'])
+    ->where_in('tipe',['Aksesoris','Accesoris','Software'])
     ->where('id_toko',$idt)
     ->where('id_opname',$idop)
     ->where('sn_brg', $sn);
@@ -143,7 +143,7 @@ class StockOpname_model extends CI_Model {
   public function getAccOPHistory($idt,$idop,$sn) {
     $this->db->select(['id_opname','id_keluar', 'sn_brg', 'merk', 'jenis', 'nama_brg','id_toko'])
     ->from('vopname_dtl')
-    ->where_in('tipe',['Aksesoris','Accesoris'])
+    ->where_in('tipe',['Aksesoris','Accesoris','Software'])
     ->where('id_toko',$idt)
     ->where('id_opname',$idop)
     ->where('sn_brg', $sn);
