@@ -65,7 +65,7 @@ class MasterCabang extends Auth
     </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/apiwilayah.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/mcabang.js') . '"></script>
