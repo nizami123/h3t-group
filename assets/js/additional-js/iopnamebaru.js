@@ -510,9 +510,14 @@ function getProdOP() {
             return; // Do nothing if the search term is empty
         }
         $.ajax({
-            url: base_url + 'StockOpname/searchSN/' + idt + '/' + idop + '/' + searchTerm,
+            url: base_url + 'StockOpname/searchSN',
             type: 'GET',
             dataType: 'json',
+            data: {
+                idt: idt,
+                idop: idop,
+                sn: searchTerm
+            },
             success: function(response) {
                 if (response.data.length === 1 && response.is_not == 1) {
                     var data = response.data[0];
@@ -617,9 +622,14 @@ function inputacc() {
             return; // Do nothing if the search term is empty
         }
         $.ajax({
-            url: base_url + 'StockOpname/searchAccSN/'+idtacc+'/'+idopacc+'/'+searchTerm,
+            url: base_url + 'StockOpname/searchAccSN',
             type: 'GET',
             dataType: 'json',
+            data: {
+                idt: idtacc,
+                idop: idopacc,
+                sn: searchTerm
+            },
             success: function(response) {
                 if (response.data.length === 1 && response.is_not == 1) {
                     var data = response.data[0];

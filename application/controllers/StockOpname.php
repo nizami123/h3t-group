@@ -345,25 +345,31 @@ class StockOpname extends Auth
     $result = $this->StockOpname_model->delete($id);
     echo json_encode($result);
   }
-  public function searchSN($idt,$idop,$sn){
-    $results = $this->StockOpname_model->getProdOP($idt,$idop,$sn);
-    if (empty($results)) {
-      $results = $this->StockOpname_model->getProdOPHistory($idt, $idop, $sn);
+  public function searchSN(){
+      $idt  = $this->input->get('idt');
+      $idop = $this->input->get('idop');
+      $sn   = $this->input->get('sn');
+      $results = $this->StockOpname_model->getProdOP($idt, $idop, $sn);
       header('Content-Type: application/json');
+      if (empty($results)) {
+          $results = $this->StockOpname_model->getProdOPHistory($idt, $idop, $sn);
+          echo json_encode([
+              'data'   => $results,
+              'is_alr' => 1
+          ]);
+          return;
+      }
       echo json_encode([
-          'data' => $results,
-          'is_alr' => 1
+          'data'   => $results,
+          'is_not' => 1
       ]);
-      return;
-    }
-    header('Content-Type: application/json');
-    echo json_encode([
-      'data' => $results,
-      'is_not' => 1
-    ]);
   }
-  public function searchAccSN($idt,$idop,$sn){
+  public function searchAccSN(){
+    $idt  = $this->input->get('idt');
+    $idop = $this->input->get('idop');
+    $sn   = $this->input->get('sn');
     $results = $this->StockOpname_model->getAccOP($idt,$idop,$sn);
+    header('Content-Type: application/json');
     if (empty($results)) {
       $results = $this->StockOpname_model->getAccOPHistory($idt, $idop, $sn);
       header('Content-Type: application/json');
@@ -373,7 +379,6 @@ class StockOpname extends Auth
       ]);
       return;
     }
-    header('Content-Type: application/json');
     echo json_encode([
       'data' => $results,
       'is_not' => 1
