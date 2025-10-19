@@ -414,6 +414,7 @@
     <script src="<?=base_url()?>assets/js/script.js"></script>
     <script>
         $(document).ready(function () {
+          $.fn.dataTable.ext.errMode = 'none';
             var currentYear = new Date().getFullYear();
             var segment1 = "<?php echo $this->uri->segment(1); ?>";
             var segment2 = "<?php echo $this->uri->segment(2); ?>";
