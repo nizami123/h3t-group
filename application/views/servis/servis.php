@@ -67,18 +67,17 @@
                   </div>
                 </div>
               </div> -->
-
               <!-- NEW SERVIS -->
               <div class="row">
                 <div class="col-md-12">
                   <div class="card">
                     <div class="m-2">
                         <ul class="nav nav-tabs" id="servis-tab" role="tablist">
-                          <li class="nav-item"><a class="nav-link active txt-primary" id="listservis-tab" data-bs-toggle="tab" href="#listservis" role="tab" aria-controls="listservis" aria-selected="true"><i class="fa fa-list-alt"></i>List Servis</a></li>
+                          <li class="nav-item"><a class="nav-link active" id="listservis-tab" data-bs-toggle="tab" href="#listservis" role="tab" aria-controls="listservis" aria-selected="true"><i class="fa fa-list-alt"></i>List Servis</a></li>
                         </ul>
                         <div class="tab-content" id="icon-tabContent">
                           <div class="tab-pane fade show active" id="listservis" role="tabpanel" aria-labelledby="listservis-tab">
-                              <div class="dt-ext table-responsive mt-2">
+                              <div class="dt-ext m-2">
                                 <table class="display" id="table-listservis"></table>
                               </div>
                           </div>

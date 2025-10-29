@@ -20,6 +20,7 @@ class Servis extends Auth
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/feather-icon.css') . '">
     <style>
         .select2-selection__rendered {
             line-height: 35px !important;
@@ -33,6 +34,75 @@ class Servis extends Auth
         }
         .select2-selection__arrow {
             height: 37px !important;
+        }
+        /*******************************
+         TABLE CELL SPACING
+        *******************************/
+        .table-formcustom tbody td {
+            padding: .0rem .0rem !important;
+        }
+        .table-formcustom thead th {
+            padding: .35rem .5rem !important;
+        }
+        /*******************************
+         VERTICAL ALIGN
+        *******************************/
+        .table-formcustom td {
+            vertical-align: middle !important;
+            padding-top: 8px !important;
+            padding-bottom: 8px !important;
+        }
+        /*******************************
+         BOOTSTRAP FORM CONTROL
+        *******************************/
+        .table-formcustom .form-control {
+            height: 38px !important;
+            padding: 6px 12px !important;
+            font-size: .9rem;
+            box-sizing: border-box;
+            margin: 0 !important;
+        }
+        .table-formcustom input.form-control {
+            border-radius: 0 !important;
+        }
+
+        .table-formcustom input.form-control:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: #ccc !important;
+        }
+        .table-formcustom .tt-menu {
+            max-height: 250px; /* bebas, bisa 200–300px */
+            overflow-y: auto;
+        }
+        /* CSS untuk efek kelap-kelip */
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0; }
+        }
+        .blink {
+            animation: blink 2s infinite;
+        }        
+        /* 🔥 Add at the bottom of your <style> */
+        #table-listservis tbody tr.shown + tr > td {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        #table-listservis tbody tr.shown + tr > td > div {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        #table-listservis tbody tr.shown + tr table {
+            margin: 0 !important;
+        }
+        #table-listservis tbody tr.shown + tr .mt-3 {
+            margin-top: 0 !important;
+        }
+        .dropdown-menu .show{
+            min-width: 200px !important; /* Adjust as needed */
+        }
+        .dropdown-item {
+            width: auto !important;
         }
     </style>';
     $data['js'] = '<script>var base_url = "' . base_url() . '";
@@ -58,6 +128,9 @@ class Servis extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+    <script src="' . base_url('assets/js/icons/feather-icon/feather.min.js') . '"></script>
+    <script src="' . base_url('assets/js/icons/feather-icon/feather-icon.js') . '"></script>
+    <script src="' . base_url('assets/js/typeahead/typeahead.bundle.js') . '"></script>
     <!-- DAYJS & TIMEZONE -->
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
@@ -82,7 +155,6 @@ class Servis extends Auth
     }
     return $data;
   }
-
   public function saveFormServis() {
     if ($this->input->is_ajax_request()) {
 
@@ -111,6 +183,7 @@ class Servis extends Auth
         // --- Insert data ke tb_servis ---
         $servis_data = [
             'tgl_servis'   => $data['tgl_servis'],
+            'tgl_dateline' => $data['tgl_dateline'],
             'id_plg'       => $id_plg,
             'id_cabang'      => $data['scabang'],
             'pic_penerima' => $data['pic_penerima'],
@@ -132,7 +205,6 @@ class Servis extends Auth
         show_404();
     }
   }
-  
   public function updateServis($id){
       if ($this->input->is_ajax_request()) {
 
@@ -157,6 +229,7 @@ class Servis extends Auth
           // --- Data to update only from tb_servis ---
           $servis_data = [
               'tgl_servis'   => $data['tgl_servis'],
+              'tgl_dateline' => $data['tgl_dateline'],
               'id_cabang'    => $data['scabang'],
               'pic_penerima' => $data['pic_penerima'],
               'data_servis'  => json_encode($data['items']),
@@ -176,7 +249,6 @@ class Servis extends Auth
           show_404();
       }
   }
-
   public function deleteServis($id) {
     if ($this->input->is_ajax_request()) {
         // Hapus data dari tb_servis berdasarkan ID
@@ -192,7 +264,6 @@ class Servis extends Auth
         show_404();
     }
   }
-
   public function cancelServis($id){
       if (!$this->input->is_ajax_request()) {
           show_404();
@@ -222,7 +293,23 @@ class Servis extends Auth
           echo json_encode(['status' => 'error', 'message' => 'Gagal membatalkan data servis.']);
       }
   }
+  public function finishServis($id){
+    if ($this->input->is_ajax_request()) {
 
+        $this->db->where('id', $id);
+        $update = $this->db->update('tb_servis', [
+            'status' => 'Finish'
+        ]);
+        if ($update) {
+            echo json_encode(['status' => 'success', 'message' => 'Data servis berhasil diselesaikan.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Gagal menyelesaikan data servis.']);
+        }
+
+    } else {
+        show_404();
+    }
+  }
   public function prosesChecker($id) {
     if ($this->input->is_ajax_request()) {
 
@@ -239,6 +326,7 @@ class Servis extends Auth
         $pic_checker = $data['pic_checker'];
         $items_checker = $data['items_checker'];
         $id_user = $this->session->userdata('id_user');
+        $nama_user = $this->session->userdata('nama_lengkap');
         $created_at = date('Y-m-d H:i:s');
         
         $payload = [
@@ -247,6 +335,7 @@ class Servis extends Auth
             'pic_checker' => $pic_checker,
             'data_checker' => $items_checker,
             'id_user_create' => $id_user,
+            'nama_user' => $nama_user,
             'created_at' => $created_at
         ];
 
@@ -270,7 +359,55 @@ class Servis extends Auth
         show_404();
     }
   }
+  public function prosesTeknisi($id) {
+    if ($this->input->is_ajax_request()) {
 
+        // Get JSON input
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        if (empty($data)) {
+            echo json_encode(['status' => 'error', 'message' => 'Data tidak valid.']);
+            return;
+        }
+
+        $tgl_teknisi = $data['tgl_teknisi'];
+        $pic_teknisi = $data['pic_teknisi'];
+        $items_teknisi = $data['items_teknisi'];
+        $id_user = $this->session->userdata('id_user');
+        $nama_user = $this->session->userdata('nama_lengkap');
+        $created_at = date('Y-m-d H:i:s');
+        
+        $payload = [
+            'id_servis' => $id,
+            'tgl_teknisi' => $tgl_teknisi,
+            'pic_teknisi' => $pic_teknisi,
+            'data_teknisi' => $items_teknisi,
+            'id_user_create' => $id_user,
+            'nama_user' => $nama_user,
+            'created_at' => $created_at
+        ];
+
+        $json_payload = json_encode($payload, JSON_UNESCAPED_UNICODE);
+
+        $servis_data = [
+            'status'        => 'Proses Servis',
+            'data_teknisi'  => $json_payload
+        ];
+
+        $this->db->where('id', $id);
+        $update = $this->db->update('tb_servis', $servis_data);
+
+        if ($update) {
+            echo json_encode(['status' => 'success','message' => 'Data servis berhasil diproses teknisi.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui data servis.']);
+        }
+
+    } else {
+        show_404();
+    }
+  }
   public function tableservis(){
     $this->load->library('datatables');
     $this->datatables->select('
@@ -283,16 +420,37 @@ class Servis extends Auth
         alamat,
         no_ponsel,
         tgl_servis,
+        deadline,
+        tgl_dateline,
         user_created,
         pic_penerima,
         id_cabang,
         toko_penerima,
         keterangan_cancel,
         data_checker,
-        status
+        data_teknisi,
+        status,
+        tgl_buat_form
     ');
     $this->datatables->from('vlist_servis');
     return print_r($this->datatables->generate());
+  }
+  public function loadteknisi() {
+    $searchTerm = $this->input->get('q');
+    $this->db->select('id_user, nama_lengkap, role_user, jabatan');
+    $this->db->group_start()
+        ->where('role_user', 'Teknisi')
+        ->or_where('jabatan', 'Teknisi')
+        ->group_end();
+
+    if (!empty($searchTerm)) {
+        $this->db->like('nama_lengkap', $searchTerm);
+    }
+
+    $results = $this->db->get('tb_user')->result_array();
+
+    header('Content-Type: application/json');
+    echo json_encode($results);
   }
   // NEWSERVIS
   public function tabledetailservis($id){
