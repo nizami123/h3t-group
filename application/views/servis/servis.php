@@ -77,8 +77,8 @@
                         </ul>
                         <div class="tab-content" id="icon-tabContent">
                           <div class="tab-pane fade show active" id="listservis" role="tabpanel" aria-labelledby="listservis-tab">
-                              <div class="dt-ext m-2">
-                                <table class="display" id="table-listservis"></table>
+                              <div class="dt-ext m-2"style="overflow: auto;">
+                                <table class="display nowrap w-100" id="table-listservis"></table>
                               </div>
                           </div>
                         </div>

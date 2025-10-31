@@ -834,9 +834,11 @@ function tablelistservis() {
     }
     tableListServis = $("#table-listservis").DataTable({
         "processing": true,
-        autoWidth: false,       // 🚫 prevent DataTables from forcing fixed width
-        responsive: true,       // ✅ force shrink to fit screen
-        scrollX: false, 
+        autoWidth: true,
+        responsive: false,
+        scrollX: true,
+        scrollCollapse: true,
+        scrollY: "50vh",
         "language": {
             "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
         },
@@ -1060,17 +1062,20 @@ function tablelistservis() {
             },
             {
                 text: `
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Tambah List Servis
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item add-servis-tab" href="#" data-type="baru">Form Servis Customer</a></li>
-                            <li><a class="dropdown-item add-servis-tab" href="#" data-type="lainnya">Form Servis Supplier</a></li>
-                        </ul>
-                    </div>
+                    <button class="btn btn-primary add-servis-tab" data-type="baru"><i class="fa fa-file-text me-2"></i>Form Servis Customer</button>
                 `,
-                tag: 'span', // 👈 prevent DataTables from wrapping with <button>
+                // text: `
+                //     <div class="btn-group" role="group">
+                //         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                //             Tambah List Servis
+                //         </button>
+                //         <ul class="dropdown-menu">
+                //             <li><a class="dropdown-item add-servis-tab" href="#" data-type="baru">Form Servis Customer</a></li>
+                //             <li><a class="dropdown-item add-servis-tab" href="#" data-type="lainnya">Form Servis Supplier</a></li>
+                //         </ul>
+                //     </div>
+                // `,
+                // tag: 'span', // 👈 prevent DataTables from wrapping with <button>
                 className: 'custom-add-button',
                 attr: { id: 'add-button' },
                 init: function (api, node, config) {
@@ -1154,6 +1159,424 @@ $(document).on('click', '.finish-servis-tab', function (e) {
     const servisId = $(this).data('id');
     finishServis(servisId);
 });
+$(document).on('click', '.invoice-servis-tab', function (e) {
+    e.preventDefault();
+    const rowData = tableListServis.row($(this).closest('tr')).data();
+    buatInvoice(rowData);
+});
+function buatInvoice(data) {
+    const id = data.id;
+    const newTabId = 'invoice-' + id;
+    const existingTab = document.getElementById(`${newTabId}-tab`);
+    if (existingTab) {
+        const tabTrigger = new bootstrap.Tab(existingTab);
+        tabTrigger.show();
+        return;
+    }
+    let itemsServis = [];
+    try { itemsServis = JSON.parse(data.data_servis || '[]'); } catch {}
+    if (!Array.isArray(itemsServis)) itemsServis = [];
+
+    let itemsChecker = []; 
+    try { const parsed = JSON.parse(data.data_checker || '[]'); itemsChecker = Array.isArray(parsed) ? parsed : [parsed]; } catch (e) { itemsChecker = []; }
+    if (!Array.isArray(itemsChecker)) itemsChecker = [];
+
+    let itemsTeknisi = []; 
+    try { const parsed = JSON.parse(data.data_teknisi || '[]'); itemsTeknisi = Array.isArray(parsed) ? parsed : [parsed]; } catch (e) { itemsTeknisi = []; }
+    if (!Array.isArray(itemsTeknisi)) itemsTeknisi = [];
+
+    const itemsInvoice = [];
+    
+    const parentAcc = `outlineaccordion-${newTabId}`;
+    const accHd1   = `outlineaccordionone-${newTabId}`;
+    const accId1   = `left-collapseOne-${newTabId}`;
+    const accHd2   = `outlineaccordiontwo-${newTabId}`;
+    const accId2   = `left-collapseTwo-${newTabId}`;
+    const accHd3   = `outlineaccordionthree-${newTabId}`;
+    const accId3   = `left-collapseThree-${newTabId}`;
+    // Calculate totalHarga first
+    let totalHarga = 0;
+    itemsTeknisi.forEach(item => {
+        if (item.data_teknisi) {
+            item.data_teknisi.forEach(subItem => {
+                totalHarga += parseInt(subItem.harga || 0);
+            });
+        }
+    });
+    const newTab = `
+        <li class="nav-item" id="li-${newTabId}">
+            <a class="nav-link txt-success py-2 d-inline-flex align-items-center gap-1" 
+               id="${newTabId}-tab" data-bs-toggle="tab"
+               href="#${newTabId}" role="tab" aria-controls="${newTabId}" aria-selected="false">
+                <i class="fa fa-file-text"></i> 
+                <span class="txt-success">Buat Invoice SV-${id}</span>
+                <button class="btn-pill btn-sm btn-outline-danger border border-danger close-tab" 
+                        data-tab="#${newTabId}" title="Tutup tab">
+                    <i class="ms-2 fa fa-times"></i>
+                </button>
+            </a>
+        </li>
+    `;
+
+    const newTabContent = `
+        <div class="tab-pane fade" id="${newTabId}" role="tabpanel" aria-labelledby="${newTabId}-tab">
+            <div class="mt-2">
+                <div class="accordion dark-accordion" id="${parentAcc}">
+                    <!-- ACCORDION SERVIS -->
+                    <div class="accordion-item accordion-wrapper">
+                        <h2 class="accordion-header" id="${accHd1}">
+                          <button class="accordion-button collapsed accordion-light-warning" 
+                                  type="button" data-bs-toggle="collapse" data-bs-target="#${accId1}" 
+                                  aria-expanded="false" aria-controls="${accId1}" title="Klik untuk melihat informasi servis">
+                                  <h6 class="f-w-600">INFORMASI SERVIS</h6>
+                                  <i class="svg-color chevron-icon" data-feather="chevron-right"></i>
+                          </button>
+                        </h2>
+                        <div class="accordion-collapse collapse" id="${accId1}" 
+                             aria-labelledby="${accHd1}" data-bs-parent="#${parentAcc}">
+                            <div class="accordion-body m-0" style="padding: 0;">
+                                <table class="table table-bordered m-0" style="width: 100%; text-transform: uppercase;" id="table-cekservis${newTabId}">
+                                    <thead>
+                                        <tr>
+                                            <th class="fw-bold text-center bg-warning" colspan="4"><h6 class="f-w-600">SERVIS</h6></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-bold" style="width:20%">SERVIS ID</td>
+                                            <td style="width:30%">${data.servis_id}</td>
+                                            <td class="fw-bold" style="width:20%">TANGGAL SERVIS</td>
+                                            <td style="width:30%">${formatDateIndo(data.tgl_servis || '-')} ➡️ ${formatDateIndo(data.tgl_dateline || '-')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold" style="width:20%">CUSTOMER</td>
+                                            <td style="width:30%">${data.nama_pelanggan || '-'}</td>
+                                            <td class="fw-bold" style="width:20%">NO TELPON</td>
+                                            <td style="width:30%">${data.no_ponsel || '-'}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">ALAMAT</td>
+                                            <td colspan="3">${data.alamat || '-'}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold" style="width:20%">CABANG PENERIMA</td>
+                                            <td style="width:30%">${data.toko_penerima || '-'}</td>
+                                            <td class="fw-bold" style="width:20%">PIC PENERIMA</td>
+                                            <td style="width:30%">${data.pic_penerima || '-'}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">Dibuat Oleh</td>
+                                            <td>${data.user_created || '-'}</td>
+                                            <td class="fw-bold">Dibuat Pada</td>
+                                            <td>${formatDateTimeIndo(data.tgl_buat_form || '-')}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-center bg-warning"><h6 class="f-w-600 mb-0">DETAIL SERVIS</h6></td>
+                                        </tr>
+                                        ${itemsServis.map(item => `
+                                            <tr>
+                                                <td style="width: 50%;" colspan="2" class="fw-bold">${item.key}</td>
+                                                <td style="width: 50%;" colspan="2">${item.value}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACCORDION CHECKER -->
+                    <div class="accordion-item accordion-wrapper">
+                        <h2 class="accordion-header" id="${accHd2}">
+                          <button class="accordion-button collapsed accordion-light-primary" 
+                                  type="button" data-bs-toggle="collapse" data-bs-target="#${accId2}" 
+                                  aria-expanded="false" aria-controls="${accId2}" title="Klik untuk melihat informasi checker">
+                                  <h6 class="f-w-600">INFORMASI CHECKER</h6>
+                                  <i class="svg-color chevron-icon" data-feather="chevron-right"></i>
+                          </button>
+                        </h2>
+                        <div class="accordion-collapse collapse" id="${accId2}" 
+                             aria-labelledby="${accHd2}" data-bs-parent="#${parentAcc}">
+                            <div class="accordion-body m-0" style="padding: 0;">
+                                <table class="table table-bordered m-0" style="width: 100%; text-transform: uppercase;" id="table-cservis-${newTabId}">
+                                    <thead>
+                                        <tr>
+                                            <th class="fw-bold text-center bg-primary text-white" colspan="4"><h6 class="f-w-600 mb-0">CHECKER</h6></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${itemsChecker.map(item => `
+                                            <tr>
+                                                <td class="fw-bold" style="width:20%">Tanggal Checker</td>
+                                                <td style="width:30%">${formatDateIndo(item.tgl_checker || '-')}</td>
+                                                <td class="fw-bold" style="width:20%">PIC Checker</td>
+                                                <td style="width:30%">${item.pic_checker || '-'}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Dibuat Oleh</td>
+                                                <td>${item.nama_user || '-'}</td>
+                                                <td class="fw-bold">Dibuat Pada</td>
+                                                <td>${formatDateTimeIndo(item.created_at || '-')}</td>
+                                            </tr>
+                                        `).join('')}
+                                            <tr>
+                                                <td colspan="4" class="text-center bg-primary text-white py-2">
+                                                <h6 class="f-w-600 mb-0">DETAIL CHECKER</h6>
+                                                </td>
+                                            </tr>
+                                        ${itemsChecker.flatMap(item =>
+                                            item.data_checker?.map(subItem => `
+                                                <tr>
+                                                    <td colspan="2">${subItem.key}</td>
+                                                    <td colspan="2">${subItem.value}</td>
+                                                </tr>
+                                            `) || []
+                                        ).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ACCORDION TEKNISI -->
+                    <div class="accordion-item accordion-wrapper">
+                        <h2 class="accordion-header" id="${accHd3}">
+                          <button class="accordion-button collapsed accordion-light-info" 
+                                  type="button" data-bs-toggle="collapse" data-bs-target="#${accId3}" 
+                                  aria-expanded="false" aria-controls="${accId3}" title="Klik untuk melihat informasi teknisi">
+                                  <h6 class="f-w-600">INFORMASI TEKNISI</h6>
+                                  <i class="svg-color chevron-icon" data-feather="chevron-right"></i>
+                          </button>
+                        </h2>
+                        <div class="accordion-collapse collapse" id="${accId3}" 
+                             aria-labelledby="${accHd3}" data-bs-parent="#${parentAcc}">
+                            <div class="accordion-body m-0" style="padding: 0;">
+                                <table class="table table-bordered m-0" style="width: 100%; text-transform: uppercase;" id="table-tservis-${newTabId}">
+                                    <thead>
+                                        <tr>
+                                            <th class="fw-bold text-center bg-info text-white" colspan="4"><h6 class="f-w-600 mb-0">TEKNISI</h6></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${itemsTeknisi.map(item => `
+                                            <tr>
+                                                <td class="fw-bold" style="width:20%">Tanggal Teknisi</td>
+                                                <td style="width:30%">${formatDateIndo(item.tgl_teknisi || '-')}</td>
+                                                <td class="fw-bold" style="width:20%">PIC Teknisi</td>
+                                                <td style="width:30%">${item.pic_teknisi || '-'}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Dibuat Oleh</td>
+                                                <td>${item.nama_user || '-'}</td>
+                                                <td class="fw-bold">Dibuat Pada</td>
+                                                <td>${formatDateTimeIndo(item.created_at || '-')}</td>
+                                            </tr>
+                                        `).join('')}
+                                            <tr>
+                                                <td colspan="4" class="text-center bg-info text-white py-2">
+                                                <h6 class="f-w-600 mb-0">DETAIL TEKNISI</h6>
+                                                </td>
+                                            </tr>
+                                        ${itemsTeknisi.flatMap(item =>
+                                            item.data_teknisi?.map(subItem => `
+                                                <tr>
+                                                    <td>${subItem.key}</td>
+                                                    <td colspan="2">${subItem.value}</td>
+                                                    <td class="text-end">${formatcur.format(subItem.harga)}</td>
+                                                </tr>
+                                            `) || []
+                                        ).join('')}
+                                        <tr class="bg-light">
+                                            <td colspan="3" class="fw-bold text-end">Total</td>
+                                            <td class="fw-bold text-end">${formatcur.format(totalHarga)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- INPUT INVOICE -->
+                <div class="d-flex align-items-center my-2">
+                    <hr class="flex-grow-1 border-2 border-secondary opacity-50">
+                    <span class="mx-3 text-muted fw-semibold">INPUT DATA INVOICE</span>
+                    <hr class="flex-grow-1 border-2 border-secondary opacity-50">
+                </div>
+                <form id="form-pservis-${newTabId}" class="row g-3">
+                    <div class="col-md-6 col-12 my-0">
+                        <label class="form-label">Tanggal Invoice</label>
+                        <input type="date" class="form-control" id="tgl_invoice${newTabId}" value="${itemsInvoice.tgl_invoice || ''}" required readonly>
+                    </div>
+                    <div class="col-md-6 col-12 my-0">
+                        <label class="form-label">No Invoice</label>
+                        <input type="text" class="form-control" id="no_invoice${newTabId}" value="${itemsInvoice.no_invoice || ''}" required readonly>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="form-label mb-0">Tanggal Diambil. <small> *Diambil sekarang?</small></label>
+                            <input class="tgl tgl-flip" id="cb5${newTabId}" type="checkbox">
+                            <label class="tgl-btn mb-0" data-tg-off="Tidak" data-tg-on="Iya!" for="cb5${newTabId}"></label>
+                        </div>
+                        <input type="date" class="form-control" id="tgl_diambil${newTabId}" value="${itemsInvoice.tgl_diambil || ''}" disabled>
+                    </div>
+                    <div class="col-md-4 col-12 mt-4">
+                        <label class="form-label">Tipe Pembayaran</label>
+                        <div class="form-check-size mt-1" style="gap: 10px;">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input me-2" id="chTunai" type="radio" name="inlineRadioOptions${newTabId}" value="Tunai" checked="">
+                              <label class="form-check-label" for="chTunai">Tunai</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input me-2" id="chTransfer" type="radio" name="inlineRadioOptions${newTabId}" value="Transfer">
+                              <label class="form-check-label" for="chTransfer">Transfer</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input me-2" id="chTempo" type="radio" name="inlineRadioOptions${newTabId}" value="Tempo">
+                              <label class="form-check-label" for="chTempo">Tempo</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input me-2" id="chSplit" type="radio" name="inlineRadioOptions${newTabId}" value="Split Bill">
+                              <label class="form-check-label" for="chSplit">Split Bill</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12 mt-4">
+                        <label class="form-label">Detail Tipe Pembayaran</label>
+                        <div id="detailPembayaranContainer${newTabId}"></div>
+                    </div>
+                    <div class="col-12 position-relative">
+                        <table class="table table-bordered table-formcustom" id="temp-tablei${newTabId}" width="100%">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th colspan="4" class="text-center">Tabel Detail Data Invoice</th>
+                                </tr>
+                                <tr>
+                                    <th style="width:50%">Item</th>
+                                    <th style="width:50%">Harga</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tr-no-data">
+                                    <td colspan="4" class="text-center text-muted fst-italic">-- Tidak ada data --</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="button" id="btninvoice${newTabId}" class="btn btn-outline-primary">
+                            Simpan Invoice
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    $('#servis-tab').append(newTab);
+    $('#icon-tabContent').append(newTabContent);
+    // Open tab
+    const tabTrigger = new bootstrap.Tab(document.getElementById(`${newTabId}-tab`));
+    tabTrigger.show();
+    // Close tab
+    $(document).on('click', `#li-${newTabId} .close-tab`, function (e) {
+        e.stopPropagation();
+        const tabId = $(this).data('tab').replace('#', '');
+        if ($(`#${tabId}`).hasClass('active')) $('#servis-tab a:first').tab('show');
+        $(`#li-${tabId}`).remove();
+        $(`#${tabId}`).remove();
+    });
+    const jakartaDate = dayjs().tz("Asia/Jakarta").format("YYYY-MM-DD");
+    $(`#tgl_invoice${newTabId}`).val(jakartaDate);
+    $(`#no_invoice${newTabId}`).val(`INV/${dayjs().tz("Asia/Jakarta").format("YYYY-MM").replace(/-/g, '')}/SV-${id}`);
+    $(`#cb5${newTabId}`).change(function() {
+        if ($(this).is(':checked')) {
+            // Iya! → Enable date + set default date to today
+            $(`#tgl_diambil${newTabId}`).val(jakartaDate).prop('disabled', false);
+        } else {
+            // Tidak → Disable and clear
+            $(`#tgl_diambil${newTabId}`).val('').prop('disabled', true);
+        }
+    });
+    function renderDetailPembayaran(type) {
+        let html = "";
+
+        if (type === "Tunai") {
+            html = `<input type="text" id="inputTunai${newTabId}" class="form-control" value="Tunai" readonly>`;
+        }
+
+        if (type === "Transfer") {
+            html = `
+                <select id="bankTransfer${newTabId}" class="form-control">
+                </select>
+            `;
+            $.ajax({
+                url: base_url+'Servis/loadbank',
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    let options = `<option value="">Pilih Bank Transfer</option>`;
+                    response.forEach(function (bank) {
+                        options += `<option value="${bank.id}">${bank.nama_bank} ${bank.no_rek === bank.nama_bank ? '' : ' - ' + bank.no_rek}</option>`;
+                    });
+                    $(`#bankTransfer${newTabId}`).html(options);
+                    $(`#bankTransfer${newTabId}`).select2({
+                        placeholder: "Pilih Bank Transfer",
+                        allowClear: true,
+                        width: '100%' // important to avoid shrinking
+                    });
+                },
+                error: function () {
+                    Swal.fire('Error', 'Gagal memuat daftar bank.', 'error');
+                }
+            });
+        }
+
+        if (type === "Tempo") {
+            html = `<input type="date" id="inputTempo${newTabId}" class="form-control" id="tglTempo">`;
+        }
+
+        if (type === "Split Bill") {
+            html = `
+                <select id="splitBill${newTabId}" class="form-control select2">
+                    <option value="">Pilih Pembagian</option>
+                    <option value="50-50">50% - 50%</option>
+                    <option value="60-40">60% - 40%</option>
+                    <option value="70-30">70% - 30%</option>
+                </select>
+            `;
+        }
+
+        $("#detailPembayaranContainer"+newTabId).html(html);
+
+        // Re-init select2 if needed
+        if(type === "Transfer" || type === "Split Bill") {
+            $('.select2').select2({
+                width: "100%"
+            });
+        }
+    }
+
+    // Default load
+    renderDetailPembayaran("Tunai");
+
+    $(`input[name='inlineRadioOptions${newTabId}']`).on("change", function () {
+        let type = $(this).val();
+        renderDetailPembayaran(type);
+    });
+
+    feather.replace();
+
+    // Icon handling optimal
+    $(document).off('shown.bs.collapse hidden.bs.collapse').on('shown.bs.collapse hidden.bs.collapse', '.accordion-collapse', function (e) {
+        const icon = $(this).prev().find('.chevron-icon');
+
+        // Update atribut data-feather saja
+        icon.attr('data-feather', e.type === 'shown' ? 'chevron-down' : 'chevron-right');
+
+        // Refresh feather hanya untuk icon yang berubah
+        feather.replace({ elements: icon[0] });
+    });
+}
 function prosesServis(data) {
     const id = data.id;
     const newTabId = 'prosesservis-' + id;
@@ -1358,11 +1781,11 @@ function prosesServis(data) {
                 </div>
 
                 <form id="form-pservis-${newTabId}" class="row g-3">
-                    <div class="col-6 my-0">
+                    <div class="col-md-6 col-12 my-0">
                         <label class="form-label">Tanggal Teknisi</label>
                         <input type="date" class="form-control" id="tgl_teknisi${newTabId}" value="${itemsTeknisi.tgl_teknisi || ''}" required>
                     </div>
-                    <div class="col-6 my-0">
+                    <div class="col-md-6 col-12 my-0">
                         <label class="form-label">PIC Teknisi</label>
                         <input type="text" class="form-control" id="pic_teknisi${newTabId}" value="${itemsTeknisi.pic_teknisi || ''}" required>
                     </div>
@@ -1786,11 +2209,11 @@ function pengecekanServis(data) {
                     <hr class="flex-grow-1 border-2 border-secondary opacity-50">
                 </div>
                 <form id="form-cservis-${newTabId}" class="row g-3">
-                    <div class="col-6 my-0">
+                    <div class="col-md-6 col-12 my-0">
                         <label class="form-label">Tanggal Checker</label>
                         <input type="date" class="form-control" id="ctgl_checker${newTabId}" value="${itemsChecker.tgl_checker || ''}" required>
                     </div>
-                    <div class="col-6 my-0">
+                    <div class="col-md-6 col-12 my-0">
                         <label class="form-label">PIC Checker</label>
                         <input type="text" class="form-control" id="cpic_checker${newTabId}" value="${itemsChecker.pic_checker || ''}" required>
                     </div>
@@ -2128,25 +2551,25 @@ function editServisTab(data) {
             <div class="mt-2">
                 <form id="form-eservis-${newTabId}" class="row g-3">
 
-                    <div class="col-3">
+                    <div class="col-md-3 col-12">
                         <label class="form-label">Tanggal Form Servis</label>
                         <input type="date" class="form-control" id="etgl_servis${newTabId}" 
                                value="${data.tgl_servis || ''}" required>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col-md-3 col-12">
                         <label class="form-label">Tanggal Dateline</label>
                         <input type="date" class="form-control" id="etgl_dateline${newTabId}" 
                                value="${data.tgl_dateline || ''}" required>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col-md-3 col-12">
                         <label class="form-label">Nama Customer</label>
                         <input type="text" class="form-control" id="enama_cst${newTabId}" 
                                value="${data.nama_pelanggan || ''}" required>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col-md-3 col-12">
                         <label class="form-label">No Telpon Customer</label>
                         <input type="text" class="form-control" id="eno_telp${newTabId}" 
                                oninput="formatPhoneNumber(this)" value="${data.no_ponsel || ''}" required>
@@ -2158,12 +2581,12 @@ function editServisTab(data) {
                                value="${data.alamat || ''}" required>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-md-6 col-12">
                         <label class="form-label">Cabang Penerima</label>
                         <select class="form-select" id="escabang${newTabId}" name="escabang${newTabId}" required></select>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-md-6 col-12">
                         <label class="form-label">PIC Penerima</label>
                         <input type="text" class="form-control" id="epic_penerima${newTabId}" 
                                value="${data.pic_penerima || ''}">
@@ -2496,19 +2919,19 @@ function addServisTab(type) {
             <div class="tab-pane fade" id="${newTabId}" role="tabpanel" aria-labelledby="${newTabId}-tab">
                 <div class="mt-2">
                     <form id="form-servis-${type}-${newTabId}" class="row g-3">
-                        <div class="col-3 position-relative">
+                        <div class="col-md-3 col-12 position-relative">
                             <label for="tgl_servis${newTabId}" class="form-label">Tanggal Form Servis</label>
                             <input type="date" class="form-control" id="tgl_servis${newTabId}" name="tgl_servis${newTabId}" required>
                         </div>
-                        <div class="col-3 position-relative">
+                        <div class="col-md-3 col-12 position-relative">
                             <label for="tgl_dateline${newTabId}" class="form-label">Tanggal Dateline Servis</label>
                             <input type="date" class="form-control" id="tgl_dateline${newTabId}" name="tgl_dateline${newTabId}" required>
                         </div>
-                        <div class="col-3 position-relative">
+                        <div class="col-md-3 col-12 position-relative">
                             <label for="nama_cst${newTabId}" class="form-label">Nama Customer</label>
                             <input type="text" class="form-control" id="nama_cst${newTabId}" name="nama_cst${newTabId}" required>
                         </div>
-                        <div class="col-3 position-relative">
+                        <div class="col-md-3 col-12 position-relative">
                             <label for="no_telp${newTabId}" class="form-label">No Telpon Customer</label>
                             <input type="text" class="form-control" id="no_telp${newTabId}" oninput="formatPhoneNumber(this)" name="no_telp${newTabId}" required>
                         </div>
@@ -2516,11 +2939,11 @@ function addServisTab(type) {
                             <label for="alamat_cst${newTabId}" class="form-label">Alamat Customer</label>
                             <input type="text" class="form-control" id="alamat_cst${newTabId}" name="alamat_cst${newTabId}" required>
                         </div>
-                        <div class="col-6 position-relative">
+                        <div class="col-md-6 col-12 position-relative">
                             <label for="scabang${newTabId}" class="form-label">Cabang Penerima</label>
                             <select class="form-select" id="scabang${newTabId}" name="scabang${newTabId}" required></select>
                         </div>
-                        <div class="col-6 position-relative">
+                        <div class="col-md-6 col-12 position-relative">
                             <label for="pic_penerima${newTabId}" class="form-label">PIC Penerima</label>
                             <input type="text" class="form-control" id="pic_penerima${newTabId}" name="pic_penerima${newTabId}" required>
                         </div>
@@ -2637,7 +3060,7 @@ function addServisTab(type) {
             <div class="tab-pane fade" id="${newTabId}" role="tabpanel" aria-labelledby="${newTabId}-tab">
                 <div class="mt-2">
                     <form id="form-servis-${type}-${newTabId}" class="row g-3">
-                        <div class="col-4 position-relative">
+                        <div class="col-md-4 col-12 position-relative">
                             <label for="tgl_servis${newTabId}" class="form-label">Tanggal Form Servis</label>
                             <input type="date" class="form-control" id="tgl_servis${newTabId}" name="tgl_servis${newTabId}" required>
                         </div>

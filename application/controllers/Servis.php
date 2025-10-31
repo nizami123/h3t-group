@@ -104,6 +104,55 @@ class Servis extends Auth
         .dropdown-item {
             width: auto !important;
         }
+        .tgl-flip + .tgl-btn {
+            padding: 2px;
+            transition: all 0.2s ease;
+            perspective: 100px;
+        }
+        .tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
+            display: inline-block;
+            transition: all 0.4s ease;
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            line-height: 2em;
+            font-weight: bold;
+            color: var(--white);
+            position: absolute;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            border-radius: 4px;
+        }
+        .tgl-flip + .tgl-btn:after {
+            content: attr(data-tg-on);
+            background: #FFAA05;
+            transform: rotateY(-180deg);
+        }
+        .tgl-flip + .tgl-btn:before {
+            background: #FC4438;
+            content: attr(data-tg-off);
+        }
+        .tgl-flip + .tgl-btn:active:before {
+            transform: rotateY(-20deg);
+        }
+        .tgl-flip:checked + .tgl-btn:before {
+            transform: rotateY(180deg);
+        }
+        .tgl-flip:checked + .tgl-btn:after {
+            transform: rotateY(0);
+            left: 0;
+            background: #54BA4A;
+        }
+        .tgl-flip:checked + .tgl-btn:active:after {
+            transform: rotateY(20deg);
+        }
+        /* Make flip switch smaller */
+        .tgl-flip + .tgl-btn {
+            transform: scale(0.8);   /* smaller switch */
+            transform-origin: left center; /* keeps alignment */
+        }
+
     </style>';
     $data['js'] = '<script>var base_url = "' . base_url() . '";
 		const userRole = "'.$this->session->userdata('role_user').'";</script>
@@ -449,6 +498,12 @@ class Servis extends Auth
 
     $results = $this->db->get('tb_user')->result_array();
 
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  public function loadbank() {
+    $this->db->select('id_bank, nama_bank, no_rek');
+    $results = $this->db->get('tb_bank')->result_array();
     header('Content-Type: application/json');
     echo json_encode($results);
   }
