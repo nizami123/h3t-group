@@ -96,6 +96,34 @@
                 </div>
               </div>
             </div>
+            <!-- history barang -->
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
+                    <h4>History Barang Pindah</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="display" id="table-brsp">
+                        <thead>
+                            <tr>
+                                <th><span class="f-light f-w-600">SN BARANG</span></th>
+                                <th><span class="f-light f-w-600">NAMA BARANG</span</th>
+                                <th><span class="f-light f-w-600">JENIS</span></th>
+                                <th><span class="f-light f-w-600">MERK</span></th>
+                                <th><span class="f-light f-w-600">STATUS TERAKHIR</span></th>
+                                <th class="text-center" style="min-width: 70px;"><span class="f-light f-w-600">AKSI</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- End Listing Stock Opname -->
             <!-- Modal  -->
             <div class="modal fade bd-example-modal-lg" id="PindahBarang" tabindex="-1" role="dialog" aria-labelledby="PindahBarang" aria-hidden="true">
@@ -175,6 +203,66 @@
                                                             <th>MERK</th>
                                                             <th>JENIS</th>
                                                             <th>AKSI</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade bd-example-modal-xl" id="HistoryBarang" tabindex="-1" role="dialog" aria-labelledby="HistoryBarang" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content dark-sign-up">
+                        <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                            <div class="modal-toggle-wrapper">
+                                <div class="modal-header mb-4">
+                                    <h3>Detail Barang Pindah</h3>
+                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <!-- Isi Konten -->
+                                <ul class="list-group">
+                                  <!-- SN BARANG -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>SN BARANG</span>
+                                        <strong id="snb">-</strong>
+                                    </li>
+                                    <!-- NAMA BARANG -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>NAMA BARANG</span>
+                                        <strong id="nmb">-</strong>
+                                    </li>
+                                    <!-- MERK -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>MERK</span>
+                                        <strong id="mrk">-</strong>
+                                    </li>
+                                    <!-- JENIS -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>JENIS</span>
+                                        <strong id="jns">-</strong>
+                                    </li>
+                                </ul>
+                                <!-- Data Table -->
+                                <div class="col-lg-12"> 
+                                    <div class="card"> 
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="display" id="table-hbrsp">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>NOMOR SURAT</th>
+                                                            <th>TANGGAL</th>
+                                                            <th>DARI CABANG</th>
+                                                            <th>KEPADA CABANG</th>
+                                                            <th>STATUS</th>
+                                                            <th>USER</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

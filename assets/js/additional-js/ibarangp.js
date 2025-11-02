@@ -1,6 +1,8 @@
 var tableBK;
 var tableSP;
 var tableDT;
+var tableHB;
+var tableHBDT;
 function tablebk() {
     if ($.fn.DataTable.isDataTable('#table-bk')) {
         tableBK.destroy();
@@ -197,6 +199,7 @@ $(document).ready(function () {
     approve();
     printsp();
     dtsp();
+    tablehb();
 });
 function tablesp() {
     if ($.fn.DataTable.isDataTable('#table-sp')) {
@@ -355,6 +358,139 @@ function tabledt(idp) {
             ]
     });
     return tableDT;    
+}
+function tablehb() {
+    if ($.fn.DataTable.isDataTable('#table-brsp')) {
+        tableHB.destroy();
+    }
+    tableHB = $("#table-brsp").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'BarangPindah/loadhbarang/barang',
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg", orderable: false, },
+            { "data": "nama_brg", className: "text-uppercase" },
+            { "data": "merk", orderable: false, className: "text-uppercase" },
+            { "data": "jenis", orderable: false, className: "text-uppercase" },
+            { 
+                "data": "status_barang",
+                className: "text-uppercase",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "Proses") {
+                            return `<span class="badge rounded-pill badge-secondary">ON PROSES</span>`;
+                        } else if(data ==="Kirim"){
+                            return `<span class="badge rounded-pill badge-primary">KIRIM</span>`;
+                        } else if(data==="Terima"){
+                            return `<span class="badge rounded-pill badge-success">TERIMA</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },          
+            {
+                "data": "id_keluar",
+                "orderable": false,
+                "render": function (data, type, full, meta) {
+                    if (type === "display") {
+                        return `
+                                <ul class="action">
+                                    <div class="btn-group">
+                                        <button class="btn btn-success btnhistory" title="history" data-bs-toggle="modal" data-bs-target="#HistoryBarang"><i class="fa fa-history"></i></button>
+                                    </div>
+                                </ul>
+                        `;
+                    }
+                    return data;
+                }
+            },                   
+        ],
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+               "buttons": [
+                {
+                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tableHB.ajax.reload();
+                    }
+                },
+            ]
+    });
+    return tableHB;    
+}
+$(document).on('click', '.btnhistory', function () {
+    const rowData = tableHB.row($(this).closest('tr')).data();
+    $('#snb').text(rowData.sn_brg);
+    $('#nmb').text(rowData.nama_brg);
+    $('#mrk').text(rowData.merk);
+    $('#jns').text(rowData.jenis);
+    getDataHistory(rowData.id_keluar);
+});
+function getDataHistory(idk) {
+    if ($.fn.DataTable.isDataTable('#table-hbrsp')) {
+        tableHBDT.destroy();
+    }
+    tableHBDT = $("#table-hbrsp").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'BarangPindah/loadhbarang/',
+            "type": "POST",
+            "data": {
+                idk: idk
+            },
+        },
+        "columns": [
+            { "data": "nosp",className: "text-uppercase" },
+            { "data": "tgl_pindah",className: "text-uppercase" },
+            { "data": "dari_cab", className: "text-uppercase" },
+            { "data": "ke_cab", className: "text-uppercase"},
+            { 
+                "data": "status_barang",
+                className: "text-uppercase",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "Proses") {
+                            return `<span class="badge rounded-pill badge-secondary">ON PROSES</span>`;
+                        } else if(data ==="Kirim"){
+                            return `<span class="badge rounded-pill badge-primary">KIRIM</span>`;
+                        } else if(data==="Terima"){
+                            return `<span class="badge rounded-pill badge-success">TERIMA</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },
+            { "data": "user_pemindah" },
+        ],
+    });
+    return tableHBDT;
 }
 function updateDateTime() {
     var now = new Date();

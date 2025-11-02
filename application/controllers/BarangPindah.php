@@ -136,6 +136,18 @@ class BarangPindah extends Auth
     $this->datatables->where('id_pindah', $idp);
     return print_r($this->datatables->generate());
   }
+  public function loadhbarang($type=''){
+    $idk = $this->input->post('idk');
+    $this->load->library('datatables');
+    $this->datatables->select('id_pindah,id_keluar,sn_brg,nama_brg,merk,jenis,nosp,tgl_pindah,dari_cab,ke_cab,user_pemindah,status_barang');
+    $this->datatables->from('vhbarang_pindah');
+    if ($type == 'barang') {
+      $this->datatables->group_by('id_keluar');
+    }else{
+      $this->datatables->where('id_keluar', $idk);
+    }
+    return print_r($this->datatables->generate());
+  }
   public function createsp() {
     if ($this->input->is_ajax_request()) {
       $data = [
