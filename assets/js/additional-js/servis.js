@@ -5,6 +5,10 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     currency: 'IDR',
     minimumFractionDigits: 0
 });
+var formatdec = new Intl.NumberFormat('id-ID', {
+    style: 'decimal',
+    minimumFractionDigits: 0
+});
 function formatDateIndo(dateString) {
 	const date = new Date(dateString);
 	const day = String(date.getDate()).padStart(2, "0");
@@ -791,7 +795,7 @@ function tablelistservis() {
 
                     html += `
                         <tr class="bg-light">
-                            <td colspan="3" class="fw-bold text-end">Total</td>
+                            <td colspan="3" class="fw-bold text-center">Grand Total</td>
                             <td class="fw-bold text-end">${formatcur.format(totalHarga)}</td>
                         </tr>`;
                 }
@@ -830,6 +834,111 @@ function tablelistservis() {
                     </table>
                 </div>`;
         }
+        // Data Invoice Section
+        if (d.data_invoice && d.data_invoice.trim() !== '' && d.data_invoice !== 'null') {
+            try {
+                const invoice = JSON.parse(d.data_invoice);
+
+                html += `
+                <div class=" mt-3">
+                    <table class="table table-sm table-bordered mb-0" style="width: 100%; text-transform: uppercase;">
+                        <thead>
+                            <tr>
+                                <th class="fw-bold text-center bg-success text-white" colspan="4">
+                                    <h6 class="f-w-600 mb-0">INVOICE</h6>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold" style="width:20%">Tanggal Invoice</td>
+                                <td style="width:30%">${formatDateIndo(invoice.tgl_invoice || '-')}</td>
+                                <td class="fw-bold" style="width:20%">Nomor Invoice</td>
+                                <td style="width:30%">${invoice.no_invoice || '-'}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold" style="width:20%">Tanggal Diambil</td>
+                                <td style="width:30%">${d.tgl_diambil==null ? '<span class="badge rounded-pill badge-warning">Belum Diambil</span>' :  formatDateIndo(d.tgl_diambil || '-')}</td>
+                                <td class="fw-bold" style="width:20%">Tipe Pembayaran</td>
+                                <td style="width:30%">
+                                    ${(() => {
+                                        if (invoice.tipe === 'Tunai') return 'Tunai';
+                                        if (invoice.tipe === 'Transfer') return `Transfer (${invoice.detail_tipe || '-'})`;
+                                        if (invoice.tipe === 'Tempo') return `Tempo (${formatDateIndo(invoice.detail_tipe)})`;
+                                        return '-';
+                                    })()}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Dibuat Oleh</td>
+                                <td>${invoice.nama_user || '-'}</td>
+                                <td class="fw-bold">Dibuat Pada</td>
+                                <td>${formatDateTimeIndo(invoice.created_at || '-')}</td>
+                            </tr>`;
+
+                if (invoice.data_invoice && Array.isArray(invoice.data_invoice)) {
+                    html += `
+                        <tr>
+                            <th colspan="4" class="text-center bg-success">
+                                <h6 class="f-w-600 mb-0">DETAIL INVOICE</h6>
+                            </th>
+                        </tr>`;
+                    
+                    invoice.data_invoice.forEach(item => {
+                        html += `
+                            <tr>
+                                <td colspan="3">${item.value}</td>
+                                <td class="text-end" >${formatcur.format(item.harga)}</td>
+                            </tr>`;
+                    });
+                    html += `
+                        <tr class="bg-light">
+                            <td colspan="3" class="fw-bold text-center">Grand Total</td>
+                            <td class="fw-bold text-end">${formatcur.format(invoice.total_harga)}</td>
+                        </tr>`;
+                }
+                html += `
+                        </tbody>
+                        <tfoot ${d.tgl_diambil == null ? 'class="d-none"' : ''}>
+                            <tr>
+                                <td colspan="4" class="text-end">
+                                    <a href="${base_url}servis/cetakinvoice/${d.id}" target="_blank" class="btn btn-success btn-sm">
+                                        <i class="fa fa-print me-2"></i>Cetak Invoice
+                                    </a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>`;
+            } catch (e) {
+                html += `
+                    <div class="alert alert-danger mt-2">
+                        <i class="fa fa-exclamation-triangle me-2"></i>
+                        Invalid JSON format for data_invoice
+                    </div>`;
+            }
+        } else {
+            html += `
+                <div class=" mt-3">
+                    <table class="table table-sm table-bordered mb-0" style="width: 100%; text-transform: uppercase;">
+                        <thead>
+                            <tr>
+                                <th class="fw-bold text-center bg-info text-white">
+                                    <h6 class="f-w-600 mb-0">INVOICE</h6>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center text-muted py-3">
+                                    <i class="fa fa-info-circle me-2"></i>
+                                    Belum ada data INVOICE
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>`;
+        }
         return html;
     }
     tableListServis = $("#table-listservis").DataTable({
@@ -837,8 +946,6 @@ function tablelistservis() {
         autoWidth: true,
         responsive: false,
         scrollX: true,
-        scrollCollapse: true,
-        scrollY: "50vh",
         "language": {
             "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
         },
@@ -916,9 +1023,9 @@ function tablelistservis() {
                                         <i class="fa fa-check text-success me-2"></i>Finish
                                     </a>
                                 </li>
-                                <li>
+                                <li class="${row.tgl_diambil != null && row.data_invoice != null ? 'd-none' : ''}">
                                     <a class="dropdown-item ${row.status==='Finish' ? '' : 'd-none'} invoice-servis-tab" href="#" data-id="${data}">
-                                        <i class="fa fa-file-text text-success me-2"></i>Buat Invoice
+                                        <i class="fa fa-file-text text-success me-2"></i>${row.tgl_diambil==null && row.data_invoice==null ? 'Buat Invoice' : (row.tgl_diambil==null && row.data_invoice!=null ? 'Edit Invoice' : '')}
                                     </a>
                                 </li>
                             </ul>
@@ -966,12 +1073,16 @@ function tablelistservis() {
                     }
 
                     return `
-                        ${row.status === 'Finish' ? 
+                        ${row.status === 'Finish' && row.tgl_diambil == null? 
                             '<span class="text-success m-0"><em>Selesai</em></span>' : 
                             (row.status === 'Cancel User' || row.status === 'Cancel Teknisi' ? 
                                 '<span class="text-danger m-0"><em>Dibatalkan</em></span>' : 
-                                `<span class="${textClass} ${blinkClass} m-0"><em>${dayText}</em></span>`
-                        )
+                                (
+                                    row.status === 'Finish' && row.tgl_diambil != null ? 
+                                    '<span class="text-success m-0"><em>Diambil</em></span>' : 
+                                    `<span class="${textClass} ${blinkClass} m-0"><em>${dayText}</em></span>`
+                                )
+                            )
                         }
                     `;
                 }
@@ -1185,7 +1296,7 @@ function buatInvoice(data) {
     try { const parsed = JSON.parse(data.data_teknisi || '[]'); itemsTeknisi = Array.isArray(parsed) ? parsed : [parsed]; } catch (e) { itemsTeknisi = []; }
     if (!Array.isArray(itemsTeknisi)) itemsTeknisi = [];
 
-    const itemsInvoice = [];
+    const itemsInvoice = JSON.parse(data.data_invoice || '[]');
     
     const parentAcc = `outlineaccordion-${newTabId}`;
     const accHd1   = `outlineaccordionone-${newTabId}`;
@@ -1209,7 +1320,7 @@ function buatInvoice(data) {
                id="${newTabId}-tab" data-bs-toggle="tab"
                href="#${newTabId}" role="tab" aria-controls="${newTabId}" aria-selected="false">
                 <i class="fa fa-file-text"></i> 
-                <span class="txt-success">Buat Invoice SV-${id}</span>
+                <span class="txt-success">${itemsInvoice.length==0 ? 'Buat ' : 'Edit '} Invoice SV-${id}</span>
                 <button class="btn-pill btn-sm btn-outline-danger border border-danger close-tab" 
                         data-tab="#${newTabId}" title="Tutup tab">
                     <i class="ms-2 fa fa-times"></i>
@@ -1402,13 +1513,27 @@ function buatInvoice(data) {
                     <hr class="flex-grow-1 border-2 border-secondary opacity-50">
                 </div>
                 <form id="form-pservis-${newTabId}" class="row g-3">
-                    <div class="col-md-6 col-12 my-0">
+                    <div class="col-md-4 col-12 my-0">
                         <label class="form-label">Tanggal Invoice</label>
-                        <input type="date" class="form-control" id="tgl_invoice${newTabId}" value="${itemsInvoice.tgl_invoice || ''}" required readonly>
+                        <input type="date" class="form-control" id="tgl_invoice${newTabId}" required readonly>
                     </div>
-                    <div class="col-md-6 col-12 my-0">
+                    <div class="col-md-3 col-12 my-0">
                         <label class="form-label">No Invoice</label>
                         <input type="text" class="form-control" id="no_invoice${newTabId}" value="${itemsInvoice.no_invoice || ''}" required readonly>
+                    </div>
+                    <div class="col-md-5 col-12 my-0">
+                        <label class="form-label">Tipe Pembayaran</label>
+                        <div class="input-group" id="inputGroup${newTabId}">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Pilih Tipe
+                            </button>
+                            <ul class="dropdown-menu cbayar${newTabId}">
+                                <li><a class="dropdown-item" href="#!" data-type="Tunai">Tunai</a></li>
+                                <li><a class="dropdown-item" href="#!" data-type="Transfer">Transfer</a></li>
+                                <li><a class="dropdown-item" href="#!" data-type="Tempo">Tempo</a></li>
+                            </ul>
+                            <div id="inputPlaceholder${newTabId}" class="flex-grow-1"></div>
+                        </div>
                     </div>
                     <div class="col-md-4 col-12">
                         <div class="d-flex align-items-center gap-2">
@@ -1418,30 +1543,9 @@ function buatInvoice(data) {
                         </div>
                         <input type="date" class="form-control" id="tgl_diambil${newTabId}" value="${itemsInvoice.tgl_diambil || ''}" disabled>
                     </div>
-                    <div class="col-md-4 col-12 mt-4">
-                        <label class="form-label">Tipe Pembayaran</label>
-                        <div class="form-check-size mt-1" style="gap: 10px;">
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input me-2" id="chTunai" type="radio" name="inlineRadioOptions${newTabId}" value="Tunai" checked="">
-                              <label class="form-check-label" for="chTunai">Tunai</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input me-2" id="chTransfer" type="radio" name="inlineRadioOptions${newTabId}" value="Transfer">
-                              <label class="form-check-label" for="chTransfer">Transfer</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input me-2" id="chTempo" type="radio" name="inlineRadioOptions${newTabId}" value="Tempo">
-                              <label class="form-check-label" for="chTempo">Tempo</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input me-2" id="chSplit" type="radio" name="inlineRadioOptions${newTabId}" value="Split Bill">
-                              <label class="form-check-label" for="chSplit">Split Bill</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-12 mt-4">
-                        <label class="form-label">Detail Tipe Pembayaran</label>
-                        <div id="detailPembayaranContainer${newTabId}"></div>
+                    <div class="col-md-8 col-12">
+                        <label class="form-label">Keterangan</label>
+                        <input type="text" class="form-control" id="keterangan_invoice${newTabId}" placeholder="Isi keterangan (opsional)" value="${itemsInvoice.keterangan || ''}" >
                     </div>
                     <div class="col-12 position-relative">
                         <table class="table table-bordered table-formcustom" id="temp-tablei${newTabId}" width="100%">
@@ -1451,14 +1555,61 @@ function buatInvoice(data) {
                                 </tr>
                                 <tr>
                                     <th style="width:50%">Item</th>
-                                    <th style="width:50%">Harga</th>
+                                    <th style="width:40%">Harga</th>
+                                    <th style="width:10%" class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="tr-no-data">
-                                    <td colspan="4" class="text-center text-muted fst-italic">-- Tidak ada data --</td>
-                                </tr>
+                                ${
+                                (itemsInvoice.data_invoice && Array.isArray(itemsInvoice.data_invoice) && itemsInvoice.data_invoice.length > 0) 
+                                ? 
+                                (
+                                    itemsInvoice.data_invoice.map((item, index) => `
+                                        <tr data-item-id="${index + 1}">
+                                            <td><input type="text" class="form-control text-uppercase" name="item_detailt${index + 1}" value="${item.value}" required></td>
+                                            <td><input type="text" class="form-control" name="item_hargat${index + 1}" value="${formatdec.format(item.harga)}" onkeyup="formatRupiah(this);" placeholder="Input harga" required></td>
+                                            <td class="text-center">
+                                                <button class="btn btn-outline-danger remove-row" type="button"><i class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    `).join('') +
+                                    `
+                                    <tr>
+                                        <td colspan="3">
+                                            <button class="btn btn-outline-warning copy-row w-100" type="button"><i class="fa fa-plus"></i> Tambah Detail Data Invoice</button>
+                                        </td>
+                                    </tr>
+                                    `
+                                )
+                                :
+                                (
+                                    `
+                                    ${itemsTeknisi.flatMap(item =>
+                                        item.data_teknisi?.map((subItem, i) => `
+                                            <tr data-item-id="${i + 1}">
+                                                <td><input type="text" class="form-control text-uppercase" name="item_detailt${i + 1}" value="${subItem.value}" placeholder="Item invoice" required></td>
+                                                <td><input type="text" class="form-control" name="item_hargat${i + 1}" value="${formatdec.format(subItem.harga)}" onkeyup="formatRupiah(this);" placeholder="Input harga item" required></td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-outline-danger remove-row" type="button"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        `) || []
+                                    ).join('')}
+                                    <tr>
+                                        <td colspan="3">
+                                            <button class="btn btn-outline-warning copy-row w-100" type="button"><i class="fa fa-plus"></i> Tambah Detail Data Invoice</button>
+                                        </td>
+                                    </tr>
+                                    `
+                                )
+                                }
                             </tbody>
+                            <tfoot>
+                                <tr class="table-secondary">
+                                    <th class="text-start">Total Harga</th>
+                                    <th colspan="3" class="text-start" id="total_hargai${newTabId}">${formatcur.format(itemsInvoice.total_harga || totalHarga)}</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
 
@@ -1486,7 +1637,7 @@ function buatInvoice(data) {
         $(`#${tabId}`).remove();
     });
     const jakartaDate = dayjs().tz("Asia/Jakarta").format("YYYY-MM-DD");
-    $(`#tgl_invoice${newTabId}`).val(jakartaDate);
+    $(`#tgl_invoice${newTabId}`).val(itemsInvoice.tgl_invoice || jakartaDate);
     $(`#no_invoice${newTabId}`).val(`INV/${dayjs().tz("Asia/Jakarta").format("YYYY-MM").replace(/-/g, '')}/SV-${id}`);
     $(`#cb5${newTabId}`).change(function() {
         if ($(this).is(':checked')) {
@@ -1498,70 +1649,106 @@ function buatInvoice(data) {
         }
     });
     function renderDetailPembayaran(type) {
+        const placeholder = $(`#inputPlaceholder${newTabId}`);
         let html = "";
 
         if (type === "Tunai") {
-            html = `<input type="text" id="inputTunai${newTabId}" class="form-control" value="Tunai" readonly>`;
+            placeholder.html(`<input type="text" class="form-control" value="Tunai" readonly>`);
+            return;
         }
 
         if (type === "Transfer") {
-            html = `
-                <select id="bankTransfer${newTabId}" class="form-control">
-                </select>
-            `;
+            placeholder.html(`<select class="form-select transfer-select2" id="bankTransfer${newTabId}"></select>`);
+
             $.ajax({
-                url: base_url+'Servis/loadbank',
+                url: base_url + 'Servis/loadbank',
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
+                    const $select = $(`#bankTransfer${newTabId}`);
                     let options = `<option value="">Pilih Bank Transfer</option>`;
-                    response.forEach(function (bank) {
-                        options += `<option value="${bank.id}">${bank.nama_bank} ${bank.no_rek === bank.nama_bank ? '' : ' - ' + bank.no_rek}</option>`;
+
+                    response.forEach(bank => {
+                        const text = `${bank.nama_bank}${bank.no_rek === bank.nama_bank ? '' : ' - ' + bank.no_rek}`;
+                        options += `<option value="${text}">${text}</option>`;
                     });
-                    $(`#bankTransfer${newTabId}`).html(options);
-                    $(`#bankTransfer${newTabId}`).select2({
-                        placeholder: "Pilih Bank Transfer",
+
+                    $select.html(options);
+
+                    // Init Select2
+                    $select.select2({
+                        width: '100%',
+                        placeholder: 'Pilih Bank Transfer',
                         allowClear: true,
-                        width: '100%' // important to avoid shrinking
+                        dropdownParent: placeholder
                     });
-                },
-                error: function () {
-                    Swal.fire('Error', 'Gagal memuat daftar bank.', 'error');
+
+                    // ✅ Delay to ensure Select2 is ready
+                    setTimeout(() => {
+                        if (itemsInvoice?.detail_tipe && type === "Transfer") {
+                            console.log("Setting saved bank:", itemsInvoice.detail_tipe);
+                            $select.val(itemsInvoice.detail_tipe).trigger('change');
+                        }
+                    }, 150);
                 }
             });
+            return;
         }
 
         if (type === "Tempo") {
-            html = `<input type="date" id="inputTempo${newTabId}" class="form-control" id="tglTempo">`;
-        }
+            placeholder.html(`<input type="date" class="form-control" id="tempoDate${newTabId}">`);
 
-        if (type === "Split Bill") {
-            html = `
-                <select id="splitBill${newTabId}" class="form-control select2">
-                    <option value="">Pilih Pembagian</option>
-                    <option value="50-50">50% - 50%</option>
-                    <option value="60-40">60% - 40%</option>
-                    <option value="70-30">70% - 30%</option>
-                </select>
-            `;
-        }
+            setTimeout(() => {
+                if (itemsInvoice?.detail_tipe && type === "Tempo") {
+                    $(`#tempoDate${newTabId}`).val(itemsInvoice.detail_tipe);
+                }
+            }, 50);
 
-        $("#detailPembayaranContainer"+newTabId).html(html);
-
-        // Re-init select2 if needed
-        if(type === "Transfer" || type === "Split Bill") {
-            $('.select2').select2({
-                width: "100%"
-            });
+            return;
         }
+        
+        placeholder.html(`<input type="text" class="form-control" placeholder="Pilih tipe pembayaran terlebih dahulu" readonly>`);
     }
 
-    // Default load
-    renderDetailPembayaran("Tunai");
 
-    $(`input[name='inlineRadioOptions${newTabId}']`).on("change", function () {
-        let type = $(this).val();
-        renderDetailPembayaran(type);
+    // ✅ Set Payment Type from Saved Data (Only ONCE)
+    function setSelectedPaymentFromInvoice() {
+        if (!itemsInvoice || !itemsInvoice.tipe) return;
+
+        const tipe = itemsInvoice.tipe; // "Tunai", "Transfer", "Tempo"
+
+        // Set dropdown text
+        $(`#inputGroup${newTabId} .dropdown-toggle`).text(tipe);
+
+        // Set radio checked
+        $(`#chTunai, #chTransfer, #chTempo`).prop("checked", false);
+        $(`#ch${tipe}`).prop("checked", true);
+
+        // Render details with saved value
+        renderDetailPembayaran(tipe);
+    }
+
+    setSelectedPaymentFromInvoice();
+    if (!itemsInvoice || !itemsInvoice.tipe) {
+        renderDetailPembayaran(null);
+    }
+
+    // Handle dropdown selection
+    $(`.cbayar${newTabId} a`).on("click", function(e) {
+        e.preventDefault();
+
+        let selectedType = $(this).data("type");
+        if (!selectedType) return;
+
+        // Radio update
+        $(`#chTunai, #chTransfer, #chTempo`).prop("checked", false);
+        $(`#ch${selectedType}`).prop("checked", true);
+
+        // Update field
+        renderDetailPembayaran(selectedType);
+
+        // Update dropdown button text
+        $(this).closest(".input-group").find(".dropdown-toggle").text(selectedType);
     });
 
     feather.replace();
@@ -1569,12 +1756,153 @@ function buatInvoice(data) {
     // Icon handling optimal
     $(document).off('shown.bs.collapse hidden.bs.collapse').on('shown.bs.collapse hidden.bs.collapse', '.accordion-collapse', function (e) {
         const icon = $(this).prev().find('.chevron-icon');
-
-        // Update atribut data-feather saja
         icon.attr('data-feather', e.type === 'shown' ? 'chevron-down' : 'chevron-right');
-
-        // Refresh feather hanya untuk icon yang berubah
         feather.replace({ elements: icon[0] });
+    });
+    function calculateTotalHarga($tableBody) {
+        let total = 0;
+        $tableBody.find('tr[data-item-id]').each(function () {
+            const hargaInput = $(this).find('input[name^="item_hargat"]');
+            if (hargaInput.length) {
+                let hargaValue = hargaInput.val().replace(/[^0-9,-]/g, '').replace(',', '.');
+                total += parseFloat(hargaValue) || 0;
+            }
+        });
+        return formatcur.format(total);
+    }
+    //on input harga
+    $(`#temp-tablei${newTabId}`).on('input', 'input[name^="item_hargat"]', function () {
+        const $tableBody = $(this).closest('tbody');
+        $(`#total_hargai${newTabId}`).text(calculateTotalHarga($tableBody));
+    });
+
+    // Remove row
+    $(`#temp-tablei${newTabId}`).on('click', `.remove-row`, function () {
+        const $tableBody = $(this).closest('tbody');
+        
+        // Only count item rows
+        if ($tableBody.find('tr[data-item-id]').length === 1) {
+            return alert('Minimal 1 item.');
+        }
+
+        $(this).closest('tr').remove();
+        
+        $(`#total_hargai${newTabId}`).text(calculateTotalHarga($tableBody));
+    });
+    // Copy row
+    $(`#temp-tablei${newTabId}`).on('click', `.copy-row`, function () {
+        const $tableBody = $(this).closest('tbody');
+
+        // Count only item rows
+        const itemRows = $tableBody.find('tr[data-item-id]');
+        const rowCount = itemRows.length;
+
+        if (rowCount >= 10) {
+            alert('Maksimum 10 item yang dapat ditambahkan.');
+            return;
+        }
+
+        // Clone the last item row instead of the button row
+        const $lastRow = itemRows.last();
+        const $clone = $lastRow.clone();
+
+        // Clear inputs
+        $clone.find('input').val('');
+
+        // Update data-item-id for new row
+        const newId = rowCount + 1;
+        $clone.attr('data-item-id', newId);
+
+        // Update input name attributes to avoid duplicates
+        $clone.find('input[name^="item_detailt"]').attr('name', `item_detailt${newId}`);
+        $clone.find('input[name^="item_hargat"]').attr('name', `item_hargat${newId}`);
+
+        // Insert new row BEFORE the button row (so button stays last)
+        $clone.insertBefore($tableBody.find('tr:not([data-item-id])').first());
+    });
+    // Handle form submission
+    $(`#btninvoice${newTabId}`).on('click', function () {
+        const tglInvoice = $(`#tgl_invoice${newTabId}`).val();
+        const noInvoice = $(`#no_invoice${newTabId}`).val();
+        const keteranganInvoice = $(`#keterangan_invoice${newTabId}`).val();
+        const tipePembayaran = $(`#inputGroup${newTabId} .dropdown-toggle`).text().trim();
+        const isDiambilSekarang = $(`#cb5${newTabId}`).is(':checked');
+        const tglDiambil = isDiambilSekarang ? $(`#tgl_diambil${newTabId}`).val() : null;
+        let detailPembayaran = null;
+
+        if (tipePembayaran === "Transfer") {
+            detailPembayaran = $(`#bankTransfer${newTabId}`).val();
+            if (!detailPembayaran) {
+                alert('Silakan pilih bank transfer.');
+                return;
+            }
+        } else if (tipePembayaran === "Tempo") {
+            detailPembayaran = $(`#inputPlaceholder${newTabId} input`).val();
+            if (!detailPembayaran) {
+                alert('Silakan isi tanggal tempo.');
+                return;
+            }
+        } else if (tipePembayaran === "Tunai") {
+            detailPembayaran = "Tunai";
+        } else {
+            detailPembayaran = null;
+            alert('Silakan pilih tipe pembayaran yang valid.');
+            return;
+        }
+        
+        // Gather invoice items
+        const invoiceItems = [];
+        $(`#temp-tablei${newTabId} tbody tr[data-item-id]`).each(function () {
+            const itemDesc = $(this).find('input[name^="item_detailt"]').val();
+            let itemHarga = $(this).find('input[name^="item_hargat"]').val().replace(/[^0-9,-]/g, '').replace(',', '.');
+            itemHarga = parseFloat(itemHarga) || 0;
+
+            invoiceItems.push({
+                value: itemDesc,
+                harga: itemHarga
+            });
+        });
+
+        const totalHarga = invoiceItems.reduce((sum, item) => sum + item.harga, 0);
+
+        const invoiceData = {
+            tgl_invoice: tglInvoice,
+            no_invoice: noInvoice,
+            keterangan: keteranganInvoice,
+            tipe: tipePembayaran,
+            detail_tipe: detailPembayaran,
+            tgl_diambil: tglDiambil,
+            items_invoice: invoiceItems,
+            total_harga: totalHarga
+        };
+
+        $.ajax({
+            url: base_url + 'Servis/prosesInvoice/' + id,
+            type: 'POST',
+            data: JSON.stringify(invoiceData),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === "success") {
+                    swal(response.message, {
+                        icon: "success",
+                        buttons: false,
+                        timer: 1000
+                    });
+                    tableListServis.ajax.reload(null, false);
+                    $(`#li-${newTabId} .close-tab`).click();
+                } else {
+                    swal(response.message, {
+                        icon: "error",
+                        buttons: false,
+                        timer: 1000
+                    });
+                }
+            },
+            error: function () {
+                swal("Error!", "Terjadi kesalahan koneksi.", "error");
+            }
+        });
     });
 }
 function prosesServis(data) {

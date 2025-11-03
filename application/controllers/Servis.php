@@ -152,7 +152,27 @@ class Servis extends Auth
             transform: scale(0.8);   /* smaller switch */
             transform-origin: left center; /* keeps alignment */
         }
+        /* Only affects the Transfer Select2 */
+        .transfer-select2 + .select2-selection__rendered {
+            line-height: 35px !important;
+        }
 
+        .transfer-select2 + .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 2px !important;
+        }
+
+        .transfer-select2 + .select2-container {
+            height: 38px !important;
+        }
+
+        .transfer-select2 + .select2-dropdown--below {
+            margin-top: -4% !important;
+        }
+
+        .transfer-select2 + .select2-selection__arrow {
+            height: 37px !important;
+        }
     </style>';
     $data['js'] = '<script>var base_url = "' . base_url() . '";
 		const userRole = "'.$this->session->userdata('role_user').'";</script>
@@ -457,6 +477,64 @@ class Servis extends Auth
         show_404();
     }
   }
+  public function prosesInvoice($id) {
+    if ($this->input->is_ajax_request()) {
+
+        // Get JSON input
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        if (empty($data)) {
+            echo json_encode(['status' => 'error', 'message' => 'Data tidak valid.']);
+            return;
+        }
+
+        $tgl_invoice = $data['tgl_invoice'];
+        $no_invoice = $data['no_invoice'];
+        $tipe = $data['tipe'];
+        $detail_tipe = $data['detail_tipe'];
+        $tgl_diambil = $data['tgl_diambil'];
+        $keterangan = $data['keterangan'];
+        $total_harga = $data['total_harga'];
+        $items_invoice = $data['items_invoice'];
+        $id_user = $this->session->userdata('id_user');
+        $nama_user = $this->session->userdata('nama_lengkap');
+        $created_at = date('Y-m-d H:i:s');
+        
+        $payload = [
+            'id_servis' => $id,
+            'tgl_invoice' => $tgl_invoice,
+            'no_invoice' => $no_invoice,
+            'tipe' => $tipe,
+            'detail_tipe' => $detail_tipe,
+            'keterangan' => $keterangan,
+            'total_harga' => $total_harga,
+            'data_invoice' => $items_invoice,
+            'id_user_create' => $id_user,
+            'nama_user' => $nama_user,
+            'created_at' => $created_at
+        ];
+
+        $json_payload = json_encode($payload, JSON_UNESCAPED_UNICODE);
+
+        $servis_data = [
+            'tgl_diambil'        => $tgl_diambil ?? null,
+            'data_invoice'  => $json_payload
+        ];
+
+        $this->db->where('id', $id);
+        $update = $this->db->update('tb_servis', $servis_data);
+
+        if ($update) {
+            echo json_encode(['status' => 'success','message' => 'Data servis berhasil diproses invoice.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui data servis.']);
+        }
+
+    } else {
+        show_404();
+    }
+  }
   public function tableservis(){
     $this->load->library('datatables');
     $this->datatables->select('
@@ -478,6 +556,8 @@ class Servis extends Auth
         keterangan_cancel,
         data_checker,
         data_teknisi,
+        data_invoice,
+        tgl_diambil,
         status,
         tgl_buat_form
     ');
