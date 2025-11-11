@@ -111,7 +111,7 @@ function tablero() {
         },
         "serverSide": true,
         "order": [
-            [0, 'asc'] // Urutkan kolom pertama (indeks 0) secara ascending (asc)
+            [0, 'desc'] // Urutkan kolom pertama (indeks 0) secara ascending (asc)
         ],
         "ajax": {
             "url": base_url + 'stock-opname/riwayat-opname/',

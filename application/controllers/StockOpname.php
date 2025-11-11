@@ -67,7 +67,7 @@ class StockOpname extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/istockopname.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/istockopname.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -111,7 +111,7 @@ class StockOpname extends Auth
     $tgl = $this->input->post('tgl'); 
     $this->datatables->select('id_opname,kode_opname, 
     DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,
-    (SELECT COUNT(id_opname) FROM tb_opname_detail WHERE tb_opname_detail.id_opname = vopname.id_opname) AS total_produk,
+    total_produk,
     nama_lengkap,id_toko,nama_toko,jabatan,status');
     $this->datatables->from('vopname');
     if (!empty($tgl)) {
