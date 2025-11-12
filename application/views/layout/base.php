@@ -161,7 +161,7 @@
                         <?php foreach ($setcabang as $sc) { ?>
                           <li class="<?=$sc['id_toko']?>" data-cabangnama="<?=$sc['nama_toko']?>"><a class="<?=$sc['id_toko']?>" href="<?=base_url()?>cabang/<?=$sc['id_toko']?>"><?=$sc['nama_toko']?></a></li>
                         <?php } ?>
-                      <?php } else if($jab=='KEPALA CABANG') { ?>
+                      <?php } else if($jab=='KEPALA CABANG' || $jab=='PIC') { ?>
                         <?php foreach ($barangcabang as $bc) { ?>
                           <li class="<?=$bc['id_toko']?>" data-cabangnama="<?=$bc['nama_toko']?>"><a class="<?=$bc['id_toko']?>" href="<?=base_url()?>cabang/<?=$bc['id_toko']?>"><?=$bc['nama_toko']?></a></li>
                         <?php } ?>
@@ -308,6 +308,7 @@
                         <?php } ?>
                     </ul>
                   </li>
+                  <?php if ($jab=='OWNER' || $jab=='PIC' || $jab=='ADMIN BARANG' || $jab=='TEKNISI') { ?>
                   <li class="sidebar-list servis">
                       <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav servis" href="<?=base_url()?>servis/">
                       <svg class="stroke-icon">
@@ -317,6 +318,7 @@
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-icons"></use>
                       </svg><span>Servis</span></a>
                   </li>
+                  <?php } ?>
                   <!-- Transaksi -->
                   <li class="sidebar-list trans"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title trans" href="#">
