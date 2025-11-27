@@ -60,7 +60,8 @@
                                   <!-- Faktur Barang -->
                                   <div class="col-4 position-relative"> 
                                     <label class="form-label" for="fakturbarang">No Faktur Barang</label>
-                                    <input class="form-control" id="fakturbarang" name="nofakbaru" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="fakturbarang" required="">
+                                    <input class="form-control" id="fakturbarang" name="nofakbaru" type="text" onkeypress="return event.key !== ' ';"
+       oninput="this.value = this.value.replace(/\s+/g, '');" placeholder="Masukkan Nomor Faktur Barang" aria-label="fakturbarang" required="">
                                   </div>
 
                                   <!-- Nama Produk -->
@@ -123,7 +124,8 @@
                                   <!-- Faktur Barang -->
                                   <div class="col-4 position-relative"> 
                                     <label class="form-label" for="nofakbekas">No Faktur Barang</label>
-                                    <input class="form-control" id="nofakbekas" name="nofakbekas" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakbekas" required="">
+                                    <input class="form-control" id="nofakbekas" name="nofakbekas" type="text" onkeypress="return event.key !== ' ';"
+       oninput="this.value = this.value.replace(/\s+/g, '');" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakbekas" required="">
                                   </div>
 
                                   <!-- Nama Produk -->
@@ -184,7 +186,8 @@
                                   <!-- Faktur Barang -->
                                   <div class="col-4 position-relative"> 
                                     <label class="form-label" for="nofakacc">No Faktur Barang</label>
-                                    <input class="form-control" id="nofakacc" name="nofakacc" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakacc" required="">
+                                    <input class="form-control" id="nofakacc" name="nofakacc" type="text" onkeypress="return event.key !== ' ';"
+       oninput="this.value = this.value.replace(/\s+/g, '');" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakacc" required="">
                                   </div>
 
                                   <!-- Nama Produk -->
