@@ -334,6 +334,7 @@
                           <li class="tpl"><a class="tpl" href="<?=base_url()?>produk-list/">Produk List</a></li>
                           <li class="teta"><a class="teta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
                           <li class="tsh"><a class="tsh" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
+                          <li class="lapbr"><a class="lapbr" href="<?=base_url()?>laporan-brand/">Laporan Brand</a></li>
                       </ul>
                   </li>
                   <!-- Purchasing -->
@@ -542,6 +543,12 @@
             }else if(segment1 == "riwayat-penjualan"){
                 $(".trans").addClass("active");
                 $(".tsh").addClass("active");
+                $(".sidebar-list.trans").addClass('active');
+                $(".sidebar-list.trans .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.trans ul.sidebar-submenu").slideDown('normal');
+            }else if(segment1 == "laporan-brand"){
+                $(".trans").addClass("active");
+                $(".lapbr").addClass("active");
                 $(".sidebar-list.trans").addClass('active');
                 $(".sidebar-list.trans .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.trans ul.sidebar-submenu").slideDown('normal');

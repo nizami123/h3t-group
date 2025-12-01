@@ -215,3 +215,4 @@ $route['login']='Login';
 $route['logout']='Login/logout';
 $route['cek-auth']='Login/aksi_login';
 $route['registrasi']='Login/createpost';
+$route['laporan-brand']='LapBrand';
