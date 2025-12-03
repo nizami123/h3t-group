@@ -1,12 +1,9 @@
 var tableLAP;
 $(document).ready(function () {
-    // $("#cab").val('0').trigger('change.select2');
-    // defaultSelectedName = $("#cab").val();
-    // filterexport();
     tableLAP();
-    // detailbrg();
     getselect();
-    // card(formatcur);
+    filtertglinv();
+    filtertglbrg();
 });
 function tableLAP() {
     var ajaxConfig = {
@@ -16,7 +13,9 @@ function tableLAP() {
             d.cab = $('#cab').val();
             d.kond = $('#kondisi').val();
             d.jns = $('#tipe').val();
-            // d.search = $('input[type="search"]').val();
+            d.fdinv = $('#fdinv').val();
+            d.fdipt = $('#fdipt').val();
+            d.catsum = $('#catsum').val();
         }
     };
     if ($.fn.DataTable.isDataTable('#table-lapbr')) {
@@ -103,7 +102,7 @@ function tableLAP() {
         ]
             
     });
-    $('#tipe, #kondisi, #cab').on('change', function() {
+    $('#tipe, #kondisi, #cab, #catsum').on('change', function() {
         tableLAP.draw();
     }); 
     return tableLAP;
@@ -204,5 +203,22 @@ function getselect(){
             },
             cache: false,
         },
+    });
+    $('#catsum').select2();
+}
+function filtertglinv(){
+	flatpickr("#fdinv", {
+		mode: "range",
+	});
+    $('#fdinv').on('change', function() {
+        tableLAP.draw();
+    });
+}
+function filtertglbrg(){
+	flatpickr("#fdipt", {
+		mode: "range",
+	});
+    $('#fdipt').on('change', function() {
+        tableLAP.draw();
     });
 }

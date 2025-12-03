@@ -17,6 +17,7 @@ class LapBrand extends Auth
     $data['modal'] = '';
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/flatpickr/flatpickr.min.css').'">
     <style>
         .select2-selection__rendered {
             line-height: 35px !important;
@@ -57,6 +58,7 @@ class LapBrand extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
     ';
     $this->load->view('layout/base', $data);
   }
@@ -64,8 +66,7 @@ class LapBrand extends Auth
     $this->load->library('datatables');
     $jns = $this->input->post('jns'); 
     $kond = $this->input->post('kond'); 
-    $cab = $this->input->post('cab'); 
-    // $search = $this->input->post('search');
+    $cab = $this->input->post('cab');
     $this->datatables->select('
       category_summary,
       sales_id,
@@ -99,17 +100,25 @@ class LapBrand extends Auth
     if (!empty($cab) && $cab !== 'AllCab') {
       $this->datatables->where('outlet_code', $cab);
     }
-    // if (!empty($search)) {
-    //   $searchTerms = explode(' ', $search);
-    //   $likeClauses = [];
-      
-    //   foreach ($searchTerms as $term) {
-    //       $likeClauses[] = 'concat(sn_brg, " ", nama_brg) LIKE \'%' . $this->db->escape_like_str($term) . '%\'';
-    //   }
-
-    //   $this->datatables->where(implode(' AND ', $likeClauses));
-    // }
-    // $this->datatables->where_in('status',[2,6]);
+    if (!empty($this->input->post('fdinv'))) {
+      $dateRange = explode(' to ', $this->input->post('fdinv'));
+      if (count($dateRange) === 2) {
+          $startDate = date('Y-m-d', strtotime($dateRange[0]));
+          $endDate = date('Y-m-d', strtotime($dateRange[1]));
+          $this->datatables->where("DATE(invoice_date) BETWEEN '$startDate' AND '$endDate'");
+      }
+    }
+    if (!empty($this->input->post('fdipt'))) {
+      $dateRange = explode(' to ', $this->input->post('fdipt'));
+      if (count($dateRange) === 2) {
+          $startDate = date('Y-m-d', strtotime($dateRange[0]));
+          $endDate = date('Y-m-d', strtotime($dateRange[1]));
+          $this->datatables->where("DATE(tanggal_input) BETWEEN '$startDate' AND '$endDate'");
+      }
+    }
+    if (!empty($this->input->post('catsum')) && $this->input->post('catsum') != '0') {
+        $this->datatables->where('category_summary', $this->input->post('catsum'));
+    }
     return print_r($this->datatables->generate());
   }
 

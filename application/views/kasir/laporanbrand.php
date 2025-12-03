@@ -52,15 +52,17 @@
                                     <label>Filter Summery Produk</label>
                                     <select class="form-select" id="catsum" name="catsum" required="">
                                         <option selected="" value="0">Semua Summery</option>
+                                        <option value="Sell Out">Sell Out</option>
+                                        <option value="Stock">Stock</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 position-relative mt-2">
                                     <label>Filter Tanggal Invoice</label>
-                                    <input class="form-control flatpickr-input" id="fdinv" type="text" style="width: 100%;" readonly="readonly">
+                                    <input class="form-control flatpickr-input" id="fdinv" type="text" style="width: 100%;" readonly="readonly" placeholder="Pilih Tanggal">
                                 </div>
                                 <div class="col-md-4 position-relative mt-2">
                                     <label>Filter Tanggal Produk</label>
-                                    <input class="form-control flatpickr-input" id="fdipt" type="text" style="width: 100%;" readonly="readonly">
+                                    <input class="form-control flatpickr-input" id="fdipt" type="text" style="width: 100%;" readonly="readonly" placeholder="Pilih Tanggal">
                                 </div>
                             </div>
                         </div>
