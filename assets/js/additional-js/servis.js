@@ -30,6 +30,8 @@ function formatDateTimeIndo(dateString) {
 $(document).ready(function() {
     // tablesrv();
     tablelistservis();
+    getselect();
+    renderfiltertipe('Semua');
     // modalsView();
 });
 function tablesrv() {
@@ -662,6 +664,15 @@ function tablelistservis() {
                         <td class="txt-danger" colspan="2">${d.keterangan_cancel || '-'}</td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-end">
+                            <a href="${base_url}servis/cetaktandaterima/${d.id}" target="_blank" class="btn btn-warning btn-sm">
+                                <i class="fa fa-print me-2"></i>Cetak Tanda Terima
+                            </a>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>`;
 
@@ -923,7 +934,7 @@ function tablelistservis() {
                     <table class="table table-sm table-bordered mb-0" style="width: 100%; text-transform: uppercase;">
                         <thead>
                             <tr>
-                                <th class="fw-bold text-center bg-info text-white">
+                                <th class="fw-bold text-center bg-success text-white">
                                     <h6 class="f-w-600 mb-0">INVOICE</h6>
                                 </th>
                             </tr>
@@ -955,7 +966,16 @@ function tablelistservis() {
         ],
         "ajax": {
             "url": base_url + 'Servis/tableservis',
-            "type": "POST"
+            "type": "POST",
+            data: function(d) {
+                d.cab = $('#cab').val();
+                d.tkn = $('#tkn').val();
+                d.fdts = $('#fdts').val();
+                d.fstat = $('#fstat').val();
+                d.ftipe = $("#inputGroupTipe button").text().trim();
+                d.fdtmp = $('#fdtmp').val();
+                d.fdtf = $('#fdtf').val();
+            }
         },
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
@@ -977,12 +997,12 @@ function tablelistservis() {
                 render: function (data, type, row) {
                     // Status-based visibility logic
                     const status = row.status || "";
-                    const hEdit = (status==="Pengecekan" || status==="Proses Servis" || status === "Cancel User" || status === "Cancel Teknisi" || status === "Finish") ? "d-none" : "";
-                    const hDelete = (status === "Cancel User" || status === "Cancel Teknisi" || status==="Pengecekan" || status === "Finish" || status === "Proses Servis") ? "d-none" : "";
-                    const hCek = (status === "Proses Servis" || status === "Finish" || status === "Cancel User" || status === "Cancel Teknisi") ? "d-none" : "";
-                    const hCancel = (status === "Finish" || status === "Cancel User" || status === "Cancel Teknisi") ? "d-none" : "";
-                    const hFinish = (status==="Finish" || status === "Belum Proses" || status==="Pengecekan" || status==="Cancel User"|| status==="Cancel Teknisi") ? "d-none" : "";
-                    const hProses = (status==="Finish" || status==="Cancel User"|| status==="Cancel Teknisi" || status==="Belum Proses") ? "d-none" : "";
+                    const hEdit = (status==="Pengecekan" || status==="Proses Servis" || status === "Cancel User" || status === "Cancel Teknisi" || status === "Finish" || status === "Refund") ? "d-none" : "";
+                    const hDelete = (status === "Cancel User" || status === "Cancel Teknisi" || status==="Pengecekan" || status === "Finish" || status === "Proses Servis" || status === "Refund") ? "d-none" : "";
+                    const hCek = (status === "Proses Servis" || status === "Finish" || status === "Cancel User" || status === "Cancel Teknisi" || status === "Refund") ? "d-none" : "";
+                    const hCancel = (status === "Finish" || status === "Cancel User" || status === "Cancel Teknisi" || status === "Refund") ? "d-none" : "";
+                    const hFinish = (status==="Finish" || status === "Belum Proses" || status==="Pengecekan" || status==="Cancel User"|| status==="Cancel Teknisi" || status === "Refund") ? "d-none" : "";
+                    const hProses = (status==="Finish" || status==="Cancel User"|| status==="Cancel Teknisi" || status==="Belum Proses" || status === "Refund") ? "d-none" : "";
                     return `
                         <div class="btn-group">
                             <button 
@@ -1001,6 +1021,11 @@ function tablelistservis() {
                                 <li>
                                     <a class="dropdown-item ${hDelete} delete-servis-tab" href="#" data-id="${data}">
                                         <i class="fa fa-trash text-danger me-2"></i>Delete
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item ${hEdit}" href="${base_url}servis/cetaktandaterima/${data}" target="_blank">
+                                        <i class="fa fa-print text-success me-2"></i>Cetak Tanda Terima
                                     </a>
                                 </li>
                                 <li>
@@ -1023,9 +1048,19 @@ function tablelistservis() {
                                         <i class="fa fa-check text-success me-2"></i>Finish
                                     </a>
                                 </li>
+                                <li class="${row.data_invoice != null ? '' : 'd-none'}">
+                                    <a class="dropdown-item ${row.status==='Finish' ? '' : 'd-none'}" href="${base_url}servis/cetakinvoice/${data}" target="_blank">
+                                        <i class="fa fa-print text-success me-2"></i>Cetak Invoice
+                                    </a>
+                                </li>
                                 <li class="${row.tgl_diambil != null && row.data_invoice != null ? 'd-none' : ''}">
                                     <a class="dropdown-item ${row.status==='Finish' ? '' : 'd-none'} invoice-servis-tab" href="#" data-id="${data}">
                                         <i class="fa fa-file-text text-success me-2"></i>${row.tgl_diambil==null && row.data_invoice==null ? 'Buat Invoice' : (row.tgl_diambil==null && row.data_invoice!=null ? 'Edit Invoice' : '')}
+                                    </a>
+                                </li>
+                                <li class="${row.data_invoice != null ? '' : 'd-none'}">
+                                    <a class="dropdown-item ${row.status==='Finish' ? '' : 'd-none'} refund-invoice-servis" href="#" data-id="${data}">
+                                        <i class="fa fa-times text-danger me-2"></i>Refund Invoice
                                     </a>
                                 </li>
                             </ul>
@@ -1075,7 +1110,7 @@ function tablelistservis() {
                     return `
                         ${row.status === 'Finish' && row.tgl_diambil == null? 
                             '<span class="text-success m-0"><em>Selesai</em></span>' : 
-                            (row.status === 'Cancel User' || row.status === 'Cancel Teknisi' ? 
+                            (row.status === 'Cancel User' || row.status === 'Cancel Teknisi' || row.status === 'Refund' ? 
                                 '<span class="text-danger m-0"><em>Dibatalkan</em></span>' : 
                                 (
                                     row.status === 'Finish' && row.tgl_diambil != null ? 
@@ -1117,6 +1152,10 @@ function tablelistservis() {
                             badgeClass = 'badge bg-danger';
                             statusText = 'Cancel Teknisi';
                             break;
+                        case 'Refund':
+                            badgeClass = 'badge bg-danger';
+                            statusText = 'Refund';
+                            break;
 
                     }
 
@@ -1154,21 +1193,6 @@ function tablelistservis() {
                 title: 'List Servis',
                 exportOptions: {
                     columns: [2, 3, 4, 5, 6, 7, 8],
-                }
-            },
-            {
-                "text": '<i class="icofont icofont-papers"></i>',
-                "className": 'custom-template-button',
-                "attr": {
-                    "id": "template-button"
-                },
-                "init": function (api, node, config) {
-                    $(node).removeClass('btn-default');
-                    $(node).addClass('btn-primary');
-                    $(node).attr('title', 'Template Print');
-                },
-                "action": function () {
-                    // tableListServis.ajax.reload();
                 }
             },
             {
@@ -1233,6 +1257,9 @@ function tablelistservis() {
                 .addClass('fa-caret-down text-danger');
         }
     });
+    $('#tkn, #cab, #fstat').on('change', function() {
+        tableListServis.draw();
+    }); 
     return tableListServis;
 }
 $(document).on('click', '.add-servis-tab', function (e) {
@@ -1275,6 +1302,12 @@ $(document).on('click', '.invoice-servis-tab', function (e) {
     const rowData = tableListServis.row($(this).closest('tr')).data();
     buatInvoice(rowData);
 });
+$(document).on('click', '.refund-invoice-servis', function (e) {
+    e.preventDefault();
+    const servisId = $(this).data('id');
+    refundServis(servisId);
+});
+
 function buatInvoice(data) {
     const id = data.id;
     const newTabId = 'invoice-' + id;
@@ -2747,6 +2780,42 @@ function finishServis(id) {
         }
     });
 }
+function refundServis(id) {
+    swal({
+        title: "Refund Servis?",
+        text: "Apakah Anda yakin ingin menandai servis ini sebagai refund?",
+        icon: "info",
+        buttons: true,
+        dangerMode: false,
+    }).then((willFinish) => {
+        if (willFinish) {
+            $.ajax({
+                url: base_url + 'Servis/refundServis/' + id,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === "success") {
+                        swal(response.message, {
+                            icon: "success",
+                            buttons: false,
+                            timer: 1000
+                        });
+                        tableListServis.ajax.reload(null, false);
+                    } else {
+                        swal(response.message, {
+                            icon: "error",
+                            buttons: false,
+                            timer: 1000
+                        });
+                    }
+                },
+                error: function () {
+                    swal("Error!", "Terjadi kesalahan koneksi.", "error");
+                }
+            });
+        }
+    });
+}
 function cancelServis(id) {
     swal({
     title: "Batalkan Servis?",
@@ -3596,3 +3665,196 @@ function addServisTab(type) {
         });
     });
 }
+function getselect(){
+    $('#cab').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'BarangTerima/loadstore',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.id_toko,
+                        text: item.id_toko+' | '+item.nama_toko,
+                    };
+                });
+    
+                results.unshift({
+                    id: 'AllCab',
+                    text: 'Semua Cabang',
+                    value: '0',
+                });
+    
+                return {
+                    results: results,
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#tkn').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'Servis/datateknisi',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.teknisi,
+                        text: item.teknisi,
+                    };
+                });
+    
+                results.unshift({
+                    id: 'all',
+                    text: 'Semua Teknisi',
+                    value: '0',
+                });
+    
+                return {
+                    results: results,
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#fstat').select2();
+	flatpickr("#fdts", {
+		mode: "range",
+        onReady: (selectedDates, dateStr, instance) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "flatpickr-clear-btn btn btn-sm btn-danger";
+            btn.innerText = "Hapus Filter";
+            btn.style.marginLeft = "10px";
+
+            btn.addEventListener("click", () => {
+                instance.clear();
+                instance.close();
+                $("#fdtmp").trigger("change");
+            });
+
+            instance.calendarContainer.appendChild(btn);
+        } 
+	});
+    $('#fdts').on('change', function() {
+        tableListServis.draw();
+    });
+}
+$(document).on("click", "#inputGroupTipe .dropdown-item", function () {
+    const type = $(this).data("type");
+
+    // Ubah label tombol dropdown
+    $("#inputGroupTipe button").text(type);
+
+    // Render input sesuai tipe
+    renderfiltertipe(type);
+
+    tableListServis.draw();
+});
+
+function renderfiltertipe(type) {
+    const placeholder = $(`#groupftipe`);
+    let html = "";
+
+    if (type === "Tunai") {
+        placeholder.html(`<input type="text" class="form-control" id="fdtn" value="Tunai" readonly>`);
+        return;
+    }
+
+    if (type === "Transfer") {
+        placeholder.html(`<select class="form-select transfer-select2" id="fdtf"></select>`);
+
+        $.ajax({
+            url: base_url + 'Servis/loadbank',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                const $select = $(`#fdtf`);
+                let options = `<option value="">Pilih Bank Transfer</option>`;
+
+                response.forEach(bank => {
+                    const text = `${bank.nama_bank}${bank.no_rek === bank.nama_bank ? '' : ' - ' + bank.no_rek}`;
+                    options += `<option value="${text}">${text}</option>`;
+                });
+
+                $select.html(options);
+
+                // Init Select2
+                $select.select2({
+                    width: '100%',
+                    placeholder: 'Pilih Bank Transfer',
+                    allowClear: true,
+                    dropdownParent: placeholder
+                });
+
+                // ✅ Delay to ensure Select2 is ready
+                setTimeout(() => {
+                    // if (itemsInvoice?.detail_tipe && type === "Transfer") {
+                    //     console.log("Setting saved bank:", itemsInvoice.detail_tipe);
+                    //     $select.val(itemsInvoice.detail_tipe).trigger('change');
+                    // }
+                }, 150);
+            }
+        });
+        return;
+    }
+
+    if (type === "Tempo") {
+        placeholder.html(`<input type="text" class="form-control" id="fdtmp" placeholder="Pilih Rentang Tempo">`);
+        $("#inputGroupTipe button").text("Tempo");
+
+        // Init flatpickr after element exists
+        setTimeout(() => {
+            flatpickr("#fdtmp", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                onReady: (selectedDates, dateStr, instance) => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "flatpickr-clear-btn btn btn-sm btn-danger";
+                    btn.innerText = "Hapus Filter";
+                    btn.style.marginLeft = "10px";
+
+                    btn.addEventListener("click", () => {
+                        instance.clear();
+                        instance.close();
+                        $("#fdtmp").trigger("change");
+                    });
+
+                    instance.calendarContainer.appendChild(btn);
+                }                
+            });
+
+            // Restore saved tempo range (if exists)
+            // if (itemsInvoice?.detail_tipe && type === "Tempo") {
+            //     $("#fdtmp").val(itemsInvoice.detail_tipe);
+            // }
+        }, 50);
+
+        // Trigger table refresh when date range changes
+        $(document).off("change", "#fdtmp").on("change", "#fdtmp", function () {
+            tableListServis.draw();
+        });
+
+        return;
+    }
+    
+    placeholder.html(`<input type="text" class="form-control" value="Semua Tipe" readonly>`);
+}
+
+$(document).on('change', '#fdtf', function () {
+    tableListServis.draw();
+});

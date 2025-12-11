@@ -77,6 +77,52 @@
                         </ul>
                         <div class="tab-content" id="icon-tabContent">
                           <div class="tab-pane fade show active" id="listservis" role="tabpanel" aria-labelledby="listservis-tab">
+                              <div class="row">
+                                <div class="col-md-4 position-relative mt-2">
+                                  <label>Filter Cabang</label>
+                                  <select class="form-select" id="cab" name="cab" required="">
+                                      <option selected="" value="0">Semua Cabang</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-4 position-relative mt-2">
+                                  <label>Filter Teknisi</label>
+                                  <select class="form-select" id="tkn" name="tkn" required="">
+                                      <option selected="" value="0">Semua Teknisi</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-4 position-relative mt-2">
+                                  <label>Filter Tanggal Servis</label>
+                                  <input class="form-control flatpickr-input" id="fdts" type="text" style="width: 100%;" readonly="readonly" placeholder="Pilih Rentang Tanggal Servis">
+                                </div>
+                                <div class="col-md-4 position-relative">
+                                  <label>Filter Status</label>
+                                  <select class="form-select" id="fstat" name="fstat" required="">
+                                    <option selected="" value="0">Semua Status</option>
+                                    <option value="Belum Proses">Belum Proses</option>
+                                    <option value="Pengecekan">Pengecekan</option>
+                                    <option value="Cancel User">Cancel User</option>
+                                    <option value="Cancel Teknisi">Cancel Teknisi</option>
+                                    <option value="Proses Servis">Proses Servis</option>
+                                    <option value="Finish">Finish</option>
+                                    <option value="Refund">Refund</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-8 position-relative">
+                                  <label>Filter Tipe Pembayaran</label>
+                                  <div class="input-group" id="inputGroupTipe">
+                                      <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                          Pilih Tipe Pembayaran
+                                      </button>
+                                      <ul class="dropdown-menu">
+                                          <li><a class="dropdown-item" href="#!" data-type="Semua">Semua Tipe</a></li>
+                                          <li><a class="dropdown-item" href="#!" data-type="Tunai">Tunai</a></li>
+                                          <li><a class="dropdown-item" href="#!" data-type="Transfer">Transfer</a></li>
+                                          <li><a class="dropdown-item" href="#!" data-type="Tempo">Tempo</a></li>
+                                      </ul>
+                                      <div id="groupftipe" class="flex-grow-1"></div>
+                                  </div>
+                                </div>
+                              </div>
                               <div class="dt-ext m-2"style="overflow: auto;">
                                 <table class="display nowrap w-100" id="table-listservis"></table>
                               </div>

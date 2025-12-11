@@ -21,6 +21,7 @@ class Servis extends Auth
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/feather-icon.css') . '">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/flatpickr/flatpickr.min.css').'">
     <style>
         .select2-selection__rendered {
             line-height: 35px !important;
@@ -200,6 +201,7 @@ class Servis extends Auth
     <script src="' . base_url('assets/js/icons/feather-icon/feather.min.js') . '"></script>
     <script src="' . base_url('assets/js/icons/feather-icon/feather-icon.js') . '"></script>
     <script src="' . base_url('assets/js/typeahead/typeahead.bundle.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
     <!-- DAYJS & TIMEZONE -->
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
@@ -371,6 +373,25 @@ class Servis extends Auth
         ]);
         if ($update) {
             echo json_encode(['status' => 'success', 'message' => 'Data servis berhasil diselesaikan.']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Gagal menyelesaikan data servis.']);
+        }
+
+    } else {
+        show_404();
+    }
+  }
+  public function refundServis($id){
+    if ($this->input->is_ajax_request()) {
+
+        $this->db->where('id', $id);
+        $update = $this->db->update('tb_servis', [
+            'status' => 'Refund',
+            'keterangan_cancel' => 'Refund Servis',
+            'id_user_refund' => $this->session->userdata('id_user'),
+        ]);
+        if ($update) {
+            echo json_encode(['status' => 'success', 'message' => 'Data servis berhasil direfund.']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Gagal menyelesaikan data servis.']);
         }
@@ -559,8 +580,47 @@ class Servis extends Auth
         data_invoice,
         tgl_diambil,
         status,
-        tgl_buat_form
+        tgl_buat_form,
+        teknisi,
+        tipe,
+        detail_tipe
     ');
+    if (!empty($this->input->post('cab')) && $this->input->post('cab') !== 'AllCab') {
+      $this->datatables->where('id_cabang', $this->input->post('cab'));
+    }
+    if (!empty($this->input->post('tkn')) && $this->input->post('tkn') !== 'all') {
+        $tkn = $this->input->post('tkn');
+        $this->datatables->where(
+            "JSON_SEARCH(teknisi, 'one', " . $this->db->escape($tkn) . ", NULL, '$[*]') IS NOT NULL",
+            null,
+            false
+        );
+    }
+    if (!empty($this->input->post('fdts'))) {
+      $dateRange = explode(' to ', $this->input->post('fdts'));
+      if (count($dateRange) === 2) {
+          $startDate = date('Y-m-d', strtotime($dateRange[0]));
+          $endDate = date('Y-m-d', strtotime($dateRange[1]));
+          $this->datatables->where("DATE(tgl_servis) BETWEEN '$startDate' AND '$endDate'");
+      }
+    }
+    if (!empty($this->input->post('fstat')) && $this->input->post('fstat') != '0') {
+        $this->datatables->where('status', $this->input->post('fstat'));
+    }
+    if (!empty($this->input->post('ftipe')) && $this->input->post('ftipe') != 'Semua' && $this->input->post('ftipe') != 'Pilih Tipe Pembayaran') {
+        $this->datatables->where('tipe', $this->input->post('ftipe'));
+    }
+    if (!empty($this->input->post('fdtf'))) {
+        $this->datatables->where('detail_tipe', $this->input->post('fdtf'));
+    }
+    if (!empty($this->input->post('fdtmp'))) {
+      $dateRange = explode(' to ', $this->input->post('fdtmp'));
+      if (count($dateRange) === 2) {
+          $startDate = date('Y-m-d', strtotime($dateRange[0]));
+          $endDate = date('Y-m-d', strtotime($dateRange[1]));
+          $this->datatables->where("DATE(detail_tipe) BETWEEN '$startDate' AND '$endDate'");
+      }
+    }
     $this->datatables->from('vlist_servis');
     return print_r($this->datatables->generate());
   }
@@ -586,6 +646,29 @@ class Servis extends Auth
     $results = $this->db->get('tb_bank')->result_array();
     header('Content-Type: application/json');
     echo json_encode($results);
+  }
+  public function cetaktandaterima($id) {
+    $data['items'] = $this->db->query("select * from vlist_servis where id = '".$id."'")->row();
+    
+    $this->load->view('print/tandaterimaservis', $data);
+  }
+  public function cetakinvoice($id) {
+    $data['items'] = $this->db->query("select * from vlist_servis where id = '".$id."'")->row();
+    
+    $this->load->view('print/invoiceservis', $data);
+  }
+  public function datateknisi(){
+    $searchTerm = $this->input->get('q');
+
+    $this->db->select('teknisi');
+    $this->db->from('vteknisi_servis');
+
+    if ($searchTerm) {
+        $this->db->like('teknisi', $searchTerm);
+    }
+
+    $query = $this->db->get();
+    echo json_encode($query->result_array());
   }
   // NEWSERVIS
   public function tabledetailservis($id){
