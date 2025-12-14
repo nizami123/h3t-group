@@ -237,19 +237,23 @@ class Servis extends Auth
             echo json_encode(['status' => 'error', 'message' => 'Data tidak valid.']);
             return;
         }
+        $cek_plg = $this->db->get_where('tb_pelanggan', ['id_plg' => trim($data['nama_cst'])])->row_array();
+        if (!$cek_plg) {
+            // --- Generate new pelanggan ID ---
+            $idData = $this->generateid();
+            $id_plg = $idData['newID'];
 
-        // --- Generate new pelanggan ID ---
-        $idData = $this->generateid();
-        $id_plg = $idData['newID'];
-
-        // --- Insert pelanggan (nama_cst & no_telp) ---
-        $insert_pelanggan = [
-            'id_plg'     => $id_plg,
-            'nama_plg'   => trim($data['nama_cst']),
-            'no_ponsel'    => trim($data['no_telp']),
-            'alamat'   => trim($data['alamat_cst'])
-        ];
-        $this->db->insert('tb_pelanggan', $insert_pelanggan);
+            // --- Insert pelanggan (nama_cst & no_telp) ---
+            $insert_pelanggan = [
+                'id_plg'     => $id_plg,
+                'nama_plg'   => trim($data['nama_cst']),
+                'no_ponsel'    => trim($data['no_telp']),
+                'alamat'   => trim($data['alamat_cst'])
+            ];
+            $this->db->insert('tb_pelanggan', $insert_pelanggan);
+        }else{
+            $id_plg = $cek_plg['id_plg'];
+        }
 
         // --- Insert data ke tb_servis ---
         $servis_data = [
@@ -665,6 +669,19 @@ class Servis extends Auth
 
     if ($searchTerm) {
         $this->db->like('teknisi', $searchTerm);
+    }
+
+    $query = $this->db->get();
+    echo json_encode($query->result_array());
+  }
+  public function datacst(){
+    $searchTerm = $this->input->get('q');
+
+    $this->db->select('id_plg, nama_plg, no_ponsel, alamat');
+    $this->db->from('tb_pelanggan');
+
+    if ($searchTerm) {
+        $this->db->like('nama_plg', $searchTerm);
     }
 
     $query = $this->db->get();

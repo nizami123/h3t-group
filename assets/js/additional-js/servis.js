@@ -3326,7 +3326,7 @@ function addServisTab(type) {
                         </div>
                         <div class="col-md-3 col-12 position-relative">
                             <label for="nama_cst${newTabId}" class="form-label">Nama Customer</label>
-                            <input type="text" class="form-control" id="nama_cst${newTabId}" name="nama_cst${newTabId}" required>
+                            <select class="form-select" id="snama_cst${newTabId}" name="snama_cst${newTabId}" required></select>
                         </div>
                         <div class="col-md-3 col-12 position-relative">
                             <label for="no_telp${newTabId}" class="form-label">No Telpon Customer</label>
@@ -3552,6 +3552,66 @@ function addServisTab(type) {
     });
     const jakartaDate = dayjs().tz("Asia/Jakarta").format("YYYY-MM-DD");
     $(`#tgl_servis${newTabId}`).val(jakartaDate);
+    $(document).on('keyup', '.select2-search__field', function () {
+        this.value = this.value.toUpperCase();
+    });
+
+    $(`#snama_cst${newTabId}`).select2({
+        language: 'id',
+        placeholder: 'Pilih Customer',
+        tags: true,
+        ajax: {
+            url: base_url + 'Servis/datacst',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.id_plg,
+                            text: item.nama_plg.toUpperCase(),
+                            no_ponsel: item.no_ponsel,
+                            alamat: item.alamat
+                        };
+                    }),
+                };
+            },
+        },
+        createTag: function (params) {
+            const term = params.term.toUpperCase().trim();
+            if (!term) return null;
+
+            return {
+                id: term,
+                text: term,
+                isNew: true
+            };
+        },
+        templateResult: function (data) {
+            if (data.isNew) {
+                return $('<span><em>' + data.text + ' (baru)</em></span>');
+            }
+            return data.text;
+        }
+    });
+    $(`#snama_cst${newTabId}`).on('select2:select', function (e) {
+        const data = e.params.data;
+
+        // Only fill if data comes from database (not new tag)
+        if (!data.isNew) {
+            $(`#no_telp${newTabId}`).val(data.no_ponsel || '');
+            $(`#alamat_cst${newTabId}`).val(data.alamat || '');
+        } else {
+            // Optional: clear fields if new customer
+            $(`#no_telp${newTabId}`).val('');
+            $(`#alamat_cst${newTabId}`).val('');
+        }
+    });
     $('#scabang'+newTabId).select2({
         language: 'id',
         placeholder: 'Pilih Cabang',
@@ -3596,7 +3656,7 @@ function addServisTab(type) {
         const formData = {
             tgl_servis: $form.find('input[name="tgl_servis' + newTabId + '"]').val(),
             tgl_dateline: $form.find('input[name="tgl_dateline' + newTabId + '"]').val(),
-            nama_cst: $form.find('input[name="nama_cst' + newTabId + '"]').val(),
+            nama_cst: $form.find('select[name="snama_cst' + newTabId + '"]').val(),
             no_telp: $form.find('input[name="no_telp' + newTabId + '"]').val(),
             alamat_cst: $form.find('input[name="alamat_cst' + newTabId + '"]').val(),
             scabang: $form.find('select[name="scabang' + newTabId + '"]').val(),

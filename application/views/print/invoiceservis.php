@@ -70,6 +70,7 @@
 <body>
 <?php 
     $detail = json_decode($items->data_invoice, true); 
+    $detailteknisi = json_decode($items->data_teknisi, true);
 ?>
 <div class="header">
     <table>
@@ -153,7 +154,7 @@
             <td><?= $items->no_ponsel ?></td>
             <td style="width: 15%;">Tipe Pembayaran</td>
             <td style="width: 1%;">:</td>
-            <td><?= $detail['tipe'].' '.$tglTempoIndo ?></td>
+            <td><?= $detail['tipe'] == 'Tempo' ? $detail['tipe'].' '.$tglTempoIndo : ($detail['tipe'] == 'Tunai' ? $detail['tipe'] : $detail['tipe'] .' '.$detail['detail_tipe']) ?></td>
         </tr>
         <tr class="row-padding">
             <td style="width: 15%;">Tanggal Servis</td>
@@ -183,7 +184,10 @@
         foreach ($detail['data_invoice'] as $item): ?>
             <tr>
                 <td style="width: 50%;" colspan="2">
-                    <?= strtoupper(htmlspecialchars($item['value'])) ?>
+                    <?= strtoupper(htmlspecialchars($item['value'])) ?><br>
+                    <?php foreach ($detailteknisi['data_teknisi'] as $teknisi): ?>
+                        <small style="font-style: italic;"><?= $item['value'] == $teknisi['value'] ? strtoupper(htmlspecialchars('('.$teknisi['key'].')')) : '' ?></small>
+                    <?php endforeach; ?>
                 </td>
                 <td style="width: 50%; text-align:right;" colspan="2">
                     <?= strtoupper(htmlspecialchars(number_format($item['harga'], 0, ',', '.'))) ?>
