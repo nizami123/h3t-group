@@ -81,7 +81,7 @@ class MasterKustomer extends Auth
   }  
   public function jsonkus(){
     $this->load->library('datatables');
-    $this->datatables->select('id_plg,nama_plg,no_ponsel,email,alamat,tgl_lagir,agama');
+    $this->datatables->select('id_plg,nama_plg,no_ponsel,email,alamat,tgl_lahir,agama');
     $this->datatables->from('tb_pelanggan');
     return print_r($this->datatables->generate());
   }
