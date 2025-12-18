@@ -29,6 +29,8 @@ function reload() {
             { "data": "no_ponsel"},
             { "data": "email" },
             { "data": "alamat" },
+            { "data": "tgl_lahir" },
+            { "data": "agama" },
             { 
               "data": "id_plg",
               "orderable": false, // Disable sorting for this column

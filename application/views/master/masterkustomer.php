@@ -81,10 +81,12 @@
                                     <thead>
                                     <tr>
                                         <th>ID KUSTOMER</th>
-                                        <th>NAMA KUSTOMER</th>
-                                        <th>KONTAK KUSTOMER</th>
-                                        <th>EMAIL KUSTOMER</th>
-                                        <th>ALAMAT KUSTOMER</th>
+                                        <th>NAMA</th>
+                                        <th>KONTAK</th>
+                                        <th>EMAIL</th>
+                                        <th>ALAMAT</th>
+                                        <th>TANGGAL LAHIR</th>
+                                        <th>AGAMA</th>
                                         <th>AKSI</th>
                                     </tr>
                                     </thead>
