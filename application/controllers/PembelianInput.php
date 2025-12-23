@@ -41,11 +41,13 @@ class PembelianInput extends Auth
   public function gensnacc(){
     $data['lastID'] = $this->InventoriStok_model->getLastKode();
     $numericPart = isset($data['lastID'][0]['sn_brg']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['sn_brg']) : '';
-    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-    $data['newID'] = 'ACC-' . $incrementedNumericPart;
+    $nextNumber = intval($numericPart) + 1;
+
+    $data['newID'] = 'ACC-' . $nextNumber;
     $data['defID'] = 'ACC-0001';
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
   }
+
 
   public function index() {
     $cab = $this->session->userdata('id_toko');
