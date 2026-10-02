@@ -74,7 +74,7 @@ class BarangPindah_model extends CI_Model {
         ->group_by('vbk.id_keluar');
         if ($searchTerm) {
             $this->db->group_start();
-            $this->db->like('sn_brg', $searchTerm);
+            $this->db->where('sn_brg', $searchTerm);
             $this->db->or_like('merk', $searchTerm);
             $this->db->or_like('jenis', $searchTerm);
             $this->db->or_like('nama_brg', $searchTerm);
