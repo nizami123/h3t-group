@@ -5,7 +5,7 @@ include_once(APPPATH . 'controllers/Auth.php');
 class Welcome extends Auth {
 	private $currentDay;
 	private $startDateFormatted;
-	private $endDateFormatted;		
+	private $endDateFormatted;
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Welcome_model');
@@ -26,6 +26,8 @@ class Welcome extends Auth {
 	public function index(){
 		$data['hpp'] = $this->PenList_model->countHJ();
 		$data['hj'] = $this->Welcome_model->countTerjual();
+		$data['chart_years'] = $this->Welcome_model->get_chart_years();
+		$data['chart_years_asset'] = $this->Welcome_model->get_chart_years_asset();
 		$data['setcabang'] = $this->BarangKeluar_model->getCabang();
 		$data['content'] = $this->load->view('dashboard/index', $data, true);
 		$data['modal'] = '';
@@ -79,8 +81,10 @@ class Welcome extends Auth {
 			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
 			<script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
 			<script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
+		   	<script src="' . base_url('assets/js/chart/apex-chart/apex-chart.js') . '"></script>
+		    <script src="' . base_url('assets/js/chart/apex-chart/stock-prices.js') . '"></script>
 			<script>new WOW().init();</script>';
-		$this->load->view('layout/base', $data);		
+		$this->load->view('layout/base', $data);
 	}
 	public function labakotor() {
 		if (isset($_POST['lbval'])) {
@@ -204,7 +208,7 @@ class Welcome extends Auth {
 		$this->datatables->where('id_toko',$id);
 		$this->datatables->where_in('status',[2]);
 		return print_r($this->datatables->generate());
-	}	
+	}
 	public function detailprodcabang($id){
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,merk,jenis,kondisi');
@@ -212,7 +216,7 @@ class Welcome extends Auth {
 		$this->datatables->where('id_toko',$id);
 		$this->datatables->where_in('status',[2]);
 		return print_r($this->datatables->generate());
-	}	
+	}
 	public function detailsales(){
 		$this->load->library('datatables');
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon,harga_cashback,harga_bayar,nama_toko');
@@ -221,7 +225,7 @@ class Welcome extends Auth {
 		$this->datatables->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
 		$this->datatables->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
-	}	
+	}
 	public function detailsalescabang($id){
 		$this->load->library('datatables');
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon,harga_cashback,harga_bayar,nama_toko');
@@ -237,7 +241,7 @@ class Welcome extends Auth {
 		$this->datatables->select('sn_brg,nama_brg,nama_toko,total_diskon');
 		$this->datatables->from('vtotaldiskon');
 		return print_r($this->datatables->generate());
-	}	
+	}
 	public function detailcashback($start,$end){
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
@@ -263,11 +267,21 @@ class Welcome extends Auth {
 		return print_r($this->datatables->generate());
 	}
 	public function detailkomtr(){
+		$endDateObj = new DateTime($this->endDateFormatted);
+		$year = $endDateObj->format('Y');
+		$monthNum = (int)$endDateObj->format('n');
+		$indonesianMonths = [
+			1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+			5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+			9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+		];
+		$monthName = $indonesianMonths[$monthNum];
+
 		$this->load->library('datatables');
-		$this->datatables->select('tgl_transaksi,id_user,nama_lengkap,komisi_tr');
-		$this->datatables->from('vkomisi_tr');
-		$this->datatables->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
-		$this->datatables->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
+		$this->datatables->select('id_user,nama_lengkap,komisi_tr');
+		$this->datatables->from('vtrkomisi');
+		$this->datatables->where('tahun', $year);
+		$this->datatables->where('bulan', $monthName);
 		return print_r($this->datatables->generate());
 	}
 	public function detailkar(){
@@ -280,15 +294,116 @@ class Welcome extends Auth {
 		if ($this->input->is_ajax_request()) {
 			$ids = $this->input->post('ids');
 			$cab = $this->input->post('cab');
-	
+
 			$data = array(
 				'id_toko' => $cab,
 			);
 			$this->Welcome_model->updatekar($ids, $data);
-	
+
 			echo json_encode(['status' => 'success']);
 		} else {
 			redirect('pindah-barang');
 		}
-	}	
+	}
+	public function asset_chart_data() {
+		if ($this->input->is_ajax_request()) {
+			$selected_year = $this->input->post('year', true) ?: date('Y');
+			$years = [$selected_year - 2, $selected_year - 1, (int)$selected_year]; // e.g. 2024, 2025, 2026
+			$months = [
+				'01' => 'Jan', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr',
+				'05' => 'Mei', '06' => 'Jun', '07' => 'Jul', '08' => 'Agu',
+				'09' => 'Sep', '10' => 'Okt', '11' => 'Nov', '12' => 'Des'
+			];
+
+			$categories = array_values($months);
+			$categories[] = 'Total'; // Add Total column at the end
+
+			$series = [];
+
+			foreach ($years as $y) {
+				$year_data = [];
+				$annual_total = 0;
+				foreach ($months as $m_num => $m_name) {
+					$start_date = "$y-$m_num-01";
+					$end_date = date("Y-m-t", strtotime($start_date));
+
+					$this->db->select("COALESCE(SUM(hrg_hpp), 0) as total_asset");
+					$this->db->from('vbarangkeluar');
+					$this->db->where('DATE(tgl_penerimaan) >=', $start_date);
+					$this->db->where('DATE(tgl_penerimaan) <=', $end_date);
+					$this->db->where_in('status', [2]);
+					$q = $this->db->get()->row();
+
+					$val = (float)($q->total_asset ?? 0);
+					$year_data[] = $val;
+					$annual_total += $val;
+				}
+				// Append annual total as the 13th data point
+				$year_data[] = $annual_total;
+
+				$series[] = [
+					'name' => (string)$y,
+					'data' => $year_data
+				];
+			}
+
+			echo json_encode([
+				'status' => true,
+				'categories' => $categories,
+				'series' => $series
+			]);
+		} else {
+			redirect('welcome');
+		}
+	}
+
+	public function laba_chart_data() {
+		if ($this->input->is_ajax_request()) {
+			$selected_year = $this->input->post('year', true) ?: date('Y');
+			$years = [$selected_year - 2, $selected_year - 1, (int)$selected_year]; // e.g. 2024, 2025, 2026
+			$months = [
+				'01' => 'Jan', '02' => 'Feb', '03' => 'Mar', '04' => 'Apr',
+				'05' => 'Mei', '06' => 'Jun', '07' => 'Jul', '08' => 'Agu',
+				'09' => 'Sep', '10' => 'Okt', '11' => 'Nov', '12' => 'Des'
+			];
+
+			$categories = array_values($months);
+			$series = [];
+
+			foreach ($years as $y) {
+				$year_data = [];
+				foreach ($months as $m_num => $m_name) {
+					// Use 15th of previous month to 14th of current month cycle calculation matching Welcome_model
+					$target_date = new DateTime("$y-$m_num-15");
+					$start_date = (clone $target_date)->modify('first day of last month')->setDate($y, $m_num - 1, 15)->format('Y-m-d');
+					if ($m_num == 1) {
+						$start_date = ($y - 1) . '-12-15';
+					}
+					$end_date = "$y-$m_num-14";
+
+					$this->db->select("COALESCE((SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp), 0) as total_laba");
+					$this->db->from('vpenjualan');
+					$this->db->where_in('status', [1, 2]);
+					$this->db->where('DATE(tgl_transaksi) >=', $start_date);
+					$this->db->where('DATE(tgl_transaksi) <=', $end_date);
+					$q = $this->db->get()->row();
+
+					$year_data[] = (float)($q->total_laba ?? 0);
+				}
+				$series[] = [
+					'name' => (string)$y,
+					'type' => 'line',
+					'data' => $year_data
+				];
+			}
+
+			echo json_encode([
+				'status' => true,
+				'categories' => $categories,
+				'series' => $series
+			]);
+		} else {
+			redirect('welcome');
+		}
+	}
 }

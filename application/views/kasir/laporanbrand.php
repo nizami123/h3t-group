@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?=base_url()?>">                                       
+                    <li class="breadcrumb-item"><a href="<?=base_url()?>">
                         <svg class="stroke-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
                         </svg></a>
@@ -88,9 +88,12 @@
                                             <th><span class="f-light f-w-600">P/N, CN, MTM, SNID</span></th>
                                             <th><span class="f-light f-w-600">PRODUCT NAME</span></th>
                                             <th><span class="f-light f-w-600">PRODUCT CATEGORY</span></th>
+                                            <th><span class="f-light f-w-600">MDP PRICE</span></th>
                                             <th><span class="f-light f-w-600">COST PRICE</span></th>
                                             <th><span class="f-light f-w-600">COGS</span></th>
+                                            <th><span class="f-light f-w-600">KOMISI TR</span></th>
                                             <th><span class="f-light f-w-600">FINAL PRICE</span></th>
+                                            <th><span class="f-light f-w-600">TOTAL LABA</span></th>
                                             <th><span class="f-light f-w-600">KONDISI</span></th>
                                         </tr>
                                     </thead>

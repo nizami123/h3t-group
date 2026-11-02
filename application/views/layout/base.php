@@ -36,13 +36,13 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/responsive.css">
     <?php echo $css; ?>
-    <?php 
-      $jab= $this->session->userdata('jabatan'); 
-      $idtoko = $this->session->userdata('id_toko'); 
-      $nmtoko = $this->session->userdata('nama_toko'); 
+    <?php
+      $jab= $this->session->userdata('jabatan');
+      $idtoko = $this->session->userdata('id_toko');
+      $nmtoko = $this->session->userdata('nama_toko');
     ?>
   </head>
-  <body> 
+  <body>
     <!-- loader starts-->
     <div class="loader-wrapper">
       <div class="loader-index"> <span></span></div>
@@ -137,7 +137,7 @@
                     <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                   </li>
                   <li class="pin-title sidebar-main-title">
-                    <div> 
+                    <div>
                       <h6>Pinned</h6>
                     </div>
                   </li>
@@ -188,8 +188,9 @@
                         <li class="mkat"><a class="mkat" href="<?=base_url()?>master-kategori">Master Kategori</a></li>
                         <li class="mbrg"><a class="mbrg" href="<?=base_url()?>master-barang">Master Barang</a></li>
                         <li class="mbnk"><a class="mbnk" href="<?=base_url()?>master-bank">Master Bank</a></li>
+                        <li class="mppn"><a class="mppn" href="<?=base_url()?>master-ppn">Master PPN</a></li>
                       </ul>
-                  </li>            
+                  </li>
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
                     <div>
@@ -216,7 +217,7 @@
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-table"></use>
                       </svg><span>Retur Barang</span></a>
                   </li> -->
-                  <?php } ?>       
+                  <?php } ?>
                   <!-- Finnance -->
                   <!-- <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="#">
@@ -297,7 +298,7 @@
                     </a>
                     <ul class="sidebar-submenu">
                         <!-- <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li> -->
-                        <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='ADMIN BARANG' || $jab=='PIC') { ?> 
+                        <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='ADMIN BARANG' || $jab=='PIC') { ?>
                         <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Gudang</a></li>
                         <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Cabang</a></li>
                         <?php } ?>
@@ -319,6 +320,15 @@
                       </svg><span>Servis</span></a>
                   </li>
                   <?php } ?>
+                  <li class="sidebar-list landing">
+                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav landing" href="<?=base_url()?>landing-page/">
+                      <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-project"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-project"></use>
+                      </svg><span>Landing Page</span></a>
+                  </li>
                   <!-- Transaksi -->
                   <li class="sidebar-list trans"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title trans" href="#">
@@ -431,7 +441,7 @@
             });
 
             $(".dash").removeClass("active");
-                
+
             if (segment1 == "") {
                 $(".dash").addClass("active");
                 $(".scab").addClass("active");
@@ -455,79 +465,85 @@
                 $(".mcab").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');                                  
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-diskon"){
                 $(".master").addClass("active");
                 $(".mdis").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-supplier"){
                 $(".master").addClass("active");
                 $(".msup").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-karyawan"){
                 $(".master").addClass("active");
                 $(".mkar").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-kustomer"){
                 $(".master").addClass("active");
                 $(".mkus").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-kategori"){
                 $(".master").addClass("active");
                 $(".mkat").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-barang"){
                 $(".master").addClass("active");
                 $(".mbrg").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-bank"){
                 $(".master").addClass("active");
                 $(".mbnk").addClass("active");
                 $(".sidebar-list.master").addClass('active');
                 $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "master-ppn"){
+	            $(".master").addClass("active");
+	            $(".mppn").addClass("active");
+	            $(".sidebar-list.master").addClass('active');
+	            $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+	            $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "terima-barang"){
                 $(".inven").addClass("active");
                 $(".iskb").addClass("active");
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "pindah-barang"){
                 $(".inven").addClass("active");
                 $(".ipb").addClass("active");
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "stock-opname"){
                 $(".inven").addClass("active");
                 $(".iso").addClass("active");
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "barang-masuk"){
                 $(".inven").addClass("active");
                 $(".ibm").addClass("active");
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "barang-keluar"){
                 $(".inven").addClass("active");
                 $(".ibk").addClass("active");
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "etalase-toko"){
                 $(".trans").addClass("active");
                 $(".teta").addClass("active");
@@ -566,7 +582,7 @@
                 $(".sidebar-list.finance").addClass('active');
                 $(".sidebar-list.finance .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.finance ul.sidebar-submenu").slideDown('normal');
-                $(".submenu-title.fnc").addClass('active'); 
+                $(".submenu-title.fnc").addClass('active');
                 $(".submenu-title.fnc").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".submenu-title.fnc + .submenu-content").slideDown('normal');
             }else if (segment1 == "finance-supplier" && segment2 == "cashback-supplier"){
@@ -575,11 +591,13 @@
                 $(".sidebar-list.finance").addClass('active');
                 $(".sidebar-list.finance .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.finance ul.sidebar-submenu").slideDown('normal');
-                $(".submenu-title.fnc").addClass('active'); 
+                $(".submenu-title.fnc").addClass('active');
                 $(".submenu-title.fnc").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".submenu-title.fnc + .submenu-content").slideDown('normal');
             }else if (segment1 == "servis"){
                 $(".servis").addClass("active");
+            }else if (segment1 == "landing-page"){
+                $(".landing").addClass("active");
             }else if (segment1 == "pembelian"){
                 $(".purchase").addClass("active");
                 $(".scst").addClass("active");
@@ -621,6 +639,6 @@
                 document.querySelector('.select2-search__field').focus();
             });
         });
-    </script>    
+    </script>
   </body>
-</html>        
+</html>

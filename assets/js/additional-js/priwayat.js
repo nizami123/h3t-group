@@ -32,7 +32,7 @@ function tablejl() {
         },
         "serverSide": true,
         "order": [
-            [1, 'desc'] 
+            [1, 'desc']
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/laporan-jual/',
@@ -40,7 +40,7 @@ function tablejl() {
         },
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
-            { 
+            {
                 "data": "kode_nama",
                 "render": function (data, type, row) {
                     if (type === "display") {
@@ -49,7 +49,7 @@ function tablejl() {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "tgl_transaksi",
                 "render": function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
@@ -66,13 +66,13 @@ function tablejl() {
             },
             { "data": "nama_toko" },
             { "data": "nama_admin" },
-            { 
+            {
                 "data": "total",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "status",
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
@@ -89,7 +89,7 @@ function tablejl() {
                     }
                     return data;
                 }
-            },       
+            },
             {
                 "data": "kode_penjualan",
                 "orderable": false,
@@ -98,10 +98,10 @@ function tablejl() {
                         return `
                                 <ul class="action">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" 
+                                        <button class="btn btn-primary"
                                         data-id="${data}" data-total="${full.total}" data-idksr="${full.id_ksr}"
-                                        data-sales="${full.nama_ksr}" data-hj="${full.total_harga_jual}" data-dis="${full.total_diskon}" 
-                                        data-cb="${full.total_cb}" data-lb="${full.total_laba}" data-cst="${full.nama_plg}" data-tb="${full.cara_bayar}" 
+                                        data-sales="${full.nama_ksr}" data-hj="${full.total_harga_jual}" data-dis="${full.total_diskon}"
+                                        data-cb="${full.total_cb}" data-lb="${full.total_laba}" data-cst="${full.nama_plg}" data-tb="${full.cara_bayar}"
                                         data-btf="${full.bank_tf}" data-nr="${full.no_rek}" data-tn="${full.tunai}" data-status="${full.status}"
                                         data-bnk="${full.bank}" data-krd="${full.kredit}" data-toko="${full.nama_toko}" data-tgltr="${full.tgl_transaksi}"
                                         data-jasa="${full.jasa}" data-jasanom="${full.jml_donasi}" data-tr="${full.komisi}"
@@ -112,7 +112,7 @@ function tablejl() {
                     }
                     return data;
                 }
-            }      
+            }
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-4'B>>" +
@@ -144,7 +144,7 @@ function tablejl() {
                 }
             }
         ]
-            
+
     });
     return tableJL;
 }
@@ -160,7 +160,7 @@ function tableprdj() {
         },
         "serverSide": true,
         "order": [
-            [0, 'asc'] 
+            [0, 'asc']
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/laporan-produk-jual/',
@@ -168,52 +168,52 @@ function tableprdj() {
         },
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
-            { 
+            {
                 "data": "sn_brg",
                 "render": function(data, type, row, meta) {
-                    return `<a href="#" id="infoprd" 
+                    return `<a href="#" id="infoprd"
                     data-inv="${row.kode_penjualan}" data-cab="${row.nama_toko}" data-tgl="${row.tgl_transaksi}"
                     data-ksr="${row.nama_ksr}" data-sls="${row.nama_admin}" data-plg="${row.nama_plg}" data-idplg="${row.id_plg}"
                     data-bs-toggle="modal" data-bs-target="#InfoDetail">${data}</a>`;
                 }
-            },   
-            { "data": "nama_brg" },   
-            { 
+            },
+            { "data": "nama_brg" },
+            {
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_cashback",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_bayar",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
-            },            
-            { 
+            },
+            {
                 "data": "laba_unit",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
-            },      
+            },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-4'B>>" +
@@ -242,7 +242,7 @@ function tableprdj() {
                 title: 'Laporan Produk Terjual',
             }
         ]
-            
+
     });
     return tablePRDJ;
 }
@@ -258,7 +258,7 @@ function tablers() {
         },
         "serverSide": true,
         "order": [
-            [0, 'asc'] 
+            [0, 'asc']
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/laporan-penjualan/',
@@ -267,31 +267,31 @@ function tablers() {
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
             { "data": "sales" },
-            { 
+            {
                 "data": "total_harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "total_jasa",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "total_diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "total_harga_cb",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "total_penjualan",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -305,8 +305,8 @@ function tablers() {
                         return `
                                 <ul class="action">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-id="${data}" 
-                                        data-total="${full.total_penjualan}" data-ids="${full.id_ksr}" data-sales="${full.nama_ksr}" 
+                                        <button class="btn btn-primary" data-id="${data}"
+                                        data-total="${full.total_penjualan}" data-ids="${full.id_ksr}" data-sales="${full.nama_ksr}"
                                         data-hj="${full.total_harga_jual}" data-cb="${full.total_harga_cb}" data-ds="${full.total_diskon}"
                                         data-js="${full.total_jasa}" data-subt="${full.subtotal}"
                                         data-bs-toggle="modal" data-bs-target="#DetailPenjualan" title="detail penjualan"><i class="fa fa-exclamation-circle"></i></button>
@@ -316,7 +316,7 @@ function tablers() {
                     }
                     return data;
                 }
-            }      
+            }
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-4'B>>" +
@@ -348,7 +348,7 @@ function tablers() {
                 }
             }
         ]
-            
+
     });
     return tableRS;
 }
@@ -360,9 +360,9 @@ function detaillappen(){
         var tgl = button.data('tgltr');
         var date = new Date(tgl);
         var stat = button.data('status');
-        var monthName = date.toLocaleString('id-ID', { 
-            day: 'numeric', 
-            month: 'long', 
+        var monthName = date.toLocaleString('id-ID', {
+            day: 'numeric',
+            month: 'long',
             year: 'numeric',
             hour: '2-digit',
             minute: '2-digit',
@@ -420,7 +420,14 @@ function detaillappen(){
         $("#ttcb").text(formatcur.format(cb));
         $("#ttlb").text(formatcur.format(lb));
         $("#ttgt").text(formatcur.format(total));
-        $('#ttr').text(formatcur.format(tr));
+        var $ttr = $('#ttr');
+        if ($ttr.is('input')) {
+            $ttr.val(formatcur.format(tr));
+            $('#btn-edit-ttr').attr('data-id', inv);
+            updateKomisi();
+        } else {
+            $ttr.text(formatcur.format(tr));
+        }
         if (stat == '3' || stat == '9') {
             $("#canceltrans").addClass('d-none');
         }else{
@@ -464,9 +471,9 @@ function detailprdj(){
         var plg = button.data('plg');
         var idplg = button.data('idplg');
         var date = new Date(tgl);
-        var monthName = date.toLocaleString('id-ID', { 
-            day: 'numeric', 
-            month: 'long', 
+        var monthName = date.toLocaleString('id-ID', {
+            day: 'numeric',
+            month: 'long',
             year: 'numeric',
             hour: '2-digit',
             minute: '2-digit',
@@ -496,7 +503,7 @@ function tabledts(ids) {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/laporan-detail-penjualan/'+ids,
@@ -504,27 +511,27 @@ function tabledts(ids) {
         },
         "columns": [
             { "data": "kode_penjualan" },
-            { "data": "sn_brg" },   
-            { "data": "nama_brg" },   
-            { 
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            {
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_cashback",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
-            },            
-            { 
+            },
+            {
                 "data": "harga_ril",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -561,7 +568,7 @@ function tabledts(ids) {
                 }
             }
         ]
-            
+
     });
     return tableDRS;
 }
@@ -576,7 +583,7 @@ function tabledtliv(inv) {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/detail-laporan-jual/',
@@ -586,39 +593,39 @@ function tabledtliv(inv) {
             }
         },
         "columns": [
-            { "data": "sn_brg" },   
-            { "data": "nama_brg" },   
-            { 
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            {
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_cashback",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_bayar",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
-            },            
-            { 
+            },
+            {
                 "data": "laba_unit",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -652,7 +659,7 @@ function tabledtliv(inv) {
                 title: 'Detail Laporan Penjualan '+inv,
             }
         ]
-            
+
     });
     return tableDJL;
 }
@@ -661,7 +668,7 @@ function canceltrans() {
     $('#canceltrans').on('click', function (e) {
         e.preventDefault();
         var inv = $(this).data('id');
-    
+
         swal({
             title: 'Apa anda yakin untuk membatalkan transaksi ini?',
             icon: 'warning',
@@ -686,7 +693,7 @@ function canceltrans() {
                 $.ajax({
                     type: "POST",
                     url: base_url+"order-masuk/cancel",
-                    dataType: "json", 
+                    dataType: "json",
                     data: {
                         inv: inv,
                     },
@@ -706,6 +713,66 @@ function canceltrans() {
                     },
                     error: function (error) {
                         swal("Gagal", {
+                            icon: "error",
+                        });
+                    }
+                });
+            }
+        });
+    });
+}
+
+function updateKomisi() {
+    $('#btn-edit-ttr').off('click').on('click', function (e) {
+        e.preventDefault();
+        var inv = $(this).attr('data-id');
+        var ttr = $('#ttr').val();
+
+        swal({
+            title: 'Apakah anda yakin ingin mengubah Total TR?',
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Tidak',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Iya',
+                    value: true,
+                    visible: true,
+                    className: 'btn-primary',
+                    closeModal: true
+                }
+            }
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "riwayat-penjualan/update",
+                    dataType: "json",
+                    data: {
+                        kode: inv,
+                        ttr: ttr
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            swal("Berhasil", "Komisi berhasil diperbarui", {
+                                icon: "success",
+                            }).then((value) => {
+                                $('#DetailLapPenjualan').modal('hide');
+                                tableJL.ajax.reload();
+                            });
+                        } else {
+                            swal("Gagal", "Gagal memperbarui TR", {
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        swal("Gagal", "Terjadi kesalahan on server", {
                             icon: "error",
                         });
                     }

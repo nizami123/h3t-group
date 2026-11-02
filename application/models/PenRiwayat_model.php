@@ -10,6 +10,10 @@ class PenRiwayat_model extends CI_Model {
         $this->db->where('id_keluar', $idk);
         $this->db->update('tb_brg_keluar', $data);
     }
+    public function update_komisi($kode, $data) {
+        $this->db->where('kode_penjualan', $kode);
+        $this->db->update('tb_detail_penjualan', $data);
+    }
 }
 
 /* End of file PenRiwayat_model.php */

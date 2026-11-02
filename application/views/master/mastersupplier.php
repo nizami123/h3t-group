@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?=base_url()?>">                                       
+                    <li class="breadcrumb-item"><a href="<?=base_url()?>">
                         <svg class="stroke-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
                         </svg></a></li>
@@ -96,6 +96,7 @@
             </div>
             <!-- End Form Tambah Cabang-->
             <!-- Listing Cabang -->
+            <?php if ($this->session->userdata('jabatan')!="MANAGER") { ?>
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
@@ -119,7 +120,7 @@
                                 <th style="text-align: center;">AKSI</th>
                               </tr>
                             </thead>
-                            <tbody>                              
+                            <tbody>
                             </tbody>
                           </table>
                         </div>
@@ -127,6 +128,7 @@
                     </div>
                   </div>
             </div>
+            <?php } ?>
             <!-- End Listing Supplier -->
             <!-- Modal Edit Data Master -->
             <div class="modal fade" id="EditMasterSupplierModal" tabindex="-1" role="dialog" aria-labelledby="EditMasterSupplierModal" aria-hidden="true">

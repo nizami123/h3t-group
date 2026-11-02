@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailLapPenjualan" tabindex="-1" role="dialog" aria-labelledby="DetailLapPenjualan" aria-hidden="true">
                 <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content dark-sign-up">
@@ -157,8 +157,8 @@
                                     </li>
                                 </ul>
                                 <!-- Data Table -->
-                                <div class="col-lg-12"> 
-                                    <div class="card"> 
+                                <div class="col-lg-12">
+                                    <div class="card">
                                         <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
                                             <h5 id="ttsales">-</h5>
                                         </div>
@@ -180,7 +180,7 @@
                                                 <tbody>
                                                 </tbody>
                                             </table>
-                                            </div>                                            
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +188,17 @@
                                     <!-- Total -->
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Total TR</span></strong>
+                                        <?php if ($this->session->userdata('jabatan') == 'OWNER') { ?>
+                                        <div class="input-group" style="width: 350px;">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" type="checkbox" id="enable_ttr" aria-label="Checkbox for enabling total TR edit">
+                                            </div>
+                                            <input class="form-control" id="ttr" type="text" name="ttr" onkeyup="formatRupiah(this)" disabled>
+                                            <button class="btn btn-outline-primary" type="button" id="btn-edit-ttr" disabled>Edit</button>
+                                        </div>
+                                        <?php } else { ?>
                                         <strong id="ttr">-</strong>
+                                        <?php } ?>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Total Harga Jual</span></strong>
@@ -197,7 +207,7 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong>Keterangan : <span id="ketjasa"></span></strong>
                                         <strong id="nomjasa">-</strong>
-                                    </li>                                    
+                                    </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Total Diskon</span></strong>
                                         <strong id="ttds">-</strong>
@@ -213,7 +223,7 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Total Laba Bersih</span></strong>
                                         <strong id="ttlb">-</strong>
-                                    </li>                                    
+                                    </li>
                                 </ul>
                                 <div class="mt-4 text-center">
                                     <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Finance') { ?>
@@ -255,12 +265,12 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Subtotal</span></strong>
                                         <strong id="ttst">-</strong>
-                                    </li>                                    
+                                    </li>
                                     <!-- Total Jasa -->
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Total Jasa</span></strong>
                                         <strong id="ttjs">-</strong>
-                                    </li>                                    
+                                    </li>
                                     <!-- Total Penjualan -->
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong><span>Total Penjualan</span></strong>
@@ -268,8 +278,8 @@
                                     </li>
                                 </ul>
                                 <!-- Data Table -->
-                                <div class="col-lg-12"> 
-                                    <div class="card"> 
+                                <div class="col-lg-12">
+                                    <div class="card">
                                         <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
                                             <h5 id="saldh">-</h5>
                                         </div>
@@ -290,7 +300,7 @@
                                                 <tbody>
                                                 </tbody>
                                             </table>
-                                            </div>                                            
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -349,3 +359,22 @@
           <!-- Container-fluid Ends-->
         </div>
         <!-- End Content -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const checkbox = document.getElementById('enable_ttr');
+                const inputTtr = document.getElementById('ttr');
+                const btnEditTtr = document.getElementById('btn-edit-ttr');
+
+                if (checkbox) {
+                    checkbox.addEventListener('change', function () {
+                        if (this.checked) {
+                            inputTtr.removeAttribute('disabled');
+                            btnEditTtr.removeAttribute('disabled');
+                        } else {
+                            inputTtr.setAttribute('disabled', 'true');
+                            btnEditTtr.setAttribute('disabled', 'true');
+                        }
+                    });
+                }
+            });
+        </script>

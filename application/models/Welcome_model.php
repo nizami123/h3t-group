@@ -8,7 +8,7 @@ class Welcome_model extends CI_Model {
   private $currentMonth;
   private $currentDay;
   private $startDateFormatted;
-  private $endDateFormatted;	
+  private $endDateFormatted;
 
   public function __construct() {
     $this->currentDate = date('Y-m-d');
@@ -48,7 +48,7 @@ class Welcome_model extends CI_Model {
   }
   public function countlaba() {
     $this->db->select([
-      "(SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
+      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
       SUM(harga_jual) as total_pen, SUM(harga_diskon) as total_disk, SUM(harga_cashback) total_cb, SUM(hrg_hpp) as total_hpp",
       "COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa",
       "DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-15') AS start_date",
@@ -63,11 +63,11 @@ class Welcome_model extends CI_Model {
   }
   public function filtercountlaba($start,$end){
     $this->db->select([
-      "COALESCE((SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor, 
+      "COALESCE((SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor,
       tgl_transaksi,
-      COALESCE(SUM(harga_jual),0) as total_pen, 
-      COALESCE(SUM(harga_diskon),0) as total_disk, 
-      COALESCE(SUM(harga_cashback),0) total_cb, 
+      COALESCE(SUM(harga_jual),0) as total_pen,
+      COALESCE(SUM(harga_diskon),0) as total_disk,
+      COALESCE(SUM(harga_cashback),0) total_cb,
       COALESCE(SUM(hrg_hpp),0) as total_hpp,
       COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa",
     ]);
@@ -79,12 +79,22 @@ class Welcome_model extends CI_Model {
     return $query->result_array();
   }
 	public function countkomisiTR(){
+		$endDate = new DateTime($this->endDateFormatted);
+		$year = $endDate->format('Y');
+		$monthNum = (int)$endDate->format('n');
+		$indonesianMonths = [
+			1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+			5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+			9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+		];
+		$monthName = $indonesianMonths[$monthNum];
+
 		$this->db->select([
-			"SUM(komisi_tr) as total_komisi"
+			"COALESCE(SUM(komisi_tr), 0) as total_komisi"
 		]);
-		$this->db->from('vkomisi_tr');
-		$this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
-    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
+		$this->db->from('vtrkomisi');
+		$this->db->where('tahun', $year);
+		$this->db->where('bulan', $monthName);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -99,7 +109,7 @@ class Welcome_model extends CI_Model {
   }
   public function countpenjualan(){
     $this->db->select([
-      "(SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback))AS total_penjualan",
+      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback))AS total_penjualan",
       "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback))AS total_penjualan_no_jasa",
       "COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa"
     ]);
@@ -155,7 +165,7 @@ class Welcome_model extends CI_Model {
   }
   public function countTopSales(){
     $this->db->select([
-      "SUM(harga_bayar) + SUM(DISTINCT jml_donasi) as total_jual", 
+      "SUM(harga_bayar) as total_jual",
       "id_ksr",
       "nama_ksr"
   ]);
@@ -165,9 +175,46 @@ class Welcome_model extends CI_Model {
     $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $this->db->group_by(['id_ksr', 'nama_ksr']);
     $this->db->order_by('total_jual','desc');
-    $this->db->limit(5);
     $query = $this->db->get();
     return $query->result_array();
+  }
+
+  public function get_chart_years() {
+    $this->db->select("DISTINCT YEAR(tgl_transaksi) as yr");
+    $this->db->from('vpenjualan');
+    $this->db->where('tgl_transaksi IS NOT NULL', null, false);
+    $this->db->order_by('yr', 'DESC');
+    $query = $this->db->get()->result_array();
+
+    $years = [];
+    foreach($query as $row) {
+        if (!empty($row['yr'])) {
+            $years[] = $row['yr'];
+        }
+    }
+    if (empty($years)) {
+        $years[] = date('Y');
+    }
+    return $years;
+  }
+
+  public function get_chart_years_asset() {
+    $this->db->select("DISTINCT YEAR(tgl_penerimaan) as yr");
+    $this->db->from('vbarangkeluar');
+    $this->db->where('tgl_penerimaan IS NOT NULL', null, false);
+    $this->db->order_by('yr', 'DESC');
+    $query = $this->db->get()->result_array();
+
+    $years = [];
+    foreach($query as $row) {
+        if (!empty($row['yr'])) {
+            $years[] = $row['yr'];
+        }
+    }
+    if (empty($years)) {
+        $years[] = date('Y');
+    }
+    return $years;
   }
   public function countStockCab(){
     $this->db->select(['id_toko', 'nama_toko','COUNT(id_keluar) as total_produk_toko']);
@@ -204,7 +251,7 @@ class Welcome_model extends CI_Model {
   }
   public function countpiutang() {
     $this->db->select([
-      "sum(sisa) as total_supplier" 
+      "sum(sisa) as total_supplier"
     ]);
     $this->db->from('v_penjualancus');
     $this->db->where('status in (0,1)');

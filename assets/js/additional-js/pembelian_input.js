@@ -28,13 +28,13 @@ function tablebm() {
             { "data": "sn_brg" },
             { "data": "no_imei" },
             { "data": "nama_brg" },
-            { 
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "hrg_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -54,7 +54,7 @@ function tablebm() {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "kondisi",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -69,7 +69,7 @@ function tablebm() {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "sn_brg",
                 "render": function(data, type, full, meta) {
                   // You can customize the rendering of the image here
@@ -83,7 +83,7 @@ function tablebm() {
                   return data;
               }
             },
-            { 
+            {
                 "data": "status",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -109,7 +109,7 @@ function tablebm() {
                 "orderable": false, // Disable sorting for this column
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        if (full.status === "1" || full.status === "5") { 
+                        if (full.status === "1" || full.status === "5") {
                             return `
                                 <ul class="action">
                                     <li class="delete">
@@ -160,7 +160,7 @@ function tablebm() {
                     }
                 }
             ]
-            
+
     });
 }
 
@@ -214,7 +214,7 @@ $(document).on('click', '#delete-btn', function (e) {
 
 // function generateid() {
 //     $.ajax({
-//         url: base_url+'PembelianInput/gensnacc', 
+//         url: base_url+'PembelianInput/gensnacc',
 //         type: 'GET',
 //         dataType: 'json',
 //         success: function(response) {
@@ -258,21 +258,21 @@ function generateid() {
     });
 }
 async function processIds() {
-    var ts = parseInt($("#totalstok").val(), 10); 
+    var ts = parseInt($("#totalstok").val(), 10);
     var generatedid = [];
 
     for (var index = 0; index < ts; index++) {
         try {
             var id = await generateid();
             generatedid.push(id);
-            $('#snacc').val(id); 
+            $('#snacc').val(id);
 
             await insacc(id);
         } catch (error) {
             console.error('Failed to generate ID:', error);
         }
     }
-    
+
     swal("success", "Data aksesori berhasil ditambahkan sebanyak " +ts+ " stok", "success").then(() => {
         $('#spinner').addClass('d-none');
         $('#tacc').removeClass('d-none');
@@ -287,7 +287,7 @@ async function processIds() {
     });
 }
 $(document).ready(function () {
-    getselect();  
+    getselect();
     setInterval(updateDateTime, 1000);
     addmb();
     addmk();
@@ -344,7 +344,7 @@ function getselect(){
             processResults: function (data) {
                 var groups = {};
                 var results = [];
-    
+
                 data.forEach(function (item) {
                     var groupName = item.merk + ' - ' + item.jenis;
                     if (!groups[groupName]) {
@@ -352,24 +352,24 @@ function getselect(){
                     }
                     groups[groupName].push({
                         id: item.id_brg,
-                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna 
+                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna
                     });
                 });
-    
+
                 Object.keys(groups).forEach(function (groupName) {
                     results.push({
                         text: groupName,
                         children: groups[groupName]
                     });
                 });
-    
+
                 return {
                     results: results
                 };
             },
             cache: false,
         },
-    });  
+    });
     $('#suppbekas').select2({
         language: 'id',
         ajax: {
@@ -408,7 +408,7 @@ function getselect(){
             processResults: function (data) {
                 var groups = {};
                 var results = [];
-    
+
                 data.forEach(function (item) {
                     var groupName = item.merk + ' - ' + item.jenis;
                     if (!groups[groupName]) {
@@ -416,17 +416,17 @@ function getselect(){
                     }
                     groups[groupName].push({
                         id: item.id_brg,
-                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna 
+                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna
                     });
                 });
-    
+
                 Object.keys(groups).forEach(function (groupName) {
                     results.push({
                         text: groupName,
                         children: groups[groupName]
                     });
                 });
-    
+
                 return {
                     results: results
                 };
@@ -457,7 +457,7 @@ function getselect(){
             },
             cache: false,
         },
-    });        
+    });
     $('#prodacc').select2({
         language: 'id',
         ajax: {
@@ -472,7 +472,7 @@ function getselect(){
             processResults: function (data) {
                 var groups = {};
                 var results = [];
-    
+
                 data.forEach(function (item) {
                     var groupName = item.merk + ' - ' + item.jenis;
                     if (!groups[groupName]) {
@@ -480,24 +480,24 @@ function getselect(){
                     }
                     groups[groupName].push({
                         id: item.id_brg,
-                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna 
+                        text: item.id_brg+' | '+item.nama_brg+ ' '+item.warna
                     });
                 });
-    
+
                 Object.keys(groups).forEach(function (groupName) {
                     results.push({
                         text: groupName,
                         children: groups[groupName]
                     });
                 });
-    
+
                 return {
                     results: results
                 };
             },
             cache: false,
         },
-    });    
+    });
 }
 function updateDateTime() {
     var now = new Date();
@@ -509,7 +509,7 @@ function updateDateTime() {
     $('#tglbaru').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
     $('#tglbekas').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
     $('#tglacc').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
-    
+
 }
 
 function addmb() {
@@ -520,16 +520,18 @@ function addmb() {
         var brg = $("#prodbaru").val();
         var sn = $("#snbaru").val();
         var imei = $("#imeibaru").val();
+        var mbp = $("#mbpbaru").val();
         var hpp = $("#hppbaru").val();
         var hj = $("#hjbaru").val();
         var spek = $("#spekbaru").val();
         var kond = 'Baru';
+        var genmbp = parseFloat(mbp.replace(/\D/g, ''));
         var genhpp = parseFloat(hpp.replace(/\D/g, ''));
         var genhj = parseFloat(hj.replace(/\D/g, ''));
         if (!sup || !fk || !brg || !sn || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
-        } 
+        }
         $.ajax({
             type: "POST",
             url: "pembelian-input/simpan-barang-baru",
@@ -540,12 +542,13 @@ function addmb() {
                 prodbaru: brg,
                 snbaru: sn,
                 imeibaru: imei,
+                mbpbaru: genmbp,
                 hppbaru: genhpp,
                 hjbaru: genhj,
                 spekbaru: spek,
                 kondisi: kond,
             },
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 if (response.status === 'success') {
                     swal("success", "Data berhasil ditambahkan", "success").then(() => {
@@ -553,6 +556,7 @@ function addmb() {
                         $("#prodbaru").val('0').trigger('change.select2');
                         $("#snbaru").val('');
                         $("#imeibaru").val('');
+                        $("#mbpbaru").val('');
                         $("#hppbaru").val('');
                         $("#hjbaru").val('');
                         $("#spekbaru").val('');
@@ -589,7 +593,7 @@ function addmk() {
         if (!sup || !fk || !brg || !sn || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
-        } 
+        }
         $.ajax({
             type: "POST",
             url: "pembelian-input/simpan-barang-bekas",
@@ -605,7 +609,7 @@ function addmk() {
                 spekbekas: spek,
                 kondisik: kond,
             },
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 if (response.status === 'success') {
                     swal("success", "Data berhasil ditambahkan", "success").then(() => {
@@ -643,7 +647,7 @@ function addacc() {
         if (!sup || !fk || !brg || !sn || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
-        } 
+        }
         $('#spinner').removeClass('d-none');
         $('#tacc').addClass('d-none');
         $('#tambahacc').prop('disabled', true);
@@ -660,7 +664,7 @@ function insacc(id) {
         var hj = $("#hjacc").val();
         var kond = 'Baru';
         var genhpp = parseFloat(hpp.replace(/\D/g, ''));
-        var genhj = parseFloat(hj.replace(/\D/g, '')); 
+        var genhj = parseFloat(hj.replace(/\D/g, ''));
         $.ajax({
             type: "POST",
             url: "pembelian-input/simpan-acc",
@@ -674,7 +678,7 @@ function insacc(id) {
                 hjacc: genhj,
                 kondacc: kond,
             },
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 if (response.status === 'success') {
                     $("#suppacc").val($("#suppacc").find('option').last().val()).trigger('change.select2');

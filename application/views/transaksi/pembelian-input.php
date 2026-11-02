@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?=base_url()?>">                                       
+                    <li class="breadcrumb-item"><a href="<?=base_url()?>">
                         <svg class="stroke-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
                         </svg></a>
@@ -44,13 +44,13 @@
                               <div class="pt-3 mb-0">
                                 <form class="row g-3">
                                   <!-- Tanggal Catatan -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="tanggalwaktubarang">Tanggal Waktu</label>
                                     <input class="form-control digits" id="tglbaru" name="tglbaru" type="datetime-local" readonly>
                                   </div>
 
                                   <!-- Supplier -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="FormIDSupplier">Supplier</label>
                                     <select class="form-select" id="suppbaru" name="suppbaru" required="">
                                         <option selected="" disabled="" value="0">Pilih Supplier</option>
@@ -58,7 +58,7 @@
                                   </div>
 
                                   <!-- Faktur Barang -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="fakturbarang">No Faktur Barang</label>
                                     <input class="form-control" id="fakturbarang" name="nofakbaru" type="text" onkeypress="return event.key !== ' ';"
        oninput="this.value = this.value.replace(/\s+/g, '');" placeholder="Masukkan Nomor Faktur Barang" aria-label="fakturbarang" required="">
@@ -70,29 +70,34 @@
                                       <select class="form-select" id="prodbaru" name="prodbaru" required="">
                                         <option selected="" disabled="" value="0">Pilih Produk</option>
                                     </select>
-                                  </div>                               
+                                  </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="SNProduk">SN Produk</label>
                                     <input class="form-control" id="snbaru" type="text" name="snbaru" placeholder="Masukkan Nomor SN Produk" aria-label="SNProduk" required="">
                                   </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-3 position-relative">
                                     <label class="form-label" for="IMEIProduk">CN/MTM/P/N</label>
                                     <input class="form-control" id="imeibaru" type="text" name="imeibaru" placeholder="Masukkan Nomor IMEI" aria-label="IMEIProduk" required="">
-                                  </div>   
+                                  </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-3 position-relative">
+                                    <label class="form-label" for="mbpProduk">Harga MBP</label>
+                                    <input class="form-control" id="mbpbaru" type="text" name="mbpbaru" placeholder="Masukkan Harga MBP" aria-label="mbpProduk" onkeyup="formatRupiah(this)" required="">
+                                  </div>
+
+                                  <div class="col-3 position-relative">
                                     <label class="form-label" for="hppProduk">Harga HPP</label>
                                     <input class="form-control" id="hppbaru" type="text" name="hppbaru" placeholder="Masukkan Harga HPP" aria-label="hppProduk" onkeyup="formatRupiah(this)" required="">
-                                  </div>                                  
+                                  </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-3 position-relative">
                                     <label class="form-label" for="hjProduk">Harga Jual</label>
                                     <input class="form-control" id="hjbaru" type="text" name="hjbaru" placeholder="Masukkan Harga Jual" aria-label="hjProduk" onkeyup="formatRupiah(this)" required="">
                                   </div>
 
-                                  <div class="col-md-12 position-relative"> 
+                                  <div class="col-md-12 position-relative">
                                       <label class="form-label" for="exampleFormControlTextarea1">Spesifikasi Lengkap</label>
                                       <textarea class="form-control" style="resize: none;" name="spekbaru" id="spekbaru" rows="3"></textarea>
                                   </div>
@@ -108,13 +113,13 @@
                             <div class="pt-3 mb-0">
                                 <form class="row g-3">
                                   <!-- Tanggal Catatan -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="tglbekas">Tanggal Waktu</label>
                                     <input class="form-control digits" id="tglbekas" name="tglbekas" type="datetime-local" readonly>
                                   </div>
-                                  
+
                                   <!-- Supplier -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="suppbekas">Supplier</label>
                                     <select class="form-select" id="suppbekas" name="suppbekas" required="">
                                         <option selected="" disabled="" value="">Pilih Supplier</option>
@@ -122,7 +127,7 @@
                                   </div>
 
                                   <!-- Faktur Barang -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="nofakbekas">No Faktur Barang</label>
                                     <input class="form-control" id="nofakbekas" name="nofakbekas" type="text" onkeypress="return event.key !== ' ';"
        oninput="this.value = this.value.replace(/\s+/g, '');" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakbekas" required="">
@@ -136,25 +141,25 @@
                                     </select>
                                   </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="snbekas">SN Produk</label>
                                     <input class="form-control" id="snbekas" name="snbekas" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="snbekas" required="">
                                   </div>
 
                                     <input class="form-control" id="imeibekas" type="hidden" name="imeibekas" placeholder="Masukkan Nomor IMEI" aria-label="imeibekas" required="">
-                                  
 
-                                  <div class="col-8 position-relative"> 
+
+                                  <div class="col-8 position-relative">
                                     <label class="form-label" for="hppbekas">Harga HPP</label>
                                     <input class="form-control" id="hppbekas" type="text" name="hppbekas" placeholder="Masukkan Harga HPP" aria-label="hppbekas" onkeyup="formatRupiah(this)" required="">
-                                  </div>                                  
+                                  </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="hjbekas">Harga Jual</label>
                                     <input class="form-control" id="hjbekas" type="text" name="hjbekas" placeholder="Masukkan Harga Jual" aria-label="hjbekas" onkeyup="formatRupiah(this)" required="">
                                   </div>
 
-                                  <div class="col-md-12 position-relative"> 
+                                  <div class="col-md-12 position-relative">
                                       <label class="form-label" for="spekbekas">Spesifikasi Lengkap</label>
                                       <textarea class="form-control" style="resize: none;" name="spekbekas" id="spekbekas" rows="3"></textarea>
                                   </div>
@@ -170,13 +175,13 @@
                             <div class="pt-3 mb-0">
                                 <form class="row g-3">
                                   <!-- Tanggal Catatan -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="tglacc">Tanggal Waktu</label>
                                     <input class="form-control digits" id="tglacc" name="tglacc" type="datetime-local" readonly>
                                   </div>
-                                  
+
                                   <!-- Supplier -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="suppacc">Supplier</label>
                                     <select class="form-select" id="suppacc" name="suppacc" required="">
                                         <option selected="" disabled="" value="">Pilih Supplier</option>
@@ -184,7 +189,7 @@
                                   </div>
 
                                   <!-- Faktur Barang -->
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="nofakacc">No Faktur Barang</label>
                                     <input class="form-control" id="nofakacc" name="nofakacc" type="text" onkeypress="return event.key !== ' ';"
        oninput="this.value = this.value.replace(/\s+/g, '');" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakacc" required="">
@@ -198,21 +203,21 @@
                                     </select>
                                   </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="snacc">SN Produk</label>
                                     <input class="form-control" id="snacc" name="snacc" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="snacc" required="" readonly>
                                   </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="hppacc">Harga HPP</label>
                                     <input class="form-control" id="hppacc" type="text" name="hppacc" placeholder="Masukkan Harga HPP" aria-label="hppacc" onkeyup="formatRupiah(this)" required="">
-                                  </div>                                  
+                                  </div>
 
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="hjacc">Harga Jual</label>
                                     <input class="form-control" id="hjacc" type="text" name="hjacc" placeholder="Masukkan Harga Jual" aria-label="hjacc" onkeyup="formatRupiah(this)" required="">
                                   </div>
-                                  <div class="col-4 position-relative"> 
+                                  <div class="col-4 position-relative">
                                     <label class="form-label" for="totalstok">Total Stok</label>
                                     <input class="form-control" id="totalstok" type="number" name="totalstok" placeholder="Masukkan Total Stok" aria-label="totalstok" required="">
                                   </div>

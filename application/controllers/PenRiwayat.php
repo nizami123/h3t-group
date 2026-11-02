@@ -3,15 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 class PenRiwayat extends Auth
 {
-    
+
   public function __construct()
   {
     parent::__construct();
     $this->load->model('PenRiwayat_model');
   }
 
-  public function index(){
+  public function index(): void {
     $cab = $this->session->userdata('id_toko');
+    $data = [];
     $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/riwayatsales', '', true);
@@ -40,18 +41,26 @@ class PenRiwayat extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
     ';
-    $this->load->view('layout/base', $data);      
+    $this->load->view('layout/base', $data);
   }
-  public function laporanjual(){
+  //
+  /**
+   * @return string|bool
+   */
+  public function laporanjual(): string|bool {
     $this->load->library('datatables');
-    $this->datatables->select('kode_penjualan, tgl_transaksi, nama_toko, id_ksr,nama_ksr,total, total_harga_jual, 
-    total_diskon,total_cb, total_laba, nama_plg, cara_bayar, bank_tf,no_rek, tunai, bank, kredit,  
+    $this->datatables->select('kode_penjualan, tgl_transaksi, nama_toko, id_ksr,nama_ksr,total, total_harga_jual,
+    total_diskon,total_cb, total_laba, nama_plg, cara_bayar, bank_tf,no_rek, tunai, bank, kredit,
     CONCAT(kode_penjualan," ",nama_plg) as kode_nama, nama_admin,status,jasa,jml_donasi,komisi');
     $this->datatables->from('vreportsale');
     $this->datatables->where_in('status',[1,2,3,9]);
     return print_r($this->datatables->generate());
   }
-  public function detaillapjual() {
+  //
+  /**
+   * @return string|bool
+   */
+  public function detaillapjual(): string|bool {
     $inv = $this->input->post('invid');
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan,sn_brg,nama_brg, hrg_hpp,
@@ -61,7 +70,10 @@ class PenRiwayat extends Auth
     $this->datatables->where('kode_penjualan',$inv);
     return print_r($this->datatables->generate());
   }
-  public function laporansales() {
+  /**
+   * @return string|bool
+   */
+  public function laporansales(): string|bool {
     $this->load->library('datatables');
     $this->datatables->select('id_ksr, nama_ksr, CONCAT(id_ksr, " | ", nama_ksr) AS sales, total_penjualan, subtotal, total_diskon,total_jasa,total_harga_jual,total_harga_cb');
     $this->datatables->from('vsales');
@@ -69,7 +81,11 @@ class PenRiwayat extends Auth
     $this->datatables->group_by('id_ksr');
     return print_r($this->datatables->generate());
   }
-  public function detailsales($id) {
+  /**
+   * @param int|string $id
+   * @return string|bool
+   */
+  public function detailsales($id): string|bool {
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon as diskon,harga_bayar as harga_ril,harga_cashback');
     $this->datatables->from('vpenjualan');
@@ -77,7 +93,10 @@ class PenRiwayat extends Auth
     $this->datatables->where('id_ksr',$id);
     return print_r($this->datatables->generate());
   }
-  public function lapprdj() {
+  /**
+   * @return string|bool
+   */
+  public function lapprdj(): string|bool {
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan,sn_brg,nama_brg, hrg_hpp, nama_admin, nama_ksr, nama_toko, tgl_transaksi, id_plg,nama_plg,
     harga_jual, harga_diskon ,harga_cashback,harga_bayar,COALESCE((harga_bayar - hrg_hpp),0) as laba_unit');
@@ -85,8 +104,22 @@ class PenRiwayat extends Auth
     $this->datatables->where_in('status',[1,2,3]);
     return print_r($this->datatables->generate());
   }
-  public function cancel($id) {
-    
+  public function update(): void {
+    if ($this->input->is_ajax_request()) {
+      $kode = $this->input->post('kode');
+      $ttr = $this->input->post('ttr');
+      $ttr = str_replace(['Rp. ', 'Rp', '.', ' '], '', $ttr);
+      $ttr = str_replace(',', '.', $ttr);
+
+      $data = [
+        'komisi' => $ttr
+      ];
+
+      $this->PenRiwayat_model->update_komisi($kode, $data);
+      echo json_encode(['status' => 'success', 'message' => 'Komisi berhasil diperbarui']);
+    } else {
+      show_404();
+    }
   }
 
 }

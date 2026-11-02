@@ -64,7 +64,7 @@ function tablebank() {
                     }
                 }
             ]
-            
+
     });
 }
 
@@ -161,7 +161,7 @@ function add(){
         if (!bank || !no || !nama ) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
-        } 
+        }
         $.ajax({
             type: "POST",
             url: "master-bank/simpan-data",
@@ -170,7 +170,7 @@ function add(){
                 nama_bank: bank,
                 nama_rek: nama,
             },
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 if (response.status === 'success') {
                     swal("Data berhasil ditambahkan", {
@@ -200,7 +200,7 @@ function getid(){
         getselect();
         var button = $(e.relatedTarget);
         var id_bank = button.data('id');
-        
+
         console.log(id_bank);
         $.ajax({
             url: base_url + "master-bank/edit/"+id_bank,
@@ -249,7 +249,7 @@ function edit(id_bank){
     $("#edit").on("click", function (){
         var no = $("#e_no_rek").val();
         var bank = $("#e_nama_bank").val();
-        var nama = $("#e_nama_rek").val(); 
+        var nama = $("#e_nama_rek").val();
         if (!no || !bank || !nama) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
@@ -263,7 +263,7 @@ function edit(id_bank){
                 e_nama_rek: nama,
                 data_id: id_bank
             },
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 if (response.status === 'success') {
                     swal("Data berhasil diupdate", {
@@ -271,7 +271,7 @@ function edit(id_bank){
                     }).then((value) => {
                         $("#e_no_rek").val('');
                         $("#e_nama_bank").val('0').trigger('change.select2');
-                        $("#e_nama_rek").val(''); 
+                        $("#e_nama_rek").val('');
                         $('#EditBank').modal('hide');
                         reload();
                     });

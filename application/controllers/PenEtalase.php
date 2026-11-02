@@ -3,15 +3,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 class PenEtalase extends Auth
 {
-    
+
   public function __construct()
   {
     parent::__construct();
     $this->load->model('PenEtalase_model');
   }
 
-  public function index(){
+  /**
+   * @return void
+   */
+  public function index(): void{
     $cab = $this->session->userdata('id_toko');
+    $data = [];
     $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/etalase_toko', '', true);
@@ -72,13 +76,16 @@ class PenEtalase extends Auth
     $this->load->view('layout/base', $data);
   }
 
-  public function loadproduk(){
+  /**
+   * @return string|bool
+   */
+  public function loadproduk(): string|bool {
     $this->load->library('datatables');
-    $supp = $this->input->post('supp'); 
-    $cabr = $this->input->post('cabr'); 
-    $tipe = $this->input->post('tipe'); 
+    $supp = $this->input->post('supp');
+    $cabr = $this->input->post('cabr');
+    $tipe = $this->input->post('tipe');
     $this->datatables->select('id_keluar,id_masuk,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,id_toko,nama_toko,
-    hrg_hpp,hrg_jual,margin,hrg_cashback,status');
+    hrg_hpp,hrg_jual,hrg_mdp,margin,hrg_cashback,status');
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('status','2');
     if (!empty($supp) && $supp !== '0') {
@@ -92,7 +99,13 @@ class PenEtalase extends Auth
     }
     return print_r($this->datatables->generate());
   }
-  public function filtersupp($cab=null,$cabr=null, $tipe=null){
+  /**
+   * @param string|null $cab
+   * @param string|null $cabr
+   * @param string|null $tipe
+   * @return string|bool
+   */
+  public function filtersupp($cab=null,$cabr=null, $tipe=null): string|bool {
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,nama_toko,
     hrg_hpp,hrg_jual,margin,hrg_cashback,status');
@@ -101,13 +114,21 @@ class PenEtalase extends Auth
     $this->datatables->where('nama_supplier',$cab);
     $this->datatables->where('nama_toko',$cabr);
     $this->datatables->where('jenis',$tipe);
-    return print_r($this->datatables->generate());    
+    return print_r($this->datatables->generate());
   }
-  public function infoBrg($id){
+  /**
+   * @param int|string $id
+   * @return void
+   */
+  public function infoBrg($id): void {
+    $data = [];
     $data['get_id']= $this->PenEtalase_model->getWhere($id);
     echo json_encode($data);
-  }  
-  public function updatepost() {
+  }
+  /**
+   * @return void
+   */
+  public function updatepost(): void {
     if ($this->input->is_ajax_request()) {
         $json_data = $this->input->raw_input_stream;
         $checkedData = json_decode($json_data, true);
@@ -115,18 +136,21 @@ class PenEtalase extends Auth
             foreach ($checkedData as $data) {
                 $idk = $data['idk'];
                 $idm = $data['idm'];
+                $hrg_mdp = $data['emdp'];
                 $hrg_hpp = $data['ehpp'];
                 $hrg_jual = $data['ehj'];
                 $margin = $data['emg'];
                 $hrg_cb = $data['ecb'];
 
                 $this->PenEtalase_model->update($idk, [
+                	'hrg_mdp' => $hrg_mdp,
                     'hrg_hpp' => $hrg_hpp,
                     'hrg_jual' => $hrg_jual,
                     'margin' => $margin,
                     'hrg_cashback' => $hrg_cb
                 ]);
                 $this->PenEtalase_model->updatebm($idm, [
+                	'hrg_mdp' => $hrg_mdp,
                     'hrg_hpp' => $hrg_hpp,
                     'hrg_jual' => $hrg_jual,
                     'hrg_cashback' => $hrg_cb

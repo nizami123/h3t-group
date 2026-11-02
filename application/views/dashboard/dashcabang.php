@@ -29,11 +29,11 @@
                 <div class="row">
                   <!-- Gross Profits -->
                   <div class=" col-md-7 box-col-7">
-                    <div class="row"> 
+                    <div class="row">
                       <?php if ($this->session->userdata('jabatan') == 'OWNER'){ ?>
                       <div class="col-sm-12">
                         <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="" data-total_hpp="" data-total_pen="" data-total_disk="" data-total_cashb="" data-bulanlb="" data-tahunlb="" data-nmcab="">
-                          <div class="card o-hidden">  
+                          <div class="card o-hidden">
                             <div class="card-body balance-widget">
                               <span class="f-w-500 f-light">Laba Bersih <span id="lbcab"></span></span>
                               <br>
@@ -43,7 +43,7 @@
                               <h4 class="mb-3 mt-1 f-w-500 mb-0 f-22 laba" id="laba"></h4>
                               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-4">
                                 <p class="text-muted">Update Hari ini</p>
-                              </div>      
+                              </div>
                               <div class="mobile-right-img"><img class="left-mobile-img" src="<?=base_url()?>assets/images/dashboard-2/widget-img.png" alt=""><img class="mobile-img" src="<?=base_url()?>assets/images/dashboard-2/mobile.gif" alt="mobile with coin"></div>
                             </div>
                           </div>
@@ -51,9 +51,10 @@
                       </div>
                       <?php } ?>
                       <!-- Asset Produk Semua Cabang -->
+                      <?php if ($this->session->userdata('jabatan') == 'OWNER'){ ?>
                       <div class="col-6">
                         <a href="#" class="cap" data-bs-toggle="modal" data-bs-target="#DetailAssetProduk" data-total_asset="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body primary"> <span class="f-light">Total Asset <span id="tacab"></span></span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spintp">
@@ -61,7 +62,7 @@
                                 </div>
                                 <h4 id="cardtp"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#new-order"></use>
                                 </svg>
@@ -70,10 +71,11 @@
                           </div>
                         </a>
                       </div>
+                      <?php } ?>
                       <!-- Total Penjualan -->
-                      <div class="col-6"> 
+                      <div class="col-6">
                         <a href="#" class="cp" data-bs-toggle="modal" data-bs-target="#DetailSales" data-total_sales="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body success"><span class="f-light">Total Penjualan <span id="tpcab"></span></span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spinp">
@@ -81,7 +83,7 @@
                                 </div>
                                 <h4 id="cardp"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#profit"></use>
                                 </svg>
@@ -91,9 +93,9 @@
                         </a>
                       </div>
                       <!-- Total Diskon Penjualan -->
-                      <div class="col-6"> 
+                      <div class="col-6">
                         <a href="#" class="cdp" data-bs-toggle="modal" data-bs-target="#DetailDiskon" data-diskon_sales="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body secondary"><span class="f-light">Total Diskon <span id="tdcab"></span></span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spindp">
@@ -101,7 +103,7 @@
                                 </div>
                                 <h4 id="carddp"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#sale"></use>
                                 </svg>
@@ -111,17 +113,18 @@
                         </a>
                       </div>
                       <!-- Total Cashback -->
-                      <div class="col-6"> 
+                      <?php if ($this->session->userdata('jabatan') == 'OWNER'){ ?>
+                      <div class="col-6">
                         <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCashback" data-total_cba="" data-bulancb="" data-tahuncb="" data-nmcab="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body warning"><span class="f-light">Total Cashback <span id="tccab"></span></span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spintc">
                                   <span class="visually-hidden">Memuat...</span>
-                                </div>                                
+                                </div>
                                 <h4 id="cardtc"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#sale"></use>
                                 </svg>
@@ -130,6 +133,7 @@
                           </div>
                         </a>
                       </div>
+                      <?php } ?>
                     </div>
                   </div>
                   <!-- Sales -->
@@ -137,23 +141,22 @@
                     <div class="rwow"></div>
                     <div class="appointment">
                       <div class="card">
-                        <div class="card-header card-no-border">
-                          <div class="header-top">
-                            <h5 class="m-0">Top Sales <span id="tscab"></span></h5>
-                          </div>
+                        <div class="card-header card-no-border d-flex justify-content-between align-items-center">
+                          <h5 class="m-0">Top Sales <span id="tscab"></span></h5>
+                          <button class="btn btn-xs btn-outline-primary" id="btnShowAllTopSales" type="button">Tampilkan semua</button>
                         </div>
                         <div class="card-body pt-0">
                           <div class="appointment-table customer-table table-responsive">
                             <table class="table table-bordernone">
                               <tbody id="topSalesTableBody">
-                                
+
                               </tbody>
                             </table>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>                
+                  </div>
                   <?php foreach ($barangcabang as $sc) { ?>
                     <div class="col-md-4 col-sm-6">
                       <a href="#" class="cardLink" data-bs-toggle="modal" data-bs-target="#DetailProdukCab" data-id="<?=$sc['id_toko']?>" data-cabang="<?=$sc['nama_toko']?>">
@@ -162,7 +165,7 @@
                             <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Barang Cabang <?=$sc['nama_toko']?></h5>
                           </div>
                           <div class="card-body pt-0 count-student">
-                            <div class="school-wrapper"> 
+                            <div class="school-wrapper">
                               <div class="school-header" data-id="<?=$sc['id_toko']?>">
                                   <div class="spinner-border text-primary d-none spinst" role="status" id="spinst-<?=$sc['id_toko']?>">
                                       <span class="visually-hidden">Memuat...</span>
@@ -216,7 +219,7 @@
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Pendapatan Jasa</span></strong>
                                       <strong id="tpj">-</strong>
-                                  </li>                                  
+                                  </li>
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Diskon</span></strong>
                                       <strong id="tld">-</strong>
@@ -227,8 +230,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-laba">
@@ -247,7 +250,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -274,8 +277,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-prodc">
@@ -291,7 +294,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -299,7 +302,7 @@
                       </div>
                   </div>
               </div>
-            </div>            
+            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailAssetProduk" tabindex="-1" role="dialog" aria-labelledby="DetailAssetProduk" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -318,8 +321,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-asset">
@@ -334,7 +337,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -361,8 +364,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-assetc">
@@ -377,7 +380,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -385,7 +388,7 @@
                       </div>
                   </div>
               </div>
-            </div>            
+            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailSales" tabindex="-1" role="dialog" aria-labelledby="DetailSales" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -408,8 +411,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-sales">
@@ -428,7 +431,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -455,8 +458,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-salesc">
@@ -474,7 +477,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -501,8 +504,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-diskon">
@@ -517,7 +520,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -544,8 +547,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-cust">
@@ -561,7 +564,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -593,8 +596,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-cb">
@@ -609,7 +612,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -617,7 +620,7 @@
                       </div>
                   </div>
               </div>
-            </div>            
+            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailUser" tabindex="-1" role="dialog" aria-labelledby="DetailUser" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content dark-sign-up">
@@ -636,8 +639,8 @@
                               </li>
                           </ul>
                           <!-- Data Table -->
-                          <div class="col-lg-12"> 
-                              <div class="card"> 
+                          <div class="col-lg-12">
+                              <div class="card">
                                   <div class="card-body">
                                   <div class="table-responsive">
                                       <table class="display" id="table-kar">
@@ -651,7 +654,7 @@
                                           <tbody>
                                           </tbody>
                                       </table>
-                                      </div>                                            
+                                      </div>
                                   </div>
                               </div>
                           </div>

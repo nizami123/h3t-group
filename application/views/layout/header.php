@@ -36,13 +36,13 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/responsive.css">
     <?php echo $css; ?>
-    <?php 
-      $jab= $this->session->userdata('jabatan'); 
-      $idtoko = $this->session->userdata('id_toko'); 
-      $nmtoko = $this->session->userdata('nama_toko'); 
+    <?php
+      $jab= $this->session->userdata('jabatan');
+      $idtoko = $this->session->userdata('id_toko');
+      $nmtoko = $this->session->userdata('nama_toko');
     ?>
   </head>
-  <body> 
+  <body>
     <!-- loader starts-->
     <div class="loader-wrapper">
       <div class="loader-index"> <span></span></div>
@@ -137,7 +137,7 @@
                     <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
                   </li>
                   <li class="pin-title sidebar-main-title">
-                    <div> 
+                    <div>
                       <h6>Pinned</h6>
                     </div>
                   </li>
@@ -188,8 +188,9 @@
                         <li class="mkat"><a class="mkat" href="<?=base_url()?>master-kategori">Master Kategori</a></li>
                         <li class="mbrg"><a class="mbrg" href="<?=base_url()?>master-barang">Master Barang</a></li>
                         <li class="mbnk"><a class="mbnk" href="<?=base_url()?>master-bank">Master Bank</a></li>
+                        <li class="mppn"><a class="mppn" href="<?=base_url()?>master-ppn">Master PPN</a></li>
                       </ul>
-                  </li>            
+                  </li>
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
                     <div>
@@ -216,7 +217,7 @@
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-table"></use>
                       </svg><span>Retur Barang</span></a>
                   </li> -->
-                  <?php } ?>       
+                  <?php } ?>
                   <!-- Finnance -->
                   <!-- <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="#">
@@ -297,7 +298,7 @@
                     </a>
                     <ul class="sidebar-submenu">
                         <!-- <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li> -->
-                        <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional') { ?> 
+                        <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional') { ?>
                         <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Gudang</a></li>
                         <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Cabang</a></li>
                         <?php } ?>

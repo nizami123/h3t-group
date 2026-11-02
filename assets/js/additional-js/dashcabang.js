@@ -416,33 +416,56 @@ function countos(formatcur) {
         }
     });
 }
+let topSalesDataCab = [];
+let showAllTopSalesCab = false;
+
+function renderTopSalesCab() {
+    var topSalesTableBody = $('#topSalesTableBody');
+    topSalesTableBody.empty();
+    
+    var listToDisplay = showAllTopSalesCab ? topSalesDataCab : topSalesDataCab.slice(0, 5);
+    var counter = 1;
+
+    $.each(listToDisplay, function(index, item) {
+        var row = $('<tr>');
+        var buttonClass = 'btn btn-primary';
+        if (counter === 2) {
+            buttonClass = 'btn btn-secondary';
+        } else if (counter === 3) {
+            buttonClass = 'btn btn-success';
+        } else if (counter > 3) {
+            buttonClass = 'btn btn-secondary disabled';
+        }
+        row.append($('<td>').html('<span class="' + buttonClass + '">' + counter + '</span>'));
+        row.append($('<td>').html('<a class="f-w-500" href="#" data-bs-toggle="modal" data-bs-target="#DetailKasir" data-id_ksr="'+item.id_ksr+'" data-total_ksr="'+item.total_jual+'">' + item.nama_ksr + '</a><br><span class="f-light">' + formatcur.format(item.total_jual) + '</span>'));
+        topSalesTableBody.append(row);
+        counter++;
+    });
+
+    if (topSalesDataCab.length <= 5) {
+        $('#btnShowAllTopSales').hide();
+    } else {
+        $('#btnShowAllTopSales').show().text(showAllTopSalesCab ? 'Tampilkan Sedikit' : 'Tampilkan Semua');
+    }
+}
+
 function topsales() {
     $.ajax({
         url: base_url + 'DashboardCab/topsales/'+cabset,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            var topSalesTableBody = $('#topSalesTableBody');
-            topSalesTableBody.empty(); // Clear previous entries
-            var counter = 1; // Initialize counter
-            $.each(data, function(index, item) {
-                var row = $('<tr>');
-                var buttonClass = 'btn btn-primary'; // Default button class
-                if (counter === 2) {
-                    buttonClass = 'btn btn-secondary';
-                } else if (counter === 3) {
-                    buttonClass = 'btn btn-success';
-                } else if (counter > 3) {
-                    buttonClass = 'btn btn-secondary disabled';
-                }
-                row.append($('<td>').html('<span class="' + buttonClass + '">' + counter + '</span>'));
-                row.append($('<td>').html('<a class="f-w-500" href="#" data-bs-toggle="modal" data-bs-target="#DetailKasir" data-id_ksr="'+item.id_ksr+'" data-total_ksr="'+item.total_jual+'">' + item.nama_ksr + '</a><br><span class="f-light">' + formatcur.format(item.total_jual) + '</span>'));
-                topSalesTableBody.append(row);
-                counter++;
-            });
+            topSalesDataCab = data;
+            renderTopSalesCab();
         }
     });
 }
+
+$(document).on('click', '#btnShowAllTopSales', function(e) {
+    e.preventDefault();
+    showAllTopSalesCab = !showAllTopSalesCab;
+    renderTopSalesCab();
+});
 function cardgd() {
     $('#cardpmg').click(function(event) {
         event.preventDefault();

@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 class PembelianInput extends Auth
 {
-    
+
   public function __construct()
   {
     parent::__construct();
@@ -22,13 +22,13 @@ class PembelianInput extends Auth
     $searchTerm = $this->input->get('q');
     $results = $this->InventoriStok_model->getBrg($searchTerm);
     header('Content-Type: application/json');
-    echo json_encode($results);    
+    echo json_encode($results);
   }
   public function loadacc() {
     $searchTerm = $this->input->get('q');
     $results = $this->InventoriStok_model->getAcc($searchTerm);
     header('Content-Type: application/json');
-    echo json_encode($results);    
+    echo json_encode($results);
   }
 
 
@@ -36,7 +36,7 @@ class PembelianInput extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_masuk,tgl_masuk,nama_supplier,sn_brg,no_imei,hrg_hpp,hrg_jual,hrg_cashback,no_fm,nama_brg,spek,kondisi,status');
     $this->datatables->from('vbarangmasuk');
-    return print_r($this->datatables->generate());    
+    return print_r($this->datatables->generate());
   }
   public function gensnacc(){
     $data['lastID'] = $this->InventoriStok_model->getLastKode();
@@ -161,6 +161,7 @@ class PembelianInput extends Auth
         'no_fm'      => $this->input->post('nofakbaru'),
         'sn_brg'      => $this->input->post('snbaru'),
         'no_imei'      => $this->input->post('imeibaru'),
+        'hrg_mdp'      => $this->input->post('mbpbaru'),
         'hrg_hpp'      => $this->input->post('hppbaru'),
         'hrg_jual'      => $this->input->post('hjbaru'),
         'spek'      => $this->input->post('spekbaru'),
@@ -272,7 +273,7 @@ class PembelianInput extends Auth
   }
 
   public function check(){
-    echo $_SERVER['SERVER_NAME']; 
+    echo $_SERVER['SERVER_NAME'];
   }
 
 }

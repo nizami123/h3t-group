@@ -29,11 +29,11 @@
                 <div class="row">
                   <!-- Gross Profits -->
                   <div class=" col-md-7 box-col-7">
-                    <div class="row"> 
+                    <div class="row">
                       <?php if ($this->session->userdata('jabatan') == 'OWNER'){ ?>
                       <div class="col-sm-12">
                         <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="" data-total_hpp="" data-total_pen="" data-total_disk="" data-total_cashb="" data-bulanlb="" data-tahunlb="">
-                          <div class="card o-hidden">  
+                          <div class="card o-hidden">
                             <div class="card-body balance-widget">
                               <span class="f-w-500 f-light">Laba Bersih Bulan Ini</span>
                               <br>
@@ -43,17 +43,16 @@
                               <h4 class="mb-3 mt-1 f-w-500 mb-0 f-22 laba" id="laba"></h4>
                               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-4">
                                 <p class="text-muted">Update Hari ini</p>
-                              </div>      
+                              </div>
                               <div class="mobile-right-img"><img class="left-mobile-img" src="<?=base_url()?>assets/images/dashboard-2/widget-img.png" alt=""><img class="mobile-img" src="<?=base_url()?>assets/images/dashboard-2/mobile.gif" alt="mobile with coin"></div>
                             </div>
                           </div>
                         </a>
                       </div>
-                      <?php } ?>
                       <!-- Asset Produk Semua Cabang -->
                       <div class="col-6">
                         <a href="#" class="cap" data-bs-toggle="modal" data-bs-target="#DetailAssetProduk" data-total_asset="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body primary"> <span class="f-light">Total Asset Tersedia H3T</span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spintp">
@@ -61,7 +60,7 @@
                                 </div>
                                 <h4 id="cardtp"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#new-order"></use>
                                 </svg>
@@ -70,10 +69,11 @@
                           </div>
                         </a>
                       </div>
+                      <?php } ?>
                       <!-- Total Penjualan -->
-                      <div class="col-6"> 
+                      <div class="col-6">
                         <a href="#" class="cp" data-bs-toggle="modal" data-bs-target="#DetailSales" data-total_sales="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body success"><span class="f-light">Total Penjualan Bulan Ini</span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spinp">
@@ -81,7 +81,7 @@
                                 </div>
                                 <h4 id="cardp"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#profit"></use>
                                 </svg>
@@ -91,9 +91,9 @@
                         </a>
                       </div>
                       <!-- Total Diskon Penjualan -->
-                      <div class="col-6"> 
+                      <div class="col-6">
                         <a href="#" class="cdp" data-bs-toggle="modal" data-bs-target="#DetailDiskon" data-diskon_sales="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body secondary"><span class="f-light">Total Diskon Bulan Ini</span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spindp">
@@ -101,7 +101,7 @@
                                 </div>
                                 <h4 id="carddp"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#sale"></use>
                                 </svg>
@@ -111,17 +111,18 @@
                         </a>
                       </div>
                       <!-- Total Cashback -->
-                      <div class="col-6"> 
+                      <?php if ($this->session->userdata('jabatan') == 'OWNER'){ ?>
+                      <div class="col-6">
                         <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCashback" data-total_cba="" data-bulancb="" data-tahuncb="">
-                          <div class="card small-widget"> 
+                          <div class="card small-widget">
                             <div class="card-body warning"><span class="f-light">Total Cashback Bulan Ini</span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spintc">
                                   <span class="visually-hidden">Memuat...</span>
-                                </div>                                
+                                </div>
                                 <h4 id="cardtc"></h4></span>
                               </div>
-                              <div class="bg-gradient"> 
+                              <div class="bg-gradient">
                                 <svg class="stroke-icon svg-fill">
                                   <use href="<?=base_url()?>assets/svg/icon-sprite.svg#sale"></use>
                                 </svg>
@@ -130,6 +131,7 @@
                           </div>
                         </a>
                       </div>
+                      <?php } ?>
                     </div>
                   </div>
                   <!-- Sales -->
@@ -137,16 +139,15 @@
                     <div class="rwow"></div>
                     <div class="appointment">
                       <div class="card">
-                        <div class="card-header card-no-border">
-                          <div class="header-top">
-                            <h5 class="m-0">Top Sales Bulan Ini🌟</h5>
-                          </div>
+                        <div class="card-header card-no-border d-flex justify-content-between align-items-center">
+                          <h5 class="m-0">Top Sales Bulan Ini🌟</h5>
+                          <button class="btn btn-xs btn-outline-primary" id="btnShowAllTopSales" type="button">Tampilkan semua</button>
                         </div>
                         <div class="card-body pt-0">
                           <div class="appointment-table customer-table table-responsive">
                             <table class="table table-bordernone">
                               <tbody id="topSalesTableBody">
-                                
+
                               </tbody>
                             </table>
                           </div>
@@ -154,8 +155,62 @@
                       </div>
                     </div>
                   </div>
+                  <!--chart revenue grafik-->
+                  <div class="row">
+                  	<div class="col-md-12 col-sm-12">
+                   		<div class="card">
+	                     	<div class="m-2">
+		                         <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+			                         <li class="nav-item"><a class="nav-link active txt-primary" id="revenue-tab" data-bs-toggle="tab" href="#revenue" role="tab" aria-controls="revenue" aria-selected="true"><i class="icofont icofont-chart-line-alt"></i>Grafik Revenue</a></li>
+		                             <li class="nav-item"><a class="nav-link txt-primary" id="assetpro-tab" data-bs-toggle="tab" href="#assetpro" role="tab" aria-controls="assetpro" aria-selected="false"><i class="icofont icofont-chart-bar-graph"></i>Asset Produk</a></li>
+		                         </ul>
+								<div class="tab-content" id="icon-tabContent">
+									<div class="tab-pane fade show active" id="revenue" role="tabpanel" aria-labelledby="revenue-tab">
+							          	<div class="card-header card-no-border d-flex justify-content-between align-items-center flex-wrap gap-2">
+				                            <h5 class="m-0">Grafik Laba Bersih (Perbandingan 3 Tahun Terakhir)</h5>
+				                            <div class="d-flex align-items-center gap-2">
+				                              <select class="form-select form-select-sm" id="chartYear" style="width: 110px;">
+				                                <?php
+				                                foreach($chart_years as $y) {
+				                                    echo '<option value="'.$y.'">'.$y.'</option>';
+				                                }
+				                                ?>
+				                              </select>
+				                            </div>
+			                          	</div>
+			                            <div class="card-body pt-0">
+				                            <div class="apex-chart-container">
+				                              <div id="labaBersihChart"></div>
+				                            </div>
+			                            </div>
+									</div>
+									<div class="tab-pane fade" id="assetpro" role="tabpanel" aria-labelledby="assetpro-tab">
+							          	<div class="card-header card-no-border d-flex justify-content-between align-items-center flex-wrap gap-2">
+				                            <h5 class="m-0">Grafik Asset Produk (Perbandingan 3 Tahun Terakhir)</h5>
+				                            <div class="d-flex align-items-center gap-2">
+				                              <select class="form-select form-select-sm" id="chartYearAsset" style="width: 110px;">
+				                                <?php
+				                                foreach($chart_years_asset as $y) {
+				                                    echo '<option value="'.$y.'">'.$y.'</option>';
+				                                }
+				                                ?>
+				                              </select>
+				                            </div>
+			                          	</div>
+			                            <div class="card-body pt-0">
+			                            	<div class="apex-chart-container">
+			                              		<div id="assetChart"></div>
+			                            	</div>
+		                            	</div>
+									</div>
+								</div>
+							</div>
+                        </div>
+                   	</div>
+                  </div>
                   <div class="row">
                     <!-- asset hpp -->
+                    <?php if ($this->session->userdata('jabatan') == 'OWNER'){ ?>
                     <?php foreach ($hpp as $sc) { ?>
                         <div class="col-md-4 col-sm-6">
                             <a href="#" class="cardhpp" data-bs-toggle="modal" data-bs-target="#DetailAssetProdukCab" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_asset']?>" data-cabang="<?=$sc['nama_toko']?>">
@@ -164,7 +219,7 @@
                                       <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Asset Tersedia <?=$sc['nama_toko']?></h5>
                                   </div>
                                   <div class="card-body pt-0 count-student">
-                                      <div class="school-wrapper"> 
+                                      <div class="school-wrapper">
                                           <div class="school-header" data-id="<?=$sc['id_toko']?>">
                                               <div class="spinner-border text-primary d-none" role="status" id="spinhpp-<?=$sc['id_toko']?>">
                                                   <span class="visually-hidden">Memuat...</span>
@@ -172,7 +227,7 @@
                                               <h4 class="txt-success counting" id="counthpp-<?=$sc['id_toko']?>">Rp <?=$sc['total_asset']?></h4>
                                               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                                   <p class="text-muted">Update Hari ini</p>
-                                              </div>                          
+                                              </div>
                                           </div>
                                           <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/assetstore.png" alt="store-produk-dh">
                                               <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
@@ -183,6 +238,7 @@
                             </a>
                         </div>
                     <?php } ?>
+                    <?php } ?>
                     <?php foreach ($hj as $sc) { ?>
                         <div class="col-md-4 col-sm-6">
                             <a href="#" class="cardhj" data-bs-toggle="modal" data-bs-target="#DetailSalesProdukCab" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_jual']?>" data-cabang="<?=$sc['nama_toko']?>">
@@ -191,7 +247,7 @@
                                       <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Asset Terjual <?=$sc['nama_toko']?></h5>
                                   </div>
                                   <div class="card-body pt-0 count-student">
-                                      <div class="school-wrapper"> 
+                                      <div class="school-wrapper">
                                           <div class="school-header" data-id="<?=$sc['id_toko']?>">
                                               <div class="spinner-border text-primary d-none" role="status" id="spinhj-<?=$sc['id_toko']?>">
                                                   <span class="visually-hidden">Memuat...</span>
@@ -199,7 +255,7 @@
                                               <h4 class="txt-success counting" id="counthj-<?=$sc['id_toko']?>">Rp <?=$sc['total_jual']?></h4>
                                               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                                   <p class="text-muted">Update Hari ini</p>
-                                              </div>                          
+                                              </div>
                                           </div>
                                           <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/assetstore.png" alt="store-produk-dh">
                                               <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
@@ -219,7 +275,7 @@
                           <h5>Total Karyawan</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
-                          <div class="school-wrapper"> 
+                          <div class="school-wrapper">
                             <div class="school-header">
                               <div class="spinner-border text-primary d-none" role="status" id="spintu">
                                 <span class="visually-hidden"></span>
@@ -236,7 +292,7 @@
                         </div>
                       </div>
                     </a>
-                  </div>                  
+                  </div>
                   <!-- Total Supplier -->
                   <div class="col-md-6 col-sm-6">
                     <a href="#" class="cts" data-bs-toggle="modal" data-bs-target="#DetailSupplier" data-total_supp="">
@@ -245,7 +301,7 @@
                           <h5>Total Supplier</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
-                          <div class="school-wrapper"> 
+                          <div class="school-wrapper">
                             <div class="school-header">
                               <div class="spinner-border text-primary d-none" role="status" id="spints">
                                 <span class="visually-hidden"></span>
@@ -262,7 +318,7 @@
                         </div>
                       </div>
                     </a>
-                  </div>       
+                  </div>
                   <!-- Total Service -->
 <div class="col-md-4 col-sm-6">
     <a href="#" class="ctse" data-bs-toggle="modal" data-bs-target="#DetailService" data-total_service="">
@@ -271,7 +327,7 @@
           <h5>Total Service</h5>
         </div>
         <div class="card-body pt-0 count-student">
-          <div class="school-wrapper"> 
+          <div class="school-wrapper">
             <div class="school-header">
               <div class="spinner-border text-primary d-none" role="status" id="spintse">
                 <span class="visually-hidden"></span>
@@ -288,7 +344,7 @@
         </div>
       </div>
     </a>
-</div> 
+</div>
 <!-- Piutang Customer -->
  <div class="col-md-4 col-sm-6">
     <a href="#" class="ctsp" data-bs-toggle="modal" data-bs-target="#DetailPiutangCS" data-total_piutang="">
@@ -297,7 +353,7 @@
           <h5>Total Piutang Customer</h5>
         </div>
         <div class="card-body pt-0 count-student">
-          <div class="school-wrapper"> 
+          <div class="school-wrapper">
             <div class="school-header">
               <div class="spinner-border text-primary d-none" role="status" id="spintsp">
                 <span class="visually-hidden"></span>
@@ -314,7 +370,7 @@
         </div>
       </div>
     </a>
-</div>           
+</div>
 <!-- Komisi TR -->
  <div class="col-md-4 col-sm-6">
     <a href="#" class="ckomtr" data-bs-toggle="modal" data-bs-target="#DetailKomisiTR" data-total_komisi="">
@@ -323,7 +379,7 @@
           <h5>Total Komisi TR</h5>
         </div>
         <div class="card-body pt-0 count-student">
-          <div class="school-wrapper"> 
+          <div class="school-wrapper">
             <div class="school-header">
               <div class="spinner-border text-primary d-none" role="status" id="spinckomtr">
                 <span class="visually-hidden"></span>
@@ -340,7 +396,7 @@
         </div>
       </div>
     </a>
-</div>           
+</div>
                   <!-- Card Barang Masuk -->
                   <div class="col-md-4 col-sm-6">
                     <a href="#" id="cardpmg">
@@ -349,7 +405,7 @@
                             <h5>Barang Gudang</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
-                            <div class="school-wrapper"> 
+                            <div class="school-wrapper">
                               <div class="school-header">
                                   <div class="spinner-border text-primary d-none" role="status" id="spinnpmg">
                                       <span class="visually-hidden"></span>
@@ -375,7 +431,7 @@
                           <h5>Barang Cabang</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
-                          <div class="school-wrapper"> 
+                          <div class="school-wrapper">
                             <div class="school-header">
                               <div class="spinner-border text-primary d-none" role="status" id="spinpk">
                                   <span class="visually-hidden"></span>
@@ -401,7 +457,7 @@
                           <h5>Total Barang Gudang</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
-                          <div class="school-wrapper"> 
+                          <div class="school-wrapper">
                             <div class="school-header">
                               <div class="spinner-border text-primary d-none" role="status" id="spintpp">
                                   <span class="visually-hidden"></span>
@@ -427,7 +483,7 @@
                             <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Barang Cabang <?=$sc['nama_toko']?></h5>
                           </div>
                           <div class="card-body pt-0 count-student">
-                            <div class="school-wrapper"> 
+                            <div class="school-wrapper">
                               <div class="school-header" data-id="<?=$sc['id_toko']?>">
                                   <div class="spinner-border text-primary d-none spinst" role="status" id="spinst-<?=$sc['id_toko']?>">
                                       <span class="visually-hidden">Memuat...</span>
@@ -481,7 +537,7 @@
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Pendapatan Jasa</span></strong>
                                       <strong id="tpj">-</strong>
-                                  </li>                                  
+                                  </li>
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Diskon</span></strong>
                                       <strong id="tld">-</strong>
@@ -492,8 +548,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-laba">
@@ -512,7 +568,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -539,8 +595,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-prodc">
@@ -556,7 +612,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -564,7 +620,7 @@
                       </div>
                   </div>
               </div>
-            </div>            
+            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailAssetProduk" tabindex="-1" role="dialog" aria-labelledby="DetailAssetProduk" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -583,8 +639,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-asset">
@@ -599,7 +655,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -618,8 +674,8 @@
                                   <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-piutang">
@@ -633,13 +689,13 @@
                                                     <th style="width: 15%;"><span class="f-light f-w-600">NOMINAL</span></th>
                                                     <th style="width: 15%;"><span class="f-light f-w-600">SISA TAGIHAN</span></th>
                                                     <th style="width: 15%;"><span class="f-light f-w-600">STATUS</span></th>
-                                                    
+
                                                 </tr>
                                             </thead>
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -658,8 +714,8 @@
                                   <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-komtr">
@@ -673,7 +729,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -700,8 +756,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-assetc">
@@ -716,7 +772,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -724,7 +780,7 @@
                       </div>
                   </div>
               </div>
-            </div>            
+            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailSales" tabindex="-1" role="dialog" aria-labelledby="DetailSales" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -747,8 +803,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-sales">
@@ -767,7 +823,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -794,8 +850,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-salesc">
@@ -813,7 +869,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -840,8 +896,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-diskon">
@@ -856,7 +912,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -883,8 +939,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-cust">
@@ -900,7 +956,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -932,8 +988,8 @@
                                   </li>
                               </ul>
                               <!-- Data Table -->
-                              <div class="col-lg-12"> 
-                                  <div class="card"> 
+                              <div class="col-lg-12">
+                                  <div class="card">
                                       <div class="card-body">
                                       <div class="table-responsive">
                                           <table class="display" id="table-cb">
@@ -948,7 +1004,7 @@
                                               <tbody>
                                               </tbody>
                                           </table>
-                                          </div>                                            
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -956,7 +1012,7 @@
                       </div>
                   </div>
               </div>
-            </div>            
+            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailUser" tabindex="-1" role="dialog" aria-labelledby="DetailUser" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content dark-sign-up">
@@ -975,8 +1031,8 @@
                               </li>
                           </ul>
                           <!-- Data Table -->
-                          <div class="col-lg-12"> 
-                              <div class="card"> 
+                          <div class="col-lg-12">
+                              <div class="card">
                                   <div class="card-body">
                                   <div class="table-responsive">
                                       <table class="display" id="table-kar">
@@ -990,7 +1046,7 @@
                                           <tbody>
                                           </tbody>
                                       </table>
-                                      </div>                                            
+                                      </div>
                                   </div>
                               </div>
                           </div>

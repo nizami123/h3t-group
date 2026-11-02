@@ -7,7 +7,7 @@ class DashboarCab_model extends CI_Model {
   private $currentMonth;
   private $currentDay;
   private $startDateFormatted;
-  private $endDateFormatted;  
+  private $endDateFormatted;
 
   public function __construct() {
     $this->currentDate = date('Y-m-d');
@@ -27,7 +27,7 @@ class DashboarCab_model extends CI_Model {
   }
   public function countlaba($cab) {
     $this->db->select([
-        "(SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi",
+        "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi",
         "SUM(harga_jual) as total_pen",
         "SUM(harga_diskon) as total_disk",
         "SUM(harga_cashback) as total_cb",
@@ -42,17 +42,17 @@ class DashboarCab_model extends CI_Model {
     $this->db->where('id_toko', $cab);
     $this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
     $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
-    
+
     $query = $this->db->get();
-    return $query->result_array();    
+    return $query->result_array();
   }
   public function filtercountlaba($cab,$start,$end){
     $this->db->select([
-      "COALESCE((SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor, 
+      "COALESCE((SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor,
       tgl_transaksi,
-      COALESCE(SUM(harga_jual),0) as total_pen, 
-      COALESCE(SUM(harga_diskon),0) as total_disk, 
-      COALESCE(SUM(harga_cashback),0) total_cb, 
+      COALESCE(SUM(harga_jual),0) as total_pen,
+      COALESCE(SUM(harga_diskon),0) as total_disk,
+      COALESCE(SUM(harga_cashback),0) total_cb,
       COALESCE(SUM(hrg_hpp),0) as total_hpp,
       COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa",
     ]);
@@ -66,7 +66,7 @@ class DashboarCab_model extends CI_Model {
   }
   public function countTopSales($cab){
     $this->db->select([
-      "SUM(DISTINCT harga_bayar) + SUM(DISTINCT jml_donasi) as total_jual, id_ksr, nama_ksr"
+      "SUM(harga_bayar) as total_jual, id_ksr, nama_ksr"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
@@ -75,7 +75,6 @@ class DashboarCab_model extends CI_Model {
     $this->db->where_in('status',[1,2]);
     $this->db->group_by('id_ksr');
     $this->db->order_by('total_jual','desc');
-    $this->db->limit(5);
     $query = $this->db->get();
     return $query->result_array();
   }

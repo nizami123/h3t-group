@@ -48,7 +48,7 @@ function tablebk(formatter) {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "kondisi",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -63,7 +63,7 @@ function tablebk(formatter) {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "status",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -90,7 +90,7 @@ function tablebk(formatter) {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "sn_brg",
                 "render": function(data, type, full, meta) {
                   // You can customize the rendering of the image here
@@ -109,7 +109,7 @@ function tablebk(formatter) {
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        if (full.status === "1") { 
+                        if (full.status === "1") {
                             return `
                                 <ul class="action">
                                     <li class="delete">
@@ -129,7 +129,7 @@ function tablebk(formatter) {
                     }
                     return data;
                 }
-            }            
+            }
         ],
         "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -161,7 +161,7 @@ function tablebk(formatter) {
                     }
                 }
             ]
-            
+
     });
     return tableBK;
 }
@@ -184,7 +184,7 @@ function tablesk(formatter) {
             { "data": "tgl_keluar" },
             { "data": "no_surat_keluar" },
             { "data": "nama_toko" },
-            { 
+            {
                 "data": "status",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -243,7 +243,7 @@ function tablesk(formatter) {
                     }
                     return data;
                 }
-            }            
+            }
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -275,7 +275,7 @@ function tablesk(formatter) {
                     }
                 }
             ]
-            
+
     });
     return tableSK;
 }
@@ -313,7 +313,7 @@ function detailsk(sk) {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "kondisi",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -328,7 +328,7 @@ function detailsk(sk) {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "status",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -353,7 +353,7 @@ function detailsk(sk) {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "sn_brg",
                 "render": function(data, type, full, meta) {
                   // You can customize the rendering of the image here
@@ -372,7 +372,7 @@ function detailsk(sk) {
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        if (full.status === "1") { 
+                        if (full.status === "1") {
                             return `
                                 <ul class="action">
                                     <li class="delete">
@@ -392,7 +392,7 @@ function detailsk(sk) {
                     }
                     return data;
                 }
-            }            
+            }
         ],
         "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -416,7 +416,7 @@ function detailsk(sk) {
                     }
                 },
             ]
-            
+
     });
     return detailSK;
 }
@@ -450,18 +450,18 @@ function tablebm() {
             { "data": "nama_brg" },
             { "data": "merk" },
             { "data": "jenis" },
-            { 
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {
                     return formatter.format(data);
                 }
             },
-            { 
+            {
                 "data": "hrg_jual",
                 "render": function (data, type, row) {
                     return formatter.format(data);
                 }
-            },         
+            },
         ],
         "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -501,13 +501,13 @@ function tablebm() {
             }
         }
     });
-    
+
     $('#prodacc, #merkacc').on('change', function() {
         tableBM.draw();
-    }); 
+    });
     $('input[type="search"]').on('change', function() {
         tableBM.draw();
-    }); 
+    });
     return tableBM;
 }
 // datatable
@@ -520,7 +520,7 @@ function getsk(){
         getselect();
         var button = $(e.relatedTarget);
         var sk = button.data('id');
-        
+
         $.ajax({
             url: base_url + "barang-keluar/getdetailsk/"+sk,
             dataType: "json",
@@ -611,7 +611,7 @@ $(document).on('click', '#kirimcb', function (e) {
         }
     }).then((result) => {
         if (result) {
-            
+
             $.ajax({
                 type: 'POST',
                 url: base_url + 'barang-keluar/approve-sk/' + nosk,
@@ -830,7 +830,7 @@ function getselect(){
             },
             cache: false,
         },
-    });    
+    });
     $('#cabangacc').select2({
         language: 'id',
         ajax: {
@@ -855,7 +855,7 @@ function getselect(){
             },
             cache: false,
         },
-    });    
+    });
     $('#prodbaru').select2({
         language: 'id',
         ajax: {
@@ -864,13 +864,13 @@ function getselect(){
             delay: 250,
             data: function (params) {
                 return {
-                    q: params.term, 
+                    q: params.term,
                 };
             },
             processResults: function (data) {
                 var groups = {};
                 var results = [];
-    
+
                 data.forEach(function (item) {
                     var groupName = item.merk + ' - ' + item.jenis;
                     if (!groups[groupName]) {
@@ -882,18 +882,19 @@ function getselect(){
                         merk : item.merk,
                         spek : item.spek,
                         jenis : item.jenis,
-                        hrg_hpp: item.hrg_hpp, 
+                        hrg_mdp: item.hrg_mdp,
+                        hrg_hpp: item.hrg_hpp,
                         hrg_jual: item.hrg_jual
                     });
                 });
-    
+
                 Object.keys(groups).forEach(function (groupName) {
                     results.push({
                         text: groupName,
                         children: groups[groupName]
                     });
                 });
-    
+
                 return {
                     results: results
                 };
@@ -915,13 +916,13 @@ function getselect(){
             delay: 250,
             data: function (params) {
                 return {
-                    q: params.term, 
+                    q: params.term,
                 };
             },
             processResults: function (data) {
                 var groups = {};
                 var results = [];
-    
+
                 data.forEach(function (item) {
                     var groupName = item.merk + ' - ' + item.jenis;
                     if (!groups[groupName]) {
@@ -933,18 +934,18 @@ function getselect(){
                         merk : item.merk,
                         spek : item.spek,
                         jenis : item.jenis,
-                        hrg_hpp: item.hrg_hpp, 
+                        hrg_hpp: item.hrg_hpp,
                         hrg_jual: item.hrg_jual
                     });
                 });
-    
+
                 Object.keys(groups).forEach(function (groupName) {
                     results.push({
                         text: groupName,
                         children: groups[groupName]
                     });
                 });
-    
+
                 return {
                     results: results
                 };
@@ -956,7 +957,7 @@ function getselect(){
                 return data.text;
             }
             return getDataBM(data);
-        }        
+        }
     });
     $('#merkacc').select2({
         language: 'id',
@@ -1010,9 +1011,9 @@ function getselect(){
                 }
             });
             const data = await response.json();
-            
+
             $("#merkacc").empty().append("<option disabled selected value='0'>Pilih Merk</option>");
-            
+
             // Populate #merkacc with new options
             const newOptions = data.map(item => new Option(item.merk, item.merk, false, false));
             $('#merkacc').append(newOptions);
@@ -1043,7 +1044,7 @@ function updateDateTime() {
     $('#tglbaru').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
     $('#tglbekas').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
     $('#tglacc').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
-    
+
 }
 function addmb(formatter) {
     $("#tambahbaru").on("click", function () {
@@ -1052,6 +1053,7 @@ function addmb(formatter) {
         var sk = $("#nosuratb").val();
         var idm = $("#prodbaru").val();
         var selectBM = $("#prodbaru").select2('data')[0];
+        var hrg_mdp = selectBM.hrg_mdp;
         var hrg_hpp = selectBM.hrg_hpp;
         var hrg_jual = selectBM.hrg_jual;
         var margin = ((hrg_jual - hrg_hpp) / hrg_hpp) * 100;
@@ -1060,7 +1062,7 @@ function addmb(formatter) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         }
-        
+
         $.ajax({
             type: "POST",
             url: "barang-keluar/simpan-barang-baru",
@@ -1069,11 +1071,12 @@ function addmb(formatter) {
                 cabangbaru: cab,
                 nosuratb: sk,
                 prodbaru: idm,
+                hrg_mdp: hrg_mdp,
                 hrg_hpp: hrg_hpp,
                 hrg_jual: hrg_jual,
                 margin: margin.toFixed(2)
             },
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 if (response.status === 'success') {
                     swal("success", "Data berhasil ditambahkan", "success").then(() => {
@@ -1108,7 +1111,7 @@ function addmk(formatter) {
         var hrg_hpp = selectBM.hrg_hpp;
         var hrg_jual = selectBM.hrg_jual;
         var margin = ((hrg_jual - hrg_hpp) / hrg_hpp) * 100;
-        
+
         if (!cab || !sk || !hrg_hpp || !hrg_jual) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
@@ -1125,7 +1128,7 @@ function addmk(formatter) {
                 hrg_jual: hrg_jual,
                 margin: margin.toFixed(2)
             },
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 if (response.status === 'success') {
                     swal("success", "Data berhasil ditambahkan", "success").then(() => {
@@ -1175,7 +1178,7 @@ function addacc(formatter) {
                 hrg_hpp: hrg_hpp,
                 hrg_jual: hrg_jual,
                 margin: margin.toFixed(2),
-                status: '1' 
+                status: '1'
             });
         });
 
@@ -1193,7 +1196,7 @@ function addacc(formatter) {
                         });
                     } else if (response.status === 'exists') {
                         swal("Warning", "Barang sudah diinputkan", "warning").then(() => {
-                            
+
                         });
                     }
                 },

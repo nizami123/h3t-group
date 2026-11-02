@@ -10,6 +10,8 @@ var tableDK;
 var tableCT;
 var tableKY;
 var tableCB;
+var labaBersihChart = null;
+var assetChart = null;
 var formatcur = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
@@ -28,6 +30,7 @@ $(document).ready(function () {
     cardgd();
     allcount(formatcur);
     topsales();
+    initLabaBersihChart();
     detaillaba();
     detailasset();
     detailassetcab();
@@ -348,30 +351,345 @@ function countosp(formatcur) {
     });
 }
 
+let topSalesData = [];
+let showAllTopSales = false;
+
+function renderTopSales() {
+    var topSalesTableBody = $('#topSalesTableBody');
+    topSalesTableBody.empty();
+
+    var listToDisplay = showAllTopSales ? topSalesData : topSalesData.slice(0, 5);
+    var counter = 1;
+
+    $.each(listToDisplay, function(index, item) {
+        var row = $('<tr>');
+        var buttonClass = 'btn btn-primary';
+        if (counter === 2) {
+            buttonClass = 'btn btn-secondary';
+        } else if (counter === 3) {
+            buttonClass = 'btn btn-success';
+        } else if (counter > 3) {
+            buttonClass = 'btn btn-secondary disabled';
+        }
+        row.append($('<td>').html('<span class="' + buttonClass + '">' + counter + '</span>'));
+        row.append($('<td>').html('<a class="f-w-500" href="#" data-bs-toggle="modal" data-bs-target="#DetailKasir" data-id_ksr="'+item.id_ksr+'" data-total_ksr="'+item.total_jual+'">' + item.nama_ksr + '</a><br><span class="f-light">' + formatcur.format(item.total_jual) + '</span>'));
+        topSalesTableBody.append(row);
+        counter++;
+    });
+
+    if (topSalesData.length <= 5) {
+        $('#btnShowAllTopSales').hide();
+    } else {
+        $('#btnShowAllTopSales').show().text(showAllTopSales ? 'Tampilkan sedikit' : 'Tampilkan semua');
+    }
+}
+
 function topsales() {
     $.ajax({
         url: base_url + 'Welcome/topsales/',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            var topSalesTableBody = $('#topSalesTableBody');
-            topSalesTableBody.empty(); // Clear previous entries
-            var counter = 1; // Initialize counter
-            $.each(data, function(index, item) {
-                var row = $('<tr>');
-                var buttonClass = 'btn btn-primary'; // Default button class
-                if (counter === 2) {
-                    buttonClass = 'btn btn-secondary';
-                } else if (counter === 3) {
-                    buttonClass = 'btn btn-success';
-                } else if (counter > 3) {
-                    buttonClass = 'btn btn-secondary disabled';
+	        topSalesData = data;
+	        renderTopSales();
+        }
+    });
+}
+$(document).on('click', '#btnShowAllTopSales', function(e) {
+    e.preventDefault();
+    showAllTopSales = !showAllTopSales;
+    renderTopSales();
+});
+function initLabaBersihChart() {
+    if (labaBersihChart !== null) {
+        try {
+            labaBersihChart.destroy();
+        } catch (e) {}
+        labaBersihChart = null;
+    }
+    $('#labaBersihChart').empty();
+
+    var year = $('#chartYear').val();
+
+    $.ajax({
+        url: base_url + 'Welcome/laba_chart_data',
+        type: 'POST',
+        data: {
+            year: year
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status) {
+                var categories = response.categories;
+                var seriesData = response.series;
+
+                var options = {
+                    series: seriesData,
+                    chart: {
+                        height: 320,
+                        type: "line",
+                        stacked: false,
+                        toolbar: {
+                            show: false,
+                        },
+                        dropShadow: {
+                            enabled: true,
+                            top: 2,
+                            left: 0,
+                            blur: 4,
+                            color: "#000",
+                            opacity: 0.08,
+                        },
+                    },
+                    stroke: {
+                        width: [3, 3, 3],
+                        curve: "smooth",
+                    },
+                    grid: {
+                        show: true,
+                        borderColor: "var(--chart-border)",
+                        strokeDashArray: 0,
+                        position: "back",
+                        xaxis: {
+                            lines: {
+                                show: true,
+                            },
+                        },
+                        padding: {
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0,
+                        },
+                    },
+                    colors: ["#7064F5", "#54BA4A", "#FFA941"],
+                    markers: {
+                        size: 5,
+                        hover: {
+                            size: 7,
+                        },
+                    },
+                    xaxis: {
+                        type: "category",
+                        categories: categories,
+                        tickPlacement: "between",
+                        tooltip: {
+                            enabled: false,
+                        },
+                        axisBorder: {
+                            color: "var(--chart-border)",
+                        },
+                        axisTicks: {
+                            show: false,
+                        },
+                    },
+                    legend: {
+                        show: true,
+                        position: "top",
+                        horizontalAlign: "right",
+                    },
+                    yaxis: {
+                        tickAmount: 6,
+                        tickPlacement: "between",
+                        max: function(max) {
+                            return max > 0 ? max * 3 : 1000000;
+                        },
+                        labels: {
+                            formatter: function (value) {
+                                return formatcur.format(value);
+                            }
+                        }
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false,
+                        y: {
+                            formatter: function (value) {
+                                return formatcur.format(value);
+                            }
+                        }
+                    },
+                    responsive: [
+                        {
+                            breakpoint: 1200,
+                            options: {
+                                chart: {
+                                    height: 250,
+                                },
+                            },
+                        },
+                    ],
+                };
+
+                if (labaBersihChart !== null) {
+                    try {
+                        labaBersihChart.destroy();
+                    } catch (e) {
+                        // ignore if already destroyed
+                    }
                 }
-                row.append($('<td>').html('<span class="' + buttonClass + '">' + counter + '</span>'));
-                row.append($('<td>').html('<a class="f-w-500" href="#" data-bs-toggle="modal" data-bs-target="#DetailKasir" data-id_ksr="'+item.id_ksr+'" data-total_ksr="'+item.total_jual+'">' + item.nama_ksr + '</a><br><span class="f-light">' + formatcur.format(item.total_jual) + '</span>'));
-                topSalesTableBody.append(row);
-                counter++;
-            });
+
+                labaBersihChart = new ApexCharts(
+                    document.querySelector("#labaBersihChart"),
+                    options
+                );
+                labaBersihChart.render();
+            }
+        }
+    });
+}
+
+$(document).on('change', '#chartYear', function() {
+    initLabaBersihChart();
+});
+
+$(document).on('change', '#chartYearAsset', function() {
+    initAssetChart();
+});
+
+$(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"]', function (e) {
+    if (e.target.id === 'assetpro-tab') {
+        initAssetChart();
+    } else if (e.target.id === 'revenue-tab') {
+        initLabaBersihChart();
+    }
+});
+
+function initAssetChart() {
+    if (assetChart !== null) {
+        try {
+            assetChart.destroy();
+        } catch (e) {}
+        assetChart = null;
+    }
+    $('#assetChart').empty();
+
+    var year = $('#chartYearAsset').val();
+
+    $.ajax({
+        url: base_url + 'Welcome/asset_chart_data',
+        type: 'POST',
+        data: {
+            year: year
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status) {
+                var categories = response.categories;
+                var seriesData = response.series;
+
+                var options = {
+                    series: seriesData,
+                    chart: {
+                        height: 320,
+                        type: "bar",
+                        stacked: false,
+                        toolbar: {
+                            show: false,
+                        },
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: "55%",
+                            endingShape: "rounded",
+                        },
+                    },
+                    dataLabels: {
+                        enabled: false,
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ["transparent"],
+                    },
+                    grid: {
+                        show: true,
+                        borderColor: "var(--chart-border)",
+                        strokeDashArray: 0,
+                        position: "back",
+                        xaxis: {
+                            lines: {
+                                show: true,
+                            },
+                        },
+                        padding: {
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            left: 0,
+                        },
+                    },
+                    colors: ["#7064F5", "#54BA4A", "#FFA941"],
+                    xaxis: {
+                        type: "category",
+                        categories: categories,
+                        tickPlacement: "between",
+                        tooltip: {
+                            enabled: false,
+                        },
+                        axisBorder: {
+                            color: "var(--chart-border)",
+                        },
+                        axisTicks: {
+                            show: false,
+                        },
+                        labels: {
+                            style: {
+                                fontFamily: "Rubik, sans-serif",
+                            },
+                        },
+                    },
+                    legend: {
+                        show: true,
+                        position: "top",
+                        horizontalAlign: "right",
+                        fontFamily: "Rubik, sans-serif",
+                    },
+                    yaxis: {
+                        min: 0,
+                        max: 6000000000,
+                        tickAmount: 6,
+                        tickPlacement: "between",
+                        labels: {
+                            style: {
+                                fontFamily: "Rubik, sans-serif",
+                            },
+                            formatter: function (value) {
+                                return formatcur.format(value);
+                            }
+                        }
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false,
+                        y: {
+                            formatter: function (value) {
+                                return formatcur.format(value);
+                            }
+                        }
+                    },
+                    fill: {
+                        opacity: 1,
+                    },
+                    responsive: [
+                        {
+                            breakpoint: 1200,
+                            options: {
+                                chart: {
+                                    height: 250,
+                                },
+                            },
+                        },
+                    ],
+                };
+
+                assetChart = new ApexCharts(
+                    document.querySelector("#assetChart"),
+                    options
+                );
+                assetChart.render();
+            }
         }
     });
 }
@@ -397,7 +715,7 @@ function cardgd() {
 }
 function getCountPM() {
     $.ajax({
-        url: base_url+'StockOpname/countpm/', 
+        url: base_url+'StockOpname/countpm/',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -413,7 +731,7 @@ function getCountPM() {
 }
 function getCountPK() {
     $.ajax({
-        url: base_url+'StockOpname/countpk/', 
+        url: base_url+'StockOpname/countpk/',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -429,7 +747,7 @@ function getCountPK() {
 }
 function getCountTotal() {
     $.ajax({
-        url: base_url+'StockOpname/counttotal/', 
+        url: base_url+'StockOpname/counttotal/',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -560,43 +878,43 @@ function tablelaba(m,y) {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": ajaxConfig,
         "columns": [
             { "data": "kode_penjualan" },
             { "data": "sn_brg" },
-            { "data": "nama_brg" },   
-            { 
+            { "data": "nama_brg" },
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "nilai",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_cashback",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
-            },   
-            { 
+            },
+            {
                 "data": "laba_unit",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
-            },   
+            },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-6'B>>" +
@@ -619,7 +937,7 @@ function tablelaba(m,y) {
                 }
             },
         ]
-            
+
     });
     return tableLB;
 }
@@ -634,7 +952,7 @@ function tableasset() {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'detail-asset',
@@ -642,14 +960,14 @@ function tableasset() {
         },
         "columns": [
             { "data": "sn_brg" },
-            { "data": "nama_brg" },   
-            { 
+            { "data": "nama_brg" },
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { "data": "nama_toko" },   
+            { "data": "nama_toko" },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-6'B>>" +
@@ -672,7 +990,7 @@ function tableasset() {
                 }
             },
         ]
-            
+
     });
     return tableAP;
 }
@@ -687,7 +1005,7 @@ function tableassetcab(idtoko) {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'detail-asset-cabang/'+idtoko,
@@ -695,14 +1013,14 @@ function tableassetcab(idtoko) {
         },
         "columns": [
             { "data": "sn_brg" },
-            { "data": "nama_brg" },   
-            { 
+            { "data": "nama_brg" },
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { "data": "nama_toko" },   
+            { "data": "nama_toko" },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-6'B>>" +
@@ -725,7 +1043,7 @@ function tableassetcab(idtoko) {
                 }
             },
         ]
-            
+
     });
     return tableAPC;
 }
@@ -740,7 +1058,7 @@ function tableprodcab(idtoko) {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'detail-produk-cabang/'+idtoko,
@@ -751,7 +1069,7 @@ function tableprodcab(idtoko) {
             { "data": "nama_brg" },
             { "data": "merk" },
             { "data": "jenis" },
-            { 
+            {
                 "data": "kondisi",
                 "render": function (data, type, full, meta) {
                     // You can customize the rendering here
@@ -768,7 +1086,7 @@ function tableprodcab(idtoko) {
                 "createdCell": function (td, cellData, rowData, row, col) {
                     $(td).css('text-align', 'center');
                 }
-            },   
+            },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-6'B>>" +
@@ -791,7 +1109,7 @@ function tableprodcab(idtoko) {
                 }
             },
         ]
-            
+
     });
     return tablePC;
 }
@@ -806,7 +1124,7 @@ function tablesales() {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'detail-sales',
@@ -815,32 +1133,32 @@ function tablesales() {
         "columns": [
             { "data": "kode_penjualan" },
             { "data": "sn_brg" },
-            { "data": "nama_brg" },   
-            { 
+            { "data": "nama_brg" },
+            {
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_cashback",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_bayar",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { "data": "nama_toko" },   
+            { "data": "nama_toko" },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-6'B>>" +
@@ -863,7 +1181,7 @@ function tablesales() {
                 }
             },
         ]
-            
+
     });
     return tableSP;
 }
@@ -878,7 +1196,7 @@ function tablesalescab(id) {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'detail-sales-cabang/'+id,
@@ -886,32 +1204,32 @@ function tablesalescab(id) {
         },
         "columns": [
             { "data": "sn_brg" },
-            { "data": "nama_brg" },   
-            { 
+            { "data": "nama_brg" },
+            {
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_cashback",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_bayar",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { "data": "nama_toko" },   
+            { "data": "nama_toko" },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-6'B>>" +
@@ -934,7 +1252,7 @@ function tablesalescab(id) {
                 }
             },
         ]
-            
+
     });
     return tableSPC;
 }
@@ -950,7 +1268,7 @@ function tablepiutang() {
         },
         "serverSide": true,
         "order": [
-            [4, 'asc'] 
+            [4, 'asc']
         ],
         "ajax": {
             "url": base_url + 'penjualan/laporanpiutang/',
@@ -958,7 +1276,7 @@ function tablepiutang() {
         },
         "columns": [
             { "data": "kode_penjualan" },
-            { 
+            {
                 "data": "tanggal",
                 "render": function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
@@ -973,7 +1291,7 @@ function tablepiutang() {
             },
             { "data": "nama_plg" },
             { "data": "alamat" },
-            { 
+            {
                 "data": "tempo",
                 "render": function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
@@ -986,13 +1304,13 @@ function tablepiutang() {
                     return data;
                 }
             },
-            { 
+            {
                 "data": "total",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "sisa",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -1049,7 +1367,7 @@ function tablepiutang() {
                 }
             },
         ]
-            
+
     });
     return tablePiutang;
 }
@@ -1064,7 +1382,7 @@ function tablekomisiTR() {
         },
         "serverSide": true,
         "order": [
-            [0, 'asc'] 
+            [0, 'asc']
         ],
         "ajax": {
             "url": base_url + 'detail-komisi-tr',
@@ -1073,7 +1391,7 @@ function tablekomisiTR() {
         "columns": [
             { "data": "id_user" },
             { "data": "nama_lengkap" },
-            { 
+            {
                 "data": "komisi_tr",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -1101,7 +1419,7 @@ function tablekomisiTR() {
                 }
             },
         ]
-            
+
     });
     return tableKomisiTR;
 }
@@ -1116,7 +1434,7 @@ function tablediskon() {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'detail-diskon',
@@ -1125,7 +1443,7 @@ function tablediskon() {
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },
-            { 
+            {
                 "data": "total_diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -1154,7 +1472,7 @@ function tablediskon() {
                 }
             },
         ]
-            
+
     });
     return tableDK;
 }
@@ -1175,13 +1493,13 @@ function tablecb(m, y) {
         },
         "serverSide": true,
         "order": [
-            [1, 'asc'] 
+            [1, 'asc']
         ],
         "ajax": ajaxConfig,
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },
-            { 
+            {
                 "data": "cbd",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -1210,7 +1528,7 @@ function tablecb(m, y) {
                 }
             },
         ]
-            
+
     });
     return tableCB;
 }
@@ -1225,7 +1543,7 @@ function tablecust() {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'detail-customer',
@@ -1259,7 +1577,7 @@ function tablecust() {
                 }
             },
         ]
-            
+
     });
     return tableCT;
 }
@@ -1274,7 +1592,7 @@ function tabledts(ids) {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [0, 'desc']
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/laporan-detail-penjualan/'+ids,
@@ -1282,21 +1600,21 @@ function tabledts(ids) {
         },
         "columns": [
             { "data": "kode_penjualan" },
-            { "data": "sn_brg" },   
-            { "data": "nama_brg" },   
-            { 
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            {
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
-            { 
+            {
                 "data": "harga_ril",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -1333,7 +1651,7 @@ function tabledts(ids) {
                 }
             }
         ]
-            
+
     });
     return tableDRS;
 }
@@ -1366,11 +1684,11 @@ function filterlb(){
         let lbval = $(this).val();
         let [start, end] = lbval.split(' to ');
         $.ajax({
-            url: base_url + 'Welcome/labakotor',  
+            url: base_url + 'Welcome/labakotor',
             type: 'POST',
             data: {
                 lbval: lbval,
-                start: start,  
+                start: start,
                 end: end ? end : start
             },
             dataType: 'json',
@@ -1496,11 +1814,11 @@ function filtercb(){
         let cbval = $(this).val();
         let [start, end] = cbval.split(' to ');
         $.ajax({
-            url: base_url + 'Welcome/tcb',  
+            url: base_url + 'Welcome/tcb',
             type: 'POST',
             data: {
                 cbval: cbval,
-                start: start,  
+                start: start,
                 end: end ? end : start
             },
             dataType: 'json',
@@ -1566,7 +1884,7 @@ function tablekar() {
                 "render": function (data, type, row, meta) {
                     return '<select class="select2" id="cab" value="'+row.id_toko+'" data-id_toko="'+row.id_toko+'" data-id_admin="' + row.id_admin + '" data-current-value="' + data + '" data-cab="' + row.id_toko + '"></select>';
                 },
-            },                     
+            },
         ],
         "drawCallback": function(settings) {
             $('.select2').each(function() {
@@ -1574,7 +1892,7 @@ function tablekar() {
                 var currentValue = $select.data('current-value');
                 var value = $select.data('id_toko');
                 var id_admin = $select.data('id_admin');
-        
+
                 $select.select2({
                     dropdownParent: $("#DetailUser"),
                     language: 'id',
@@ -1609,7 +1927,7 @@ function tablekar() {
                     var newValue = $(this).val();
                     var toko = $(this).find('option:selected').text();
                     var id_admin = $select.data('id_admin');
-                    
+
                     $.ajax({
                         url: 'Welcome/updatekar',
                         method: 'POST',

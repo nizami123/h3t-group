@@ -4,7 +4,7 @@ include_once(APPPATH . 'controllers/Auth.php');
 
 class BarangKeluar extends Auth
 {
-    
+
   public function __construct()
   {
     parent::__construct();
@@ -94,25 +94,25 @@ class BarangKeluar extends Auth
     $searchTerm = $this->input->get('q');
     $results = $this->BarangKeluar_model->getBrgb($searchTerm);
     header('Content-Type: application/json');
-    echo json_encode($results);    
+    echo json_encode($results);
   }
   public function loadbrgk() {
     $searchTerm = $this->input->get('q');
     $results = $this->BarangKeluar_model->getBrgk($searchTerm);
     header('Content-Type: application/json');
-    echo json_encode($results);    
+    echo json_encode($results);
   }
   public function loadbrgacc() {
     $searchTerm = $this->input->get('q');
     $results = $this->BarangKeluar_model->getBrgacc($searchTerm);
     header('Content-Type: application/json');
-    echo json_encode($results);    
+    echo json_encode($results);
   }
   public function loadmerkacc($nm) {
     $searchTerm = $this->input->get('q');
     $results = $this->BarangKeluar_model->getMerkacc($nm,$searchTerm);
     header('Content-Type: application/json');
-    echo json_encode($results);    
+    echo json_encode($results);
   }
 
   public function barcode($sp){
@@ -126,7 +126,7 @@ class BarangKeluar extends Auth
       } else {
         $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratkeluarbarcode/';
       }
-    imagejpeg($imageResource, $imagePath.$imageName);    
+    imagejpeg($imageResource, $imagePath.$imageName);
   }
 
   public function addmb() {
@@ -136,6 +136,7 @@ class BarangKeluar extends Auth
         'id_toko'      => $this->input->post('cabangbaru'),
         'tgl_keluar'      => $this->input->post('tglbaru'),
         'no_surat_keluar'      => $this->input->post('nosuratb'),
+        'hrg_mdp' => $this->input->post('hrg_mdp'),
         'hrg_hpp' => $this->input->post('hrg_hpp'),
         'hrg_jual' => $this->input->post('hrg_jual'),
         'margin' => $this->input->post('margin'),
@@ -215,7 +216,7 @@ class BarangKeluar extends Auth
     $this->db->where('id_keluar', $id);
     $query2 = $this->db->get();
     $cekidp_row = $query2->row();
-    // Delete if there is a record in 
+    // Delete if there is a record in
     if ($cekidp_row !== null) {
         $cekidp = $cekidp_row->id_detailp;
         $this->BarangKeluar_model->deleteidk($cekidp);
@@ -232,7 +233,7 @@ class BarangKeluar extends Auth
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where_in('status',[1,0,2,6]);
     $this->datatables->group_by('no_surat_keluar');
-    return print_r($this->datatables->generate());    
+    return print_r($this->datatables->generate());
   }
   public function sendingsk($nosk){
     if ($this->input->is_ajax_request()) {
@@ -246,12 +247,12 @@ class BarangKeluar extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,tgl_keluar,no_surat_keluar,nama_toko,sn_brg,nama_brg,spek,kondisi,status');
     $this->datatables->from('vbarangkeluar');
-    return print_r($this->datatables->generate());    
+    return print_r($this->datatables->generate());
   }
   public function loadprdacc(){
     $this->load->library('datatables');
-    $nm = $this->input->post('nm'); 
-    $mk = $this->input->post('mk'); 
+    $nm = $this->input->post('nm');
+    $mk = $this->input->post('mk');
     $this->datatables->select('id_masuk,sn_brg,nama_brg,merk,jenis,hrg_hpp,hrg_jual,status');
     $this->datatables->from('vprdbm');
     if (!empty($nm) && $nm !== '0') {
@@ -262,14 +263,14 @@ class BarangKeluar extends Auth
     }
     $this->datatables->where_in('tipe',['Accessories','Aksesoris','Acc','Accesoris','Software']);
     $this->datatables->where_in('status',['1']);
-    return print_r($this->datatables->generate());    
+    return print_r($this->datatables->generate());
   }
   public function getsk($ns){
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,tgl_keluar,no_surat_keluar,nama_toko,sn_brg,nama_brg,merk,jenis,spek,kondisi,status');
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('no_surat_keluar',$ns);
-    return print_r($this->datatables->generate());    
+    return print_r($this->datatables->generate());
   }
 
   public function getdetailsk($id){

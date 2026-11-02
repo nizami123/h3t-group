@@ -17,7 +17,7 @@ class BarangKeluar_model extends CI_Model {
   }
 
   public function getBrgb($searchTerm = null) {
-    $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual'])
+    $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_mdp','vm.hrg_hpp','vm.hrg_jual'])
              ->from('vbarangready AS vm')
              ->where('vm.kondisi','Baru')
              ->where('vm.tipe', 'Unit');
@@ -84,7 +84,7 @@ class BarangKeluar_model extends CI_Model {
   }
 
   public function countBK($id){
-    $this->db->select('id_toko, 
+    $this->db->select('id_toko,
         COUNT(CASE WHEN status = 2 THEN 1 END) AS brg_rdy,
         COUNT(CASE WHEN status = 1 THEN 1 END) AS brg_otw');
     $this->db->from('tb_brg_keluar');
@@ -125,7 +125,7 @@ class BarangKeluar_model extends CI_Model {
     $this->db->update('tb_brg_keluar', array('status'=>'0'));
   }
   public function getWhere($id)
-  {   
+  {
     $query = $this->db->group_by('no_surat_keluar')->get_where('vbarangkeluar', array('no_surat_keluar' => $id));
     return $query->result_array();
   }

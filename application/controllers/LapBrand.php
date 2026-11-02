@@ -3,14 +3,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 class LapBrand extends Auth
 {
-    
+
   public function __construct()
   {
     parent::__construct();
   }
 
-  public function index(){
+  /**
+   * @return void
+   */
+  public function index(): void {
     $cab = $this->session->userdata('id_toko');
+    $data = [];
     $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/laporanbrand', '', true);
@@ -62,10 +66,13 @@ class LapBrand extends Auth
     ';
     $this->load->view('layout/base', $data);
   }
-  public function laporanlist(){
+  /**
+   * @return string|bool
+   */
+  public function laporanlist(): string|bool {
     $this->load->library('datatables');
-    $jns = $this->input->post('jns'); 
-    $kond = $this->input->post('kond'); 
+    $jns = $this->input->post('jns');
+    $kond = $this->input->post('kond');
     $cab = $this->input->post('cab');
     $this->datatables->select('
       category_summary,
@@ -85,9 +92,11 @@ class LapBrand extends Auth
       imei,
       product_name,
       product_category,
+      mdp,
       cost_price,
       cogs,
       final_price,
+      komisi_tr,
       kondisi
     ');
     $this->datatables->from('vlaporanbrand');

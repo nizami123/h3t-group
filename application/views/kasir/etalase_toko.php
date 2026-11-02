@@ -1,4 +1,7 @@
-        <!-- Begin Content -->
+    <?php
+      $jab= $this->session->userdata('jabatan');
+    ?>
+    <!-- Begin Content -->
         <div class="page-body">
             <div class="container-fluid">
                 <div class="page-title">
@@ -9,7 +12,7 @@
                         <div class="col-6">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="<?=base_url()?>">                                       
+                                    <a href="<?=base_url()?>">
                                         <svg class="stroke-icon">
                                             <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
                                         </svg>
@@ -61,10 +64,11 @@
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA PRODUK</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">CABANG</span></th>
                                             <th style="min-width: 100px;"><span class="f-light f-w-600">SUPPLIER</span></th>
-                                            <th style="min-width: 180px;"><span class="f-light f-w-600">COGS</span> <i class="fa fa-money"></i></th>
+                                            <th style="min-width: 180px;"><span class="f-light f-w-600">MDP</span> <i class="fa fa-money"></i></th>
+                                            <th style="min-width: 180px; "><span class="f-light f-w-600">COGS</span> <i class="fa fa-money"></i></th>
                                             <th style="min-width: 180px;"><span class="f-light f-w-600">PUB COST</span> </span> <i class="fa fa-money"></i></th>
                                             <th style="min-width: 100px;"><span class="f-light f-w-600">MARGIN %</span></th>
-                                            <th style="min-width: 180px;"><span class="f-light f-w-600">CASHBACK</span> </span> <i class="fa fa-money"></i></th>
+                                            <th style="min-width: 100px;"><span class="f-light f-w-600">CASHBACK</span> </span> <i class="fa fa-money"></i></th>
                                             <th class="text-center" style="min-width: 70px;"><span class="f-light f-w-600">INFO</span></th>
                                         </tr>
                                     </thead>

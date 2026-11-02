@@ -37,13 +37,13 @@ function table_etalase() {
         "ajax": ajaxConfig,
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
-            { 
+            {
                 "data": "id_keluar",
                 "orderable": false,
                 "render": function (data, type, row, meta) {
                     var checkboxId = 'checkbox-' + data;
                     return `
-                        <input class="checkbox-class" type="checkbox" id="${checkboxId}" data-id="${data}" data-input-id="${checkboxId}-hpp" data-input-pub="${checkboxId}-pub" data-input-mar="${checkboxId}-mar" data-input-cb="${checkboxId}-cb">
+                        <input class="checkbox-class" type="checkbox" id="${checkboxId}" data-id="${data}" data-input-mdp="${checkboxId}-mdp" data-input-id="${checkboxId}-hpp" data-input-pub="${checkboxId}-pub" data-input-mar="${checkboxId}-mar" data-input-cb="${checkboxId}-cb">
                     `;
                 }
             },
@@ -51,7 +51,19 @@ function table_etalase() {
             { "data": "nama_brg" },
             { "data": "nama_toko" },
             { "data": "nama_supplier" },
-            { 
+            {
+                "data": "hrg_mdp",
+                "render": function (data, type, row, meta) {
+                    var inputId = 'checkbox-' + row.id_keluar + '-mdp';
+                    return `
+                        <div class="input-group has-validation">
+                            <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">Rp</span>
+                            <input class="form-control input-mdp" id="${inputId}" value="${formatcur.format(data)}" type="text" onkeyup="formatRupiah(this);" disabled>
+                        </div>
+                    `;
+                }
+            },
+            {
                 "data": "hrg_hpp",
                 "render": function (data, type, row, meta) {
                     var inputId = 'checkbox-' + row.id_keluar + '-hpp';
@@ -63,7 +75,7 @@ function table_etalase() {
                     `;
                 }
             },
-            { 
+            {
                 "data": "hrg_jual",
                 "render": function (data, type, row, meta) {
                     var inputId = 'checkbox-' + row.id_keluar + '-pub';
@@ -74,9 +86,9 @@ function table_etalase() {
                         </div>
                     `;
                 }
-            },            
-            { 
-                "data": "margin", 
+            },
+            {
+                "data": "margin",
                 "render": function (data, type, row, meta) {
                     var inputId = 'checkbox-' + row.id_keluar + '-mar';
                     return `
@@ -85,8 +97,8 @@ function table_etalase() {
                         </div>
                     `;
                 }
-            },            
-            { 
+            },
+            {
                 "data": "hrg_cashback",
                 "render": function (data, type, row, meta) {
                     var inputId = 'checkbox-' + row.id_keluar + '-cb';
@@ -112,7 +124,7 @@ function table_etalase() {
                     }
                     return data;
                 }
-            }                        
+            }
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -138,9 +150,30 @@ function table_etalase() {
                     extend: 'excelHtml5', // Specify the Excel button
                     text: 'Export', // Text for the button
                     className: 'btn btn-success', // Add a class for styling
-                    title: 'Daftar DP Supplier',
+                    title: 'Daftar Harga Etalase Toko',
                     exportOptions: {
-                        columns: ':visible:not(:last-child):not(:nth-last-child(1))'
+                        columns: ':visible:not(:first-child):not(:last-child)',
+                        format: {
+                            body: function (data, row, column, node) {
+                                var input = $(node).find('input');
+                                var value = input.length ? input.val() : data;
+
+                                // Check if this cell is Margin (has input-mar class or header contains MARGIN)
+                                var headerText = $('#table-etalase th').eq(column).text().toUpperCase();
+                                if (headerText.includes('MARGIN') || input.hasClass('input-mar')) {
+                                    return value; // Keep original format with comma
+                                }
+
+                                // Currency/numbers (MDP, HPP, Pub Cost, Cashback)
+                                if (input.hasClass('input-hpp') || input.hasClass('input-pub') || input.hasClass('input-mdp') || input.hasClass('cb-input')) {
+                                    var cleanVal = value.toString().replace(/\./g, '').replace(/,/g, '.');
+                                    var num = parseFloat(cleanVal);
+                                    return isNaN(num) ? value : num;
+                                }
+
+                                return value;
+                            }
+                        }
                     }
                 },
                 {
@@ -150,13 +183,15 @@ function table_etalase() {
                     },
                     "action": function () {
                         var checkedData = [];
-                        
+
                         $('.checkbox-class:checked').each(function() {
                             var row = Tetalase.row($(this).closest('tr')).data();
+                            var mdpInputId = 'checkbox-' + row.id_keluar + '-mdp';
                             var hppInputId = 'checkbox-' + row.id_keluar + '-hpp';
                             var pubInputId = 'checkbox-' + row.id_keluar + '-pub';
                             var marInputId = 'checkbox-' + row.id_keluar + '-mar';
                             var cbInputId = 'checkbox-' + row.id_keluar + '-cb';
+                            var mdpValue = $('#' + mdpInputId).val().replace(/\D/g, '');
                             var hppValue = $('#' + hppInputId).val().replace(/\D/g, '');
                             var pubValue = $('#' + pubInputId).val().replace(/\D/g, '');
                             var marValue = $('#' + marInputId).val();
@@ -164,6 +199,7 @@ function table_etalase() {
                             checkedData.push({
                                 idk: row.id_keluar,
                                 idm: row.id_masuk,
+                                emdp: parseFloat(mdpValue),
                                 ehpp: parseFloat(hppValue),
                                 ehj: parseFloat(pubValue),
                                 emg: marValue,
@@ -174,7 +210,7 @@ function table_etalase() {
                             console.log('no data');
                         }else{
                             var jsonData = JSON.stringify(checkedData);
-                        
+
                             // Send JSON data via AJAX POST
                             $.ajax({
                                 url: base_url + 'etalase-toko/update-data',
@@ -197,10 +233,11 @@ function table_etalase() {
                     }
                 }
             ]
-            
+
     });
     $('#table-etalase').on('change', '.checkbox-class', function() {
         var inputId = $(this).data('input-id');
+        var inputMdp = $(this).data('input-mdp');
         var inputPub = $(this).data('input-pub');
         var inputMar = $(this).data('input-mar');
         var inputCb = $(this).data('input-cb');
@@ -208,7 +245,9 @@ function table_etalase() {
         var inputPubField = $('#'+ inputPub);
         var inputMarField = $('#'+ inputMar);
         var inputCbField = $('#'+ inputCb);
-        jabatan === 'PIC' ? inputField.prop('disabled', true) : inputField.prop('disabled', !this.checked);
+        var inputMdpField = $('#'+ inputMdp);
+        jabatan === 'ADMIN BARANG' || jabatan === 'OWNER' ? inputField.prop('disabled', !this.checked) : inputField.prop('disabled', true);
+        jabatan === 'ADMIN BARANG' || jabatan === 'OWNER' ? inputMdpField.prop('disabled', !this.checked) : inputMdpField.prop('disabled', true);
         // inputField.prop('disabled', !this.checked);
         inputPubField.prop('disabled', !this.checked);
         inputMarField.prop({
@@ -223,21 +262,22 @@ function table_etalase() {
             }
         });
     });
-    $('#table-etalase').on('input', '.input-hpp, .input-pub', function() {
+    $('#table-etalase').on('input', '.input-hpp, .input-pub, .input-mdp', function() {
         var row = Tetalase.row($(this).closest('tr')).data();
+        var mdpInputId = 'checkbox-' + row.id_keluar + '-mdp';
         var hppInputId = 'checkbox-' + row.id_keluar + '-hpp';
         var pubInputId = 'checkbox-' + row.id_keluar + '-pub';
         var marInputId = 'checkbox-' + row.id_keluar + '-mar';
-    
+
         var hppValue = parseFloat($('#' + hppInputId).val().replace(/\D/g, ''));
         var pubValue = parseFloat($('#' + pubInputId).val().replace(/\D/g, ''));
-    
+
             var margin = ((pubValue - hppValue) / hppValue) * 100;
             $('#' + marInputId).val(margin.toFixed(2));
-    });   
+    });
     $('#cabr, #cab, #tipe').on('change', function() {
         Tetalase.draw();
-    }); 
+    });
     return Tetalase;
 }
 function getselect(){
@@ -259,13 +299,13 @@ function getselect(){
                         text: item.id_supplier+' | '+item.nama_supplier,
                     };
                 });
-    
+
                 results.unshift({
                     id: '0',
                     text: 'Semua Supplier',
                     value: '0',
                 });
-    
+
                 return {
                     results: results,
                 };
@@ -281,7 +321,7 @@ function getselect(){
             delay: 250,
             data: function (params) {
                 return {
-                    q: params.term, 
+                    q: params.term,
                 };
             },
             processResults: function (data) {
@@ -291,13 +331,13 @@ function getselect(){
                         text: item.id_toko+' | '+item.nama_toko,
                     };
                 });
-    
+
                 results.unshift({
                     id: '0',
                     text: 'Semua Cabang',
                     value: '0',
                 });
-    
+
                 return {
                     results: results,
                 };
@@ -313,7 +353,7 @@ function getselect(){
             delay: 250,
             data: function (params) {
                 return {
-                    q: params.term, 
+                    q: params.term,
                 };
             },
             processResults: function (data) {
@@ -323,13 +363,13 @@ function getselect(){
                         text: item.nama_kategori,
                     };
                 });
-    
+
                 results.unshift({
                     id: '0',
                     text: 'Semua Tipe',
                     value: '0',
                 });
-    
+
                 return {
                     results: results,
                 };

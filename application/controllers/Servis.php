@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 class Servis extends Auth
 {
-    
+
   public function __construct()
   {
     parent::__construct();
@@ -83,7 +83,7 @@ class Servis extends Auth
         }
         .blink {
             animation: blink 2s infinite;
-        }        
+        }
         /* 🔥 Add at the bottom of your <style> */
         #table-listservis tbody tr.shown + tr > td {
             padding: 0 !important;
@@ -422,7 +422,7 @@ class Servis extends Auth
         $id_user = $this->session->userdata('id_user');
         $nama_user = $this->session->userdata('nama_lengkap');
         $created_at = date('Y-m-d H:i:s');
-        
+
         $payload = [
             'id_servis' => $id,
             'tgl_checker' => $tgl_checker,
@@ -471,7 +471,7 @@ class Servis extends Auth
         $id_user = $this->session->userdata('id_user');
         $nama_user = $this->session->userdata('nama_lengkap');
         $created_at = date('Y-m-d H:i:s');
-        
+
         $payload = [
             'id_servis' => $id,
             'tgl_teknisi' => $tgl_teknisi,
@@ -525,7 +525,7 @@ class Servis extends Auth
         $id_user = $this->session->userdata('id_user');
         $nama_user = $this->session->userdata('nama_lengkap');
         $created_at = date('Y-m-d H:i:s');
-        
+
         $payload = [
             'id_servis' => $id,
             'tgl_invoice' => $tgl_invoice,
@@ -653,12 +653,12 @@ class Servis extends Auth
   }
   public function cetaktandaterima($id) {
     $data['items'] = $this->db->query("select * from vlist_servis where id = '".$id."'")->row();
-    
+
     $this->load->view('print/tandaterimaservis', $data);
   }
   public function cetakinvoice($id) {
     $data['items'] = $this->db->query("select * from vlist_servis where id = '".$id."'")->row();
-    
+
     $this->load->view('print/invoiceservis', $data);
   }
   public function datateknisi(){
@@ -728,7 +728,7 @@ class Servis extends Auth
   public function addDetailServis(){
     if ($this->input->is_ajax_request()) {
        $postData = $this->input->post();
-       
+
       $sn_brg = $this->input->post('sn_brg');
       $items = $this->input->post('items'); // JSON
       $keterangan = $this->input->post('keterangan');
@@ -737,7 +737,7 @@ class Servis extends Auth
 			$teknisi = $this->input->post('sel_mekanik');
       $nominal = str_replace('.', '', $this->input->post('nominal'));
 
-     
+
 
       // Pastikan tidak null
       $decodedItems = json_decode($items, true);
