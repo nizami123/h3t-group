@@ -98,7 +98,7 @@
                 <button class="btn dropdown-toggle d-flex align-items-center rounded-pill px-0 py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img class="rounded-circle me-2" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="Profile Picture" loading="lazy" width="40" height="40">
                     <div class="text-start">
-                        <span class="d-block fw-bold"><?php echo $this->session->userdata('nama_lengkap'); ?></span>
+                        <span class="d-block fw-bold" id="data-nm"><?php echo $this->session->userdata('nama_lengkap'); ?></span>
                         <small class="text-muted" id="data-jab"><?php echo $this->session->userdata('jabatan'); ?></small>
                     </div>
                 </button>
@@ -320,6 +320,7 @@
                       </svg><span>Servis</span></a>
                   </li>
                   <?php } ?>
+                  <?php if ($jab=='MANAGER') { ?>
                   <li class="sidebar-list landing">
                       <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav landing" href="<?=base_url()?>landing-page/">
                       <svg class="stroke-icon">
@@ -329,6 +330,7 @@
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-project"></use>
                       </svg><span>Landing Page</span></a>
                   </li>
+                  <?php } ?>
                   <!-- Transaksi -->
                   <li class="sidebar-list trans"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title trans" href="#">

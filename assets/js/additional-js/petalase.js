@@ -6,6 +6,7 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     minimumFractionDigits: 0
 });
 const jabatan = $('#data-jab').text();
+const name = $('#data-nm').text();
 $(document).ready(function () {
     table_etalase();
     getselect();
@@ -58,7 +59,7 @@ function table_etalase() {
                     return `
                         <div class="input-group has-validation">
                             <span class="input-group-text" style="padding-left: 10px;border-left-width: 1px;border-left-style: solid;padding-right: 10px;padding-top: 1px;padding-bottom: 1px;">Rp</span>
-                            <input class="form-control input-mdp" id="${inputId}" value="${formatcur.format(data)}" type="text" onkeyup="formatRupiah(this);" disabled>
+                            <input class="form-control input-mdp" id="${inputId}" value="${ jabatan === 'ADMIN BARANG' && name=="MEY" || jabatan === 'ADMIN BARANG' && name=="SITI MUSDALIFAH" || jabatan === 'OWNER' || jabatan === 'MANAGER' ? formatcur.format(data) : 0 }" type="text" onkeyup="formatRupiah(this);" disabled>
                         </div>
                     `;
                 }
@@ -176,7 +177,7 @@ function table_etalase() {
                         }
                     }
                 },
-                {
+                (jabatan === 'ADMIN BARANG' && name=="MEY" || jabatan === 'ADMIN BARANG' && name=="SITI MUSDALIFAH" || jabatan === 'OWNER' ? {
                     "text": 'Update', // Font Awesome icon for refresh
                     "attr": {
                         "id": "update" // Set the ID attribute
@@ -231,8 +232,8 @@ function table_etalase() {
                             });
                         }
                     }
-                }
-            ]
+                } : null)
+            ].filter(Boolean)
 
     });
     $('#table-etalase').on('change', '.checkbox-class', function() {
@@ -246,8 +247,8 @@ function table_etalase() {
         var inputMarField = $('#'+ inputMar);
         var inputCbField = $('#'+ inputCb);
         var inputMdpField = $('#'+ inputMdp);
-        jabatan === 'ADMIN BARANG' || jabatan === 'OWNER' ? inputField.prop('disabled', !this.checked) : inputField.prop('disabled', true);
-        jabatan === 'ADMIN BARANG' || jabatan === 'OWNER' ? inputMdpField.prop('disabled', !this.checked) : inputMdpField.prop('disabled', true);
+        jabatan === 'ADMIN BARANG' && name=="MEY" || jabatan === 'ADMIN BARANG' && name=="SITI MUSDALIFAH" || jabatan === 'OWNER' ? inputField.prop('disabled', !this.checked) : inputField.prop('disabled', true);
+        jabatan === 'ADMIN BARANG' && name=="MEY" || jabatan === 'ADMIN BARANG' && name=="SITI MUSDALIFAH" || jabatan === 'OWNER' ? inputMdpField.prop('disabled', !this.checked) : inputMdpField.prop('disabled', true);
         // inputField.prop('disabled', !this.checked);
         inputPubField.prop('disabled', !this.checked);
         inputMarField.prop({
